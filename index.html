@@ -1,9 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Loubichka Piercing Party, Wednesday October 28, Casablanca. Book your spot.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loubichka.com/">
+<meta property="og:title" content="Loubichka · Piercing Party">
+<meta property="og:description" content="Wednesday, October 28 · 2 – 7 PM · Casablanca. Limited spots, book yours.">
+<meta property="og:image" content="https://loubichka.com/og-loubichka.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <title>Loubichka Piercing Party</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap">
@@ -31,6 +40,8 @@ h1{margin:0;font:500 38px/1 var(--serif);text-wrap:balance}
 .slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
 .slots button{padding:11px 0;border:1px solid var(--line);border-radius:11px;background:transparent;color:var(--ivory);font:500 13px var(--sans);font-variant-numeric:tabular-nums;cursor:pointer;transition:background .15s,color .15s}
 .slots button[aria-pressed="true"]{background:var(--ivory);border-color:var(--ivory);color:var(--choco)}
+.slots button:disabled{cursor:default;opacity:.45;border-style:dashed}
+.slots button small{display:block;font:500 8.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;margin-top:2px;opacity:.9}
 label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 input{width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(246,238,226,.06);color:var(--ivory);font:400 16px var(--sans)}
 input::placeholder{color:rgba(246,238,226,.5)}
@@ -73,6 +84,8 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 (()=>{
 const $=id=>document.getElementById(id);
 const SL=['14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30'];
+// Créneaux complets : ajouter l'heure ici quand un créneau est réservé
+const FULL=['14:00','14:30','17:00'];
 let lang='en',slot=null;
 try{const l=localStorage.getItem('pp_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
@@ -90,13 +103,13 @@ function render(){const t=T[lang];document.documentElement.lang=lang;
   $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
   $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('poster').alt=t.alt;$('slots').setAttribute('aria-label',t.grp);
   $('lgEn').setAttribute('aria-pressed',lang==='en');$('lgFr').setAttribute('aria-pressed',lang==='fr');
-  $('slots').innerHTML=SL.map(s=>`<button type="button" data-t="${s}" aria-pressed="${s===slot}">${lbl(s)}</button>`).join('');
-  $('slots').querySelectorAll('button').forEach(b=>b.onclick=()=>{slot=b.dataset.t;$('err').textContent='';$('slots').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));link()});
+  $('slots').innerHTML=SL.map(s=>FULL.includes(s)?`<button type="button" data-t="${s}" disabled aria-label="${lbl(s)} ${lang==='fr'?'complet':'full'}">${lbl(s)}<small>${lang==='fr'?'Complet':'Full'}</small></button>`:`<button type="button" data-t="${s}" aria-pressed="${s===slot}">${lbl(s)}</button>`).join('');
+  $('slots').querySelectorAll('button:not(:disabled)').forEach(b=>b.onclick=()=>{slot=b.dataset.t;$('err').textContent='';$('slots').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));link()});
   if($('err').textContent)$('err').textContent=t.err;link()}
 const setLang=l=>{lang=l;try{localStorage.setItem('pp_lang',l)}catch(_){}render()};
 $('lgEn').onclick=()=>setLang('en');$('lgFr').onclick=()=>setLang('fr');
 $('name').addEventListener('input',link);
-$('go').addEventListener('click',e=>{if(!slot){e.preventDefault();$('err').textContent=T[lang].err;$('slots').querySelector('button').focus()}});
+$('go').addEventListener('click',e=>{if(!slot){e.preventDefault();$('err').textContent=T[lang].err;$('slots').querySelector('button:not(:disabled)').focus()}});
 render();
 })();
 </script>
