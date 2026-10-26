@@ -626,6 +626,13 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .sndb[data-l="off"] .x{display:block}
 .sndb[data-l="off"]{color:var(--iv3)}
 body.pre .sndb,body.holes .sndb{opacity:0;pointer-events:none}
+
+/* accueil : la maison salue la cliente avant qu'elle compose */
+#ihello{margin:0;text-align:center;font:italic 400 clamp(22px,6.4vw,28px)/1.25 var(--serif);color:var(--iv);text-shadow:0 2px 14px rgba(0,0,0,.45);opacity:0;animation:fd 1.1s .9s forwards}
+#ihello sup{font:400 .34em var(--sans);font-style:normal;vertical-align:top;position:relative;top:.35em;margin-left:.05em}
+#intro.go #ihello{opacity:0;transition:opacity .5s}
+#enter{white-space:nowrap;width:min(88%,320px)!important}
+@media (max-width:389px){#enter{letter-spacing:.26em;padding-left:calc(17px + .26em)}}
 </style>
 
 <div id="app">
@@ -663,7 +670,7 @@ body.pre .sndb,body.holes .sndb{opacity:0;pointer-events:none}
   <div id="iveil"></div>
   <div id="isweep"></div>
   <div id="mir"><div class="mf"><img alt=""><i class="msw"></i><b class="tw" style="left:62.5%;top:24.3%;animation-delay:3.2s"></b><b class="tw" style="left:81.9%;top:28.4%;animation-delay:5.1s"></b><b class="tw" style="left:32.4%;top:75.7%;animation-delay:4.1s"></b><b class="tw" style="left:47.6%;top:73.2%;animation-delay:6.3s"></b><b class="tw" style="left:27.5%;top:82.5%;animation-delay:7.4s"></b><b class="tw" style="left:57.5%;top:20.9%;animation-delay:8.6s"></b></div><div class="mr"><img src="a/mirror.jpg" alt=""></div></div><div id="itx"><h1>LOUBICHKA<sup class="r">®</sup></h1><div class="rule"></div><div class="tg cap">The Art of Ear Styling</div></div>
-  <div id="ibot"><p id="ieid"></p><button type="button" id="enter"></button><button type="button" id="imy"></button><div class="cap" id="ihint"></div></div>
+  <div id="ibot"><p id="ieid"></p><p id="ihello"></p><button type="button" id="enter"></button><button type="button" id="imy"></button><div class="cap" id="ihint"></div></div>
 </div>
 
 <div id="idv" aria-hidden="true"><div class="ibk" id="ibk"></div><div class="isp">
@@ -716,7 +723,7 @@ stage.style.setProperty('--lq',`url(${LQ})`);Z.style.background=`url(${LQ}) 0 0/
 /* ---------------- langue ---------------- */
 let lang='fr';try{const l=localStorage.getItem('lbx_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
-fr:{enter:'Compose ton oreille',open:'Découvrir ce look',eid:'Compose ton oreille. Révèle ta signature.',shared:'Un look t’a été confié : ',hint:'Choisis un bijou ci-dessous pour commencer',
+fr:{enter:'Je compose mon oreille',open:'Découvrir ce look',eid:'Compose ton oreille. Révèle ta signature.',shared:'Un look t’a été confié : ',hint:'Choisis un bijou ci-dessous pour commencer',
  tabs:['Créer','Looks','Ear ID'],swipe:'Touche un bijou, il se pose tout seul',perso:'Personnaliser',
  metals:{rose:'Rose',jaune:'Jaune',blanc:'Blanc'},mshort:{rose:'or rose',jaune:'or jaune',blanc:'or blanc'},
  where:'Emplacement',clear:'Effacer',
@@ -732,7 +739,7 @@ fr:{enter:'Compose ton oreille',open:'Découvrir ce look',eid:'Compose ton oreil
  size:'Taille',rot:'Rotation',del:'Retirer',added:'Look ajouté au panier',look:'Look',earL:'oreille gauche',earR:'oreille droite',hello:'Bonjour Loubichka,\nVoici ma commande Ear ID :',payNote:'Paiement à la livraison.\n\nMes coordonnées pour la livraison :\nNom et prénom : \nAdresse complète : \nVille : \nTéléphone : ',cartEmpty:'Ton panier est vide.<br>Compose ton oreille, puis ajoute ton look.',edit:'Modifier ce look',newLook:'Nouveau look : ton oreille est prête',offLaunch:'Offre de bienvenue',later:'Plus tard',offFine:'Appliquée automatiquement à ta commande WhatsApp. Une fois par personne.',cont:'Continuer',offM:'Cet e-mail semble incorrect.',addCart:'Ajouter au panier',more:'Créer un autre look',cartTitle:'Mon panier',sideR:'Droite',sideL:'Gauche',gbl:'Mon Ear ID',gbs0:'Pose ton premier bijou',gbs:'Une attention de 15 % sur ta première pièce',gbsOk:'Attention de bienvenue · −15 % appliqués',ititle:'Mon Ear ID',iorder:'Commander sur WhatsApp',
  offH:'Bienvenue chez Loubichka',offP:'Laisse-nous tes coordonnées : −15 % sur ta première commande, appliqués tout de suite à ton Ear ID.',fn:'Prénom',ln:'Nom',ph:'Téléphone',em:'E-mail (facultatif)',offB:'Appliquer l’attention de 15 % · <b>MAISON15</b>',wT:'Bienvenue dans notre maison.<br>Pour ta première pièce, nous t’offrons',wA:'une attention de 15 %',wC:'code',wCp:'Copier',wOk:'Copié',wD:'Livraison offerte dès 2 000 DH partout au Maroc',wB:'Composer mon oreille',
  offE:'Indique ton prénom et un numéro de téléphone valide.',myIn:'Essayer sur mon oreille',myT:'Ton oreille, ton style',myP:'Essaie les bijoux Loubichka directement sur ta photo.',myTips:['Photographie ton oreille de profil, à hauteur d’oreille.','Cheveux attachés derrière l’oreille, à la lumière du jour.','L’oreille au centre de l’image, sans flash.'],myGo:'Choisir ma photo',myDemo:'Continuer avec l’oreille du studio',myPriv:'Ta photo reste sur ton téléphone : elle n’est jamais envoyée.',myOn:'Ton oreille',myBack:'Oreille du studio',myHint:'Glisse chaque bijou à sa place sur ton oreille',offOk:()=>`Attention de bienvenue appliquée · code <b>MAISON15</b> · −15 %`,client:'Cliente',hQ:'Tes piercings actuels ?',hS:'Touche les trous que tu as déjà',hOk:'Valider',hSkip:'Passer',hBtn:'Mes piercings',hNew:'Nouveau piercing · ',hHave:'Piercings actuels',hWant:'Nouveaux piercings',hNone:'Aucun',hBook:'Réserver ma consultation privée',hNote:'À faire au showroom, en consultation privée ou en Piercing Party.',hDone:'Tes piercings sont enregistrés'},
-en:{enter:'Compose your ear',open:'Discover this look',eid:'Compose your ear. Reveal your signature.',shared:'A look was entrusted to you: ',hint:'Choose a piece below to begin',
+en:{enter:'Compose my ear',open:'Discover this look',eid:'Compose your ear. Reveal your signature.',shared:'A look was entrusted to you: ',hint:'Choose a piece below to begin',
  tabs:['Create','Looks','Ear ID'],swipe:'Tap a piece, it sets itself',perso:'Customize',
  metals:{rose:'Rose',jaune:'Yellow',blanc:'White'},mshort:{rose:'rose gold',jaune:'yellow gold',blanc:'white gold'},
  where:'Placement',clear:'Clear',
@@ -1111,7 +1118,8 @@ let tmo;function toast(s){if(window.__demo)return;const e=$('#toast');e.textCont
 function i18n(){document.documentElement.lang=lang;$$('.lg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
   $('#gbl').textContent=t('gbl');$('#ititle').textContent=t('ititle');$('#iorder').textContent=t('addCart');$('#ctitle').textContent=t('cartTitle');$('#cpay').textContent=t('iorder');$('#cmore').textContent=t('more');$('#side button[data-s=R]').textContent=t('sideR');$('#side button[data-s=L]').textContent=t('sideL');$('#mqt').innerHTML=(t('party')).repeat(4);$('#reveal').textContent=t('reveal');
   $('#cshare').textContent=t('share');$('#cfriend').textContent=t('friend');$('#corder').textContent=t('addCart');$('#cgt').textContent=t('gift');$('#cgs').textContent=t('giftS');$('#csv').textContent=t('save');
-  $('#enter').textContent=sharedL?t('open'):t('enter');$('#imy').textContent=t('myIn');$('#imy').hidden=!!sharedL;$('#myrt').textContent=t('myOn');$('#myback').textContent=t('myBack');$('#ihint').textContent=t('hint');$('#ieid').textContent=sharedL?t('shared')+'« '+sharedName+' »':t('eid');
+  $('#enter').textContent=sharedL?t('open'):t('enter');
+  {const h=new Date().getHours(),ev=h>=18||h<5;$('#ihello').innerHTML=lang==='en'?(ev?'Good evening,':'Hello,')+'<br>welcome to Loubichka<sup>®</sup>':(ev?'Bonsoir,':'Bonjour,')+'<br>bienvenue chez Loubichka<sup>®</sup>'}$('#imy').textContent=t('myIn');$('#imy').hidden=!!sharedL;$('#myrt').textContent=t('myOn');$('#myback').textContent=t('myBack');$('#ihint').textContent=t('hint');$('#ieid').textContent=sharedL?t('shared')+'« '+sharedName+' »':t('eid');
   buildCards();buildMetals();buildZones();buildProds();buildSpots();ui()}
 $$('.lg button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;try{localStorage.setItem('lbx_lang',lang)}catch(_){}i18n();try{holesTxt()}catch(_){}});
 
