@@ -616,6 +616,16 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 #itx h1{animation:ls 1.6s .2s cubic-bezier(.2,.7,.2,1) forwards,ivory 1.2s 1s ease forwards!important}
 #itx .tg{animation:fd .9s 1.3s forwards!important}
 #enter{animation:fd .8s 1.3s forwards!important}
+
+/* musique de la maison */
+.sndb{position:absolute;z-index:14;top:56px;right:max(12px,env(safe-area-inset-right,0px));width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--iv);background:rgba(55,31,18,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--hair);transition:opacity .4s}
+.sndb svg{width:18px;height:18px}
+.sndb .x{display:none}
+.sndb[data-l="low"] .w2{display:none}
+.sndb[data-l="off"] .w1,.sndb[data-l="off"] .w2{display:none}
+.sndb[data-l="off"] .x{display:block}
+.sndb[data-l="off"]{color:var(--iv3)}
+body.pre .sndb,body.holes .sndb{opacity:0;pointer-events:none}
 </style>
 
 <div id="app">
@@ -639,7 +649,7 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
     <div class="swh" id="swh"><i></i><span></span><i></i></div>
     <div class="pill" id="pill"></div>
     <div class="side" id="side" role="group"><button type="button" data-s="R" aria-pressed="true"></button><button type="button" data-s="L" aria-pressed="false"></button></div>
-    <button type="button" class="myb" id="myb" aria-label="Mon oreille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg></button><div class="myr" id="myr"><span id="myrt"></span><button type="button" id="myback"></button></div><input type="file" id="myf" accept="image/*" hidden><button type="button" class="stb" id="stb" aria-label="Studio"><i><b></b><b></b><b></b></i></button><span class="stlab" id="stlab">Studio</span><a class="wab" id="wab" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4.5 19.5l1.1-3.6A7.8 7.8 0 1 1 8.4 18.6z"/><path d="M9.3 8.6c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.6 1.4c.1.2 0 .4-.1.6l-.5.6c.6 1.2 1.6 2.1 2.8 2.7l.6-.6c.2-.2.4-.2.6-.1l1.4.6c.2.1.4.3.3.6v.4c0 .4-.3.9-.9 1.1-.7.3-2 .2-3.7-1-1.6-1.1-2.6-2.6-3-3.6-.3-.9-.1-1.6.1-2.1z"/></svg><span>Aide</span></a><div class="demo-cap" id="dcap"><small></small><b></b><p></p><button type="button" id="dskip"></button></div><button type="button" class="fsb" id="fsb" aria-label="Plein écran"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    <button type="button" class="sndb" id="sndb" data-l="on" aria-label="Musique"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L11.5 6v12l-4.3-3.5H4z"/><path class="w1" d="M14.6 9.6a3.4 3.4 0 0 1 0 4.8"/><path class="w2" d="M17 7.4a6.6 6.6 0 0 1 0 9.2"/><path class="x" d="M15 9.5l5 5M20 9.5l-5 5"/></svg></button><button type="button" class="myb" id="myb" aria-label="Mon oreille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg></button><div class="myr" id="myr"><span id="myrt"></span><button type="button" id="myback"></button></div><input type="file" id="myf" accept="image/*" hidden><button type="button" class="stb" id="stb" aria-label="Studio"><i><b></b><b></b><b></b></i></button><span class="stlab" id="stlab">Studio</span><a class="wab" id="wab" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4.5 19.5l1.1-3.6A7.8 7.8 0 1 1 8.4 18.6z"/><path d="M9.3 8.6c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.6 1.4c.1.2 0 .4-.1.6l-.5.6c.6 1.2 1.6 2.1 2.8 2.7l.6-.6c.2-.2.4-.2.6-.1l1.4.6c.2.1.4.3.3.6v.4c0 .4-.3.9-.9 1.1-.7.3-2 .2-3.7-1-1.6-1.1-2.6-2.6-3-3.6-.3-.9-.1-1.6.1-2.1z"/></svg><span>Aide</span></a><div class="demo-cap" id="dcap"><small></small><b></b><p></p><button type="button" id="dskip"></button></div><button type="button" class="fsb" id="fsb" aria-label="Plein écran"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   </div>
   <section class="sheet">
     <div class="zl"><span id="zlab"></span><div class="zones" id="zones"></div></div><div class="mt" id="metals"></div><div class="ctabs" id="ctabs"><button type="button" data-g="b" aria-pressed="true"></button><button type="button" data-g="p" aria-pressed="false"></button></div><div class="rail" id="prods"></div>
@@ -1039,9 +1049,9 @@ function both(){const w=$('#bthw');w.innerHTML='';$$('#both p.tx').forEach(x=>x.
   if(!P.length){const p=document.createElement('p');p.className='tx';p.style.cssText='text-align:center;margin:4px 0 0';p.textContent=en?'Place your pieces, then see both ears here.':'Pose tes bijoux, puis retrouve tes deux oreilles ici.';w.after(p);setTimeout(()=>p.remove(),60000)}const v=$('#both');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 $('#bthx').onclick=()=>{const v=$('#both');v.classList.remove('on');v.setAttribute('aria-hidden','true')};
 let demoOn=false,demoStop=false;
-function demoVideo(){const v=$('#dmv'),vd=$('#dmvid');v.classList.add('on');v.setAttribute('aria-hidden','false');try{vd.currentTime=0;const pr=vd.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}
-function closeDemo(){const v=$('#dmv'),vd=$('#dmvid');try{vd.pause()}catch(_){}v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=true;const en=E();const mu=$('#dmus');const fade=(to,ms)=>{const from=mu.volume,t0=performance.now();const st=()=>{const k=Math.min(1,(performance.now()-t0)/ms);mu.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k<1)requestAnimationFrame(st);else if(to===0){try{mu.pause()}catch(_){}}};st()};try{mu.currentTime=0;mu.volume=0;const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{});fade(.8,1500)}catch(_){}
+function demoVideo(){try{window.SND&&SND.duck(true)}catch(_){}const v=$('#dmv'),vd=$('#dmvid');v.classList.add('on');v.setAttribute('aria-hidden','false');try{vd.currentTime=0;const pr=vd.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}
+function closeDemo(){const v=$('#dmv'),vd=$('#dmvid');try{vd.pause()}catch(_){}try{window.SND&&SND.duck(false)}catch(_){}v.classList.remove('on');v.setAttribute('aria-hidden','true')}
+async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=true;const en=E();const mu=$('#dmus');const fade=(to,ms)=>{const from=mu.volume,t0=performance.now();const st=()=>{const k=Math.min(1,(performance.now()-t0)/ms);mu.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k<1)requestAnimationFrame(st);else if(to===0){try{mu.pause()}catch(_){}}};st()};try{window.SND&&SND.demo()}catch(_){}
   const keep=P.map(p=>[p.id,p.x,p.y,p.s,p.r,p.c]),keepSide=side,keepMetal=metal;const cap=$('#dcap');document.body.classList.add('demo');
   let fg=$('#dfg');if(!fg){fg=document.createElement('div');fg.id='dfg';document.body.appendChild(fg)}
   const wait=ms=>new Promise(r=>{const t0=Date.now();const tk=()=>{if(demoStop||Date.now()-t0>=ms)r();else setTimeout(tk,100)};tk()});
@@ -1070,7 +1080,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
    async()=>{say(6,en?'Finish your look':'Termine ton look',en?'A Piercing Fleur on the tragus, a Couronne in the centre of the flat, and a small Solitaire just below.':'Un Piercing Fleur sur le tragus, une Couronne au centre du flat, et un petit Solitaire juste en dessous.');await wait(2400);await lay('fl');await wait(1800);await lay('cr');await wait(1400);await lay('s3');await wait(3200)},
    async()=>{say(7,en?'Reveal your Ear ID':'Révèle ton Ear ID',en?'Your ear is complete. The golden bar opens your look: your card to share and your order on WhatsApp, paid on delivery.':'Ton oreille est terminée. La barre dorée ouvre ton look : ta carte à partager et ta commande sur WhatsApp, payée à la livraison.');await wait(2200);await goEl($('#gbar'));fg.classList.add('tap');await wait(300);fg.classList.remove('tap');await wait(5000)}];
   for(const st of steps){if(demoStop)break;await st()}
-  fade(0,1800);fg.classList.remove('on');cap.classList.remove('on','low','over');document.body.classList.remove('demo');await new Promise(r=>setTimeout(r,500));
+  void 0;fg.classList.remove('on');cap.classList.remove('on','low','over');document.body.classList.remove('demo');await new Promise(r=>setTimeout(r,500));
   metal=keepMetal;ctab='b';buildMetals();buildProds();
   if(keep.length)putItems(keep,keepSide);else{P=[];sel=null;render()}
   window.__demo=false;demoOn=false;toast(en?'Your turn':'À toi de composer')}
@@ -1275,6 +1285,24 @@ $('#enter').onclick=async()=>{if(entered)return;entered=true;
 /* la session garde l'oreille : un rechargement ne repart pas de zéro */
 setInterval(()=>{try{if(P.length&&!window.__demo)sessionStorage.setItem('lbx_cur',JSON.stringify({c:lookCode(),s:side,m:metal}));else if(!P.length)sessionStorage.removeItem('lbx_cur')}catch(_){}},1500);
 $('#enter').addEventListener('click',()=>{try{sessionStorage.setItem('lbx_in','1')}catch(_){}});
+/* musique : démarre à l'entrée, accompagne la démo ; la cliente la baisse ou l'éteint (choix mémorisé) */
+window.SND=(()=>{const mu=$('#dmus');const G={on:.7,low:.22,off:0};let lvl='on',ctx=null,g=null,started=false,ducked=false;
+  try{const v=localStorage.getItem('lbx_snd');if(v in G)lvl=v}catch(_){}
+  const graph=()=>{if(ctx)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();const src=ctx.createMediaElementSource(mu);g=ctx.createGain();g.gain.value=0;src.connect(g);g.connect(ctx.destination)}catch(_){ctx=null;g=null}};
+  const gain=(v,ms)=>{if(g&&ctx){const t=ctx.currentTime;try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(v,t+ms/1000)}catch(_){g.gain.value=v}}else{try{mu.volume=v}catch(_){}}};
+  const arm=()=>{const f=()=>{removeEventListener('pointerdown',f,true);if(!started&&lvl!=='off'&&!ducked)play()};addEventListener('pointerdown',f,true)};
+  function play(){if(lvl==='off'||ducked)return;graph();try{if(ctx&&ctx.state==='suspended')ctx.resume()}catch(_){}mu.preload='auto';if(!g)try{mu.volume=0}catch(_){}
+    let pr;try{pr=mu.play()}catch(_){}started=true;if(pr&&pr.catch)pr.catch(()=>{started=false;arm()});gain(G[lvl],1800);ui()}
+  function set(l,quiet){lvl=l;try{localStorage.setItem('lbx_snd',l)}catch(_){}
+    if(l==='off'){gain(0,500);setTimeout(()=>{if(lvl==='off')try{mu.pause()}catch(_){}},560)}else if(mu.paused)play();else gain(G[l],500);ui();
+    if(!quiet)try{toast(E()?(l==='on'?'Music on':l==='low'?'Music softly':'Music off'):(l==='on'?'Musique':l==='low'?'Musique douce':'Musique coupée'))}catch(_){}}
+  function ui(){const b=$('#sndb');if(!b)return;b.dataset.l=lvl;b.setAttribute('aria-label',E()?'Music':'Musique')}
+  function duck(on){ducked=on;if(on){gain(0,350);setTimeout(()=>{if(ducked)try{mu.pause()}catch(_){}},400)}else if(lvl!=='off')play()}
+  function demo(){if(lvl==='off')set('on',true);else if(mu.paused)play()}
+  $('#sndb').addEventListener('click',e=>{e.stopPropagation();set(lvl==='on'?'low':lvl==='low'?'off':'on')});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){try{mu.pause()}catch(_){}}else if(started&&lvl!=='off'&&!ducked){try{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}});
+  $('#enter').addEventListener('click',play);ui();
+  return{play,set,duck,demo,get level(){return lvl}}})();
 ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 try{if(sessionStorage.getItem('lbx_in')&&!location.hash){const I=$('#intro');if(I){I.style.transition='none';I.style.opacity='0';I.style.pointerEvents='none'}
   setTimeout(()=>{$('#enter').click();const cur=JSON.parse(sessionStorage.getItem('lbx_cur')||'null');if(cur){const a=fromCode(cur.c);if(a){metal=cur.m||metal;buildMetals();buildProds();setTimeout(()=>putItems(a,cur.s),1700)}}},30)}}catch(_){}
