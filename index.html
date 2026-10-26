@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
 <meta name="theme-color" content="#371f12">
@@ -610,6 +610,12 @@ sup.r{font:400 .3em/1 var(--sans)!important;letter-spacing:0!important;vertical-
 .slots small{display:block;margin-top:2px;font:400 7px var(--sans);letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
 #ppgo[aria-disabled="true"]{opacity:.45;pointer-events:none}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* site en ligne : pas de zoom involontaire au double toucher, entrée plus rapide */
+html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#itx h1{animation:ls 1.6s .2s cubic-bezier(.2,.7,.2,1) forwards,ivory 1.2s 1s ease forwards!important}
+#itx .tg{animation:fd .9s 1.3s forwards!important}
+#enter{animation:fd .8s 1.3s forwards!important}
 </style>
 
 <div id="app">
@@ -643,10 +649,10 @@ sup.r{font:400 .3em/1 var(--sans)!important;letter-spacing:0!important;vertical-
 </div>
 
 <div id="intro"><div id="pp"></div>
-  <div id="ii"><img src="a/intro.jpg" alt=""></div>
+  <div id="ii"><img alt=""></div>
   <div id="iveil"></div>
   <div id="isweep"></div>
-  <div id="mir"><div class="mf"><img src="a/mirror.jpg" alt=""><i class="msw"></i><b class="tw" style="left:62.5%;top:24.3%;animation-delay:3.2s"></b><b class="tw" style="left:81.9%;top:28.4%;animation-delay:5.1s"></b><b class="tw" style="left:32.4%;top:75.7%;animation-delay:4.1s"></b><b class="tw" style="left:47.6%;top:73.2%;animation-delay:6.3s"></b><b class="tw" style="left:27.5%;top:82.5%;animation-delay:7.4s"></b><b class="tw" style="left:57.5%;top:20.9%;animation-delay:8.6s"></b></div><div class="mr"><img src="a/mirror.jpg" alt=""></div></div><div id="itx"><h1>LOUBICHKA<sup class="r">®</sup></h1><div class="rule"></div><div class="tg cap">The Art of Ear Styling</div></div>
+  <div id="mir"><div class="mf"><img alt=""><i class="msw"></i><b class="tw" style="left:62.5%;top:24.3%;animation-delay:3.2s"></b><b class="tw" style="left:81.9%;top:28.4%;animation-delay:5.1s"></b><b class="tw" style="left:32.4%;top:75.7%;animation-delay:4.1s"></b><b class="tw" style="left:47.6%;top:73.2%;animation-delay:6.3s"></b><b class="tw" style="left:27.5%;top:82.5%;animation-delay:7.4s"></b><b class="tw" style="left:57.5%;top:20.9%;animation-delay:8.6s"></b></div><div class="mr"><img src="a/mirror.jpg" alt=""></div></div><div id="itx"><h1>LOUBICHKA<sup class="r">®</sup></h1><div class="rule"></div><div class="tg cap">The Art of Ear Styling</div></div>
   <div id="ibot"><p id="ieid"></p><button type="button" id="enter"></button><button type="button" id="imy"></button><div class="cap" id="ihint"></div></div>
 </div>
 
@@ -1269,6 +1275,7 @@ $('#enter').onclick=async()=>{if(entered)return;entered=true;
 /* la session garde l'oreille : un rechargement ne repart pas de zéro */
 setInterval(()=>{try{if(P.length&&!window.__demo)sessionStorage.setItem('lbx_cur',JSON.stringify({c:lookCode(),s:side,m:metal}));else if(!P.length)sessionStorage.removeItem('lbx_cur')}catch(_){}},1500);
 $('#enter').addEventListener('click',()=>{try{sessionStorage.setItem('lbx_in','1')}catch(_){}});
+['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 try{if(sessionStorage.getItem('lbx_in')&&!location.hash){const I=$('#intro');if(I){I.style.transition='none';I.style.opacity='0';I.style.pointerEvents='none'}
   setTimeout(()=>{$('#enter').click();const cur=JSON.parse(sessionStorage.getItem('lbx_cur')||'null');if(cur){const a=fromCode(cur.c);if(a){metal=cur.m||metal;buildMetals();buildProds();setTimeout(()=>putItems(a,cur.s),1700)}}},30)}}catch(_){}
 
