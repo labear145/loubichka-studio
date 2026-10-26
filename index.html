@@ -856,7 +856,7 @@ function grab(ev,u){ev.stopPropagation();ev.preventDefault();const p=P.find(q=>q
   drag={p,sx:ev.clientX,sy:ev.clientY,px:p.x,py:p.y,w:r.width,h:r.height,moved:false};if(sel!==u){sel=u;render()}}
 addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.sx,dy=e.clientY-drag.sy;if(!drag.moved&&Math.hypot(dx,dy)<5)return;drag.moved=true;
   drag.p.x=Math.max(2,Math.min(98,drag.px+(side==='L'?-dx:dx)/drag.w*100));drag.p.y=Math.max(14,Math.min(94,drag.py+dy/drag.h*100));place(drag.p)},{passive:true});
-addEventListener('pointerup',()=>{if(!drag)return;const d=drag;drag=null;if(d.moved){snapSpot(d.p);if(d.p.id==='sun')snap(d.p);edited();render();buzz()}});
+addEventListener('pointerup',()=>{if(!drag)return;const d=drag;drag=null;if(d.moved){/* pose libre : le bijou reste exactement là où la cliente le lâche */if(d.p.id==='sun')snap(d.p);edited();render();buzz()}});
 let sw=null;
 stage.addEventListener('pointerdown',e=>{if(e.target.closest('.pill,.rib,.hs'))return;sw={x:e.clientX,y:e.clientY,t:performance.now()}});
 stage.addEventListener('pointerup',e=>{if(!sw)return;const dx=e.clientX-sw.x,dy=e.clientY-sw.y;const s=sw;sw=null;if(drag)return;
