@@ -85,7 +85,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 const $=id=>document.getElementById(id);
 const SL=['14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'];
 // Créneaux complets : ajouter l'heure ici quand un créneau est réservé
-const FULL=['14:00','14:30','17:00','18:30'];
+const FULL=['14:00','14:30','17:00','18:30','19:00'];
 let lang='en',slot=null;
 try{const l=localStorage.getItem('pp_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
