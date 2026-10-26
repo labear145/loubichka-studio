@@ -957,9 +957,11 @@ const link=()=>BASE+'#L'+lookCode();
 function buildId(){const w=$('#idw');if(!P.length){w.innerHTML=`<p class="empty">${t('empty')}</p>`;$('#reveal').disabled=true;return}
   $('#reveal').disabled=false;
   const tt=total();
-  w.innerHTML=`<ul class="lst">${groups().map(g=>`<li><img src="${srcOf(g.id,g.c,'th')}" alt=""><span><b>${pname(g.id)}</b> · ${t('mshort')[g.c]}${g.n>1?' × '+g.n:''}</span>${fmt(g.pr)} DH</li>`).join('')}</ul><div class="tot"><span>${t('total')}</span><b>${OFF?`<s>${fmt(tt)} DH</s>`:''}${fmt(due())} DH</b></div><p class="dlv">${t('dlv')}</p>`+holesBlock(newHoles(P))+offerForm('iof');bindOffer('iof',buildId);
+  w.innerHTML=`<ul class="lst">${groups().map(g=>`<li><img src="${srcOf(g.id,g.c,'th')}" alt=""><span><b>${pname(g.id)}</b> · ${t('mshort')[g.c]}${g.n>1?' × '+g.n:''}</span>${fmt(g.pr)} DH</li>`).join('')}</ul><div class="tot"><span>${t('total')}</span><b>${OFF&&due()<tt?`<s>${fmt(tt)} DH</s>`:''}${fmt(due())} DH</b></div><p class="dlv">${t('dlv')}</p>`+holesBlock(newHoles(P))+offerForm('iof');bindOffer('iof',buildId);
 }
-const due=()=>OFF?Math.round(total()*.85):total();
+/* MAISON15 : −15 % calculé sur le prix à l'unité (une paire = 2 × l'unité − 15 %), jamais plus cher que le prix sans code */
+function lineDue(id,n){const j=J[id],base=linePrice(id,n);return OFF?Math.min(base,Math.round(n*j.p*.85)):base}
+const due=()=>groups().reduce((a,g)=>a+lineDue(g.id,g.n),0);
 function orderLink(){const lines=groups().map(g=>`• ${pname(g.id)} · ${t('mshort')[g.c]}${g.n>1?' × '+g.n:''} : ${fmt(g.pr)} DH`).join('\n');
   let txt=t('msgOrder')(earId(),lookName(),lines,fmt(due()),link());
   if(OFF)txt+=`\n\nCode MAISON15 (−15 %)`;
@@ -1144,21 +1146,21 @@ const itemsOf=()=>P.map(p=>[p.id,p.x,p.y,p.s,p.r,p.c]);
 const groupItems=it=>{const g=new Map();it.forEach(o=>{if(o[0]==='cherry2')return;const k=o[0]+'|'+o[5];g.set(k,(g.get(k)||0)+1)});return [...g].map(([k,n])=>{const[id,c]=k.split('|');return{id,c,n,pr:linePrice(id,n)}})};
 const itTotal=it=>groupItems(it).reduce((a,g)=>a+g.pr,0);
 const cartTotal=()=>cart.reduce((a,l)=>a+itTotal(l.it),0);
-const cartDue=()=>OFF?Math.round(cartTotal()*.85):cartTotal();
+const cartDue=()=>cart.reduce((a,l)=>a+groupItems(l.it).reduce((b,g)=>b+lineDue(g.id,g.n),0),0);
 function addToCart(){if(!P.length)return;const code=lookCode();if(!cart.some(l=>l.code===code)){cart.push({code,n:lookName(),id:earId(),side,it:itemsOf()});saveCart()}ui();toast(t('added'))}
 function offerForm(id){return OFF?`<div class="off ok"><p>${t('offOk')()}</p></div>`:`<button type="button" class="offl" id="${id}">${t('offB')}</button>`}
 function activate(){if(!OFF){OFF={code:'MAISON15'};try{localStorage.setItem('lbx_offer',JSON.stringify(OFF))}catch(_){}buzz()}ui()}
 function bindOffer(id,done){const b=$('#'+id);if(!b)return;b.onclick=()=>{activate();done&&done()}}
 function cartMsg(){const blocks=cart.map((l,k)=>`${t('look')} ${k+1} · Ear ID ${l.id} « ${l.n} » (${l.side==='L'?t('earL'):t('earR')})\n`+groupItems(l.it).map(g=>`• ${pname(g.id)} · ${t('mshort')[g.c]}${g.n>1?' × '+g.n:''} : ${fmt(g.pr)} DH`).join('\n')+`\n${BASE}#L${l.code}`).join('\n\n');
-  let s=`${t('hello')}\n\n${blocks}\n\n${t('total')} : ${OFF?fmt(cartTotal())+' DH − 15 % = ':''}${fmt(cartDue())} DH`;
-  if(OFF)s+=`\nCode MAISON15 (−15 %)`;
+  let s=`${t('hello')}\n\n${blocks}\n\n${t('total')} : ${fmt(cartTotal())} DH`+(OFF&&cartDue()<cartTotal()?`\n${E()?'With the MAISON15 courtesy':'Avec l’attention MAISON15'} : ${fmt(cartDue())} DH`:'');
+  if(OFF)s+=`\nCode MAISON15 (${E()?'15% off the unit price':'−15 % sur le prix à l’unité'})`;
   if(HSET){const nw=newHoles(cart.flatMap(l=>l.it.map(o=>({id:o[0],x:o[1],y:o[2]}))));s+=`\n\n${t('hHave')} : ${HAVE.size?[...HAVE].map(k=>t('spots')[k]).join(', '):t('hNone')}`+(nw.length?`\n${t('hWant')} : ${nw.map(k=>t('spots')[k]).join(', ')}`:'')}
   return 'https://wa.me/'+WA+'?text='+encodeURIComponent(s+`\n\n${t('payNote')}`)}
 function openCart(){const v=$('#crt');const w=$('#crw');
   if(!cart.length){w.innerHTML=`<p class="empty">${t('cartEmpty')}</p>`;$('#cpay').hidden=true}
   else{$('#cpay').hidden=false;$('#cpay').href=cartMsg();
     w.innerHTML=cart.map((l,k)=>`<div class="lk"><div class="lkh"><span class="cap">${t('look')} ${k+1} · ${l.id}</span><button type="button" class="lkx" data-k="${k}" aria-label="${t('del')}">×</button></div><b>${l.n}</b><div class="lth">${groupItems(l.it).map(g=>`<img src="${srcOf(g.id,g.c,'th')}" alt="">`).join('')}</div><div class="lkp"><span>${groupItems(l.it).map(g=>pname(g.id)+(g.n>1?' ×'+g.n:'')).join(' · ')}</span><em>${fmt(itTotal(l.it))} DH</em></div><button type="button" class="txtb lke" data-k="${k}">${t('edit')}</button></div>`).join('')+
-      `<div class="tot"><span>${t('total')}</span><b>${OFF?`<s>${fmt(cartTotal())} DH</s>`:''}${fmt(cartDue())} DH</b></div><p class="dlv">${t('dlv')}</p>`+holesBlock(newHoles(cart.flatMap(l=>l.it.map(o=>({id:o[0],x:o[1],y:o[2]})))))+offerForm('cof');
+      `<div class="tot"><span>${t('total')}</span><b>${OFF&&cartDue()<cartTotal()?`<s>${fmt(cartTotal())} DH</s>`:''}${fmt(cartDue())} DH</b></div><p class="dlv">${t('dlv')}</p>`+holesBlock(newHoles(cart.flatMap(l=>l.it.map(o=>({id:o[0],x:o[1],y:o[2]})))))+offerForm('cof');
     w.querySelectorAll('.lkx').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.k,1);saveCart();ui();openCart()});
     w.querySelectorAll('.lke').forEach(b=>b.onclick=()=>{const l=cart[+b.dataset.k];loadItems(l.it,l.side);closeAll()});
     bindOffer('cof',openCart)}
