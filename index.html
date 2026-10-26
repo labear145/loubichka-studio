@@ -665,6 +665,15 @@ body:has(.pill.on) .side,body:has(.pill.on) .stb,body:has(.pill.on) .stlab,body:
 body:has(.pill.on) .fsb{opacity:1!important;pointer-events:auto!important}
 body.demo .swh{opacity:0!important}
 body.demo #dskip{display:none!important}
+
+.ldform{display:flex;flex-direction:column;gap:8px;margin:16px 28px 0}
+.ldform input:not([type=checkbox]){width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(245,226,200,.22);background:rgba(20,10,5,.35);color:var(--iv);font:300 15px var(--sans);border-radius:0;-webkit-user-select:text;user-select:text}
+.ldform input::placeholder{color:var(--iv3)}
+.ldc{display:flex;gap:10px;align-items:flex-start;text-align:left;margin-top:4px;font:300 11.5px/1.5 var(--sans);color:var(--iv2)}
+.ldc input{margin-top:2px;accent-color:#cdb995;width:16px;height:16px;flex:none}
+.lderr{min-height:16px;margin:2px 0 0;font:300 11.5px var(--sans);color:#f0b49a;text-align:left}
+.ldform .wbtn{width:100%;margin:2px 0 0}
+#offv .wph{height:min(30dvh,250px)!important}
 </style>
 
 <div id="app">
@@ -1144,7 +1153,7 @@ $('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=c
 function setMode(m){if(m==='id'){openId();return}mode='mk';document.body.classList.add('mk');document.body.classList.remove('lk');buildZones();buildProds();ui()}
 function openId(){if(!P.length)return;buildId();const v=$('#idv');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 function closeId(){const v=$('#idv');v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
+$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(LEADS_URL&&P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
 $('#fsb').onclick=()=>{document.body.classList.toggle('fs');requestAnimationFrame(()=>{frame();render()})};
 setTimeout(()=>{const pl=$('#pill');if(pl){pl.classList.add('dock');$('#metals').before(pl)}
  const fb=$('#fsb');const lab=()=>{const fs=document.body.classList.contains('fs');fb.dataset.t=E()?(fs?'Reduce':'Enlarge'):(fs?'Réduire':'Agrandir')};lab();fb.addEventListener('click',()=>setTimeout(lab,0));setInterval(lab,2000)},0);
@@ -1215,13 +1224,28 @@ $('#crx').onclick=closeAll;$('#crb').onclick=closeAll;
 
 /* ---------------- offre de bienvenue (une fois, après la première pièce) ---------------- */
 let holesAsked=false;let offSeen=false;try{offSeen=!!sessionStorage.getItem('lbx_offseen')}catch(_){}
-function maybeOffer(force,fast){if(window.__demo||OFF||offSeen||(!force&&P.length<1)||document.body.classList.contains('myear-tips'))return;offSeen=true;try{sessionStorage.setItem('lbx_offseen','1')}catch(_){}
-  setTimeout(()=>{if(window.__demo||document.querySelector('.drw.on,#mnu.on,#idv.on,#cardv.on,#catv.on')){offSeen=false;return}const v=$('#offv');$('#ofw').innerHTML=`<div class="wel"><figure class="wph"><img src="a/popup-look.jpg" alt="Composition Loubichka"><button type="button" class="wx" id="ofl" aria-label="×">×</button></figure><p class="wlg">LOUBICHKA<sup class="r">®</sup></p><p class="wsig">The Art of Ear Styling</p><p class="wt">${t('wT')}</p><p class="wa">${t('wA')}</p><button type="button" class="wcode" id="ofc"><span>${t('wC')}</span><b>MAISON15</b><i id="ofci">${t('wCp')}</i></button><p class="wd">${t('wD')}</p><button type="button" class="wbtn" id="ofk">${t('wB')}</button></div>`;
-    $('#ofc').onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText('MAISON15').catch(()=>{})}catch(_){}activate();$('#ofc').classList.add('ok');$('#ofci').textContent=t('wOk');setTimeout(()=>{const c=$('#ofc');if(c){c.classList.remove('ok');$('#ofci').textContent=t('wCp')}},2000)};
-    const then=()=>{const f=window.__offThen;window.__offThen=null;if(f)setTimeout(f,450)};if(window.__offThen)$('#ofk').textContent=E()?'See my look':'Voir mon look';
-    $('#ofk').onclick=()=>{activate();closeAll();then()};
+function maybeOffer(force,fast){if(!LEADS_URL||window.__demo||OFF||offSeen||(!force&&P.length<1)||document.body.classList.contains('myear-tips'))return;offSeen=true;try{sessionStorage.setItem('lbx_offseen','1')}catch(_){}
+  setTimeout(()=>{if(window.__demo||document.querySelector('.drw.on,#mnu.on,#idv.on,#cardv.on,#catv.on')){offSeen=false;return}const v=$('#offv');const en=E();
+    $('#ofw').innerHTML=`<div class="wel"><figure class="wph"><img src="a/popup-look.jpg" alt="Composition Loubichka"><button type="button" class="wx" id="ofl" aria-label="×">×</button></figure><p class="wlg">LOUBICHKA<sup class="r">®</sup></p><p class="wsig">The Art of Ear Styling</p>
+    <div id="ldf"><p class="wt">${en?'Welcome to Loubichka':'Bienvenue chez Loubichka'}<sup class="r">®</sup>.<br>${en?'Join the house and receive':'Inscris-toi et reçois'}</p><p class="wa">${en?'15% off your first order':'−15 % sur ta première commande'}</p>
+    <form class="ldform" id="ldform" novalidate><input id="ldp" autocomplete="given-name" placeholder="${en?'First name':'Prénom'}"><input id="ldt" type="tel" inputmode="tel" autocomplete="tel" placeholder="${en?'Phone (WhatsApp)':'Téléphone (WhatsApp)'}"><input id="lde" type="email" inputmode="email" autocomplete="email" placeholder="E-mail">
+    <label class="ldc"><input type="checkbox" id="ldk"><span>${en?'I agree to receive Loubichka® news and offers.':'J’accepte de recevoir les nouveautés et offres Loubichka®.'}</span></label><p class="lderr" id="lderr"></p>
+    <button type="submit" class="wbtn" id="ldgo">${en?'Receive my 15%':'Recevoir mes −15 %'}</button></form><p class="wd">${t('wD')}</p></div></div>`;
+    const then=()=>{const f=window.__offThen;window.__offThen=null;if(f)setTimeout(f,450)};
+    $('#ldform').onsubmit=ev=>{ev.preventDefault();const pr=$('#ldp').value.trim(),tel=$('#ldt').value.replace(/[^\d+]/g,''),em=$('#lde').value.trim();
+      const err=!pr?(en?'Enter your first name.':'Indique ton prénom.'):tel.replace(/\D/g,'').length<9?(en?'Enter a valid phone number.':'Indique un numéro de téléphone valide.'):!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)?(en?'Enter a valid e-mail.':'Indique un e-mail valide.'):!$('#ldk').checked?(en?'Please tick the box to receive the offer.':'Coche la case pour recevoir l’offre.'):'';
+      $('#lderr').textContent=err;if(err)return;
+      const body=new URLSearchParams({prenom:pr,tel,email:em,lang,accord:'oui',look:P.length?lookName()+' · '+link():''});
+      try{fetch(LEADS_URL,{method:'POST',mode:'no-cors',body})}catch(_){}
+      try{localStorage.setItem('lbx_lead','1')}catch(_){}activate();
+      $('#ldf').innerHTML=`<p class="wt">${en?'Welcome':'Bienvenue'} ${pr.replace(/[<>&"]/g,'')} ✨</p><p class="wa">${en?'15% applied':'−15 % appliqués'}</p><button type="button" class="wcode ok" id="ofc"><span>${t('wC')}</span><b>MAISON15</b></button><button type="button" class="wbtn" id="ofk">${window.__offThen?(en?'See my look':'Voir mon look'):(en?'Continue composing':'Continuer à composer')}</button>`;
+      $('#ofk').onclick=()=>{closeAll();then()}};
     $('#ofl').onclick=()=>{closeAll();then()};$('#offv .ibk').onclick=()=>{closeAll();then()};v.classList.add('on');v.setAttribute('aria-hidden','false')},fast?150:3800)}
 
+/* inscriptions −15 % : Google Sheet « Clientes Loubichka » */
+const LEADS_URL='';
+/* le pop-up arrive après 3 minutes passées dans le studio */
+(()=>{let sec=0;setInterval(()=>{if(document.hidden||document.body.classList.contains('pre')||window.__demo)return;if(++sec===180){if(!document.querySelector('.drw.on,#mnu.on,#idv.on,#cardv.on,#catv.on'))maybeOffer(true,true);else sec=170}},1000)})();
 /* ---------------- menu : toute la maison ---------------- */
 const E=()=>lang==='en';
 const waLink=txt=>'https://wa.me/'+WA+'?text='+encodeURIComponent(txt);
