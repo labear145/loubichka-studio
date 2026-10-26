@@ -81,6 +81,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
   </section>
 </div>
 <script>
+const WA_NUM='212661435742'; /* numéro WhatsApp de la maison : à changer ici uniquement */
 (()=>{
 const $=id=>document.getElementById(id);
 const SL=['13:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'];
@@ -97,8 +98,8 @@ const T={
    msg:(t,n)=>`Bonjour Loubichka ✨\nJe souhaite réserver ma place à la Piercing Party du mercredi 28 octobre à ${t}.${n?'\nPrénom : '+n:''}`}};
 const lbl=t=>{if(lang==='fr')return t.replace(':','h');let[h,m]=t.split(':').map(Number);return (h>12?h-12:h)+(m?':'+String(m).padStart(2,'0'):'')+' PM'};
 function link(){const g=$('go');const n=$('name').value.trim();
-  if(!slot){g.href='https://wa.me/212661435742';g.setAttribute('aria-disabled','true');return}
-  g.removeAttribute('aria-disabled');g.href='https://wa.me/212661435742?text='+encodeURIComponent(T[lang].msg(lbl(slot),n))}
+  if(!slot){g.href='https://wa.me/'+WA_NUM;g.setAttribute('aria-disabled','true');return}
+  g.removeAttribute('aria-disabled');g.href='https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(T[lang].msg(lbl(slot),n))}
 function render(){const t=T[lang];document.documentElement.lang=lang;
   $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
   $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('poster').alt=t.alt;$('slots').setAttribute('aria-label',t.grp);
