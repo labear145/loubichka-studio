@@ -663,6 +663,8 @@ body:has(.pill.on) .side,body:has(.pill.on) .stb,body:has(.pill.on) .stlab,body:
 .fsb{flex-direction:column}
 .fsb::after{content:attr(data-t);position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:3px;white-space:nowrap;font:400 7px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--iv2);text-shadow:0 1px 6px rgba(0,0,0,.5)}
 body:has(.pill.on) .fsb{opacity:1!important;pointer-events:auto!important}
+body.demo .swh{opacity:0!important}
+body.demo #dskip{display:none!important}
 </style>
 
 <div id="app">
@@ -952,7 +954,7 @@ async function addPiece(id){const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[
   const p={u:++uid,id,c,s:1,r:0,x:s.x,y:s.y};p._k=s.k;if(id==='sun')snap(p);
   await ready([srcOf(id,c,'on'),srcOf(id,c,'bk')].filter(Boolean),600);
   P.push(p);const fr=new Map([[p.u,0]]);if(id==='cherry'){await ready([srcOf('cherry2',c,'on'),CHU[c]],500);const k2=SPOTS.find(x=>x.k===freeSpot('cherry2',p._k));const q={u:++uid,id:'cherry2',c,s:1,r:0,x:k2.x,y:k2.y};P.push(q);fr.set(q.u,120)}
-  sel=p.u;target=null;edited();render(fr);buzz();{const nk=newAt(p);toast(nk?t('hNew')+t('spots')[nk]:t('placed'))}buildZones();buildProds();maybeOffer()}
+  sel=p.u;target=null;edited();render(fr);buzz();{const nk=newAt(p);toast(nk?t('hNew')+t('spots')[nk]:t('placed'))}buildZones();buildProds()}
 function buildSpots(){HS.innerHTML=SPOTS.map(s=>`<button type="button" class="hs" data-k="${s.k}" style="left:${s.x}%;top:${s.y}%" aria-label="${t('spots')[s.k]}"><b>${t('spots')[s.k]}</b></button>`).join('');
   $$('.hs').forEach(b=>b.addEventListener('pointerdown',e=>{e.stopPropagation();if(document.body.classList.contains('holes')){toggleHave(b.dataset.k);return}pickSpot(b.dataset.k)}))}
 function revealSpots(){$$('.hs').forEach((b,k)=>{b.style.transitionDelay=(k*90)+'ms';setTimeout(()=>b.style.transitionDelay='',1500)});document.body.classList.add('sp')}
@@ -1122,7 +1124,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
   void 0;fg.classList.remove('on');cap.classList.remove('on','low','over');document.body.classList.remove('demo');await new Promise(r=>setTimeout(r,500));
   metal=keepMetal;ctab='b';buildMetals();buildProds();
   if(keep.length)putItems(keep,keepSide);else{P=[];sel=null;render()}
-  window.__demo=false;demoOn=false;toast(en?'Your turn':'À toi de composer')}
+  window.__demo=false;demoOn=false;if(window.__demoFS){window.__demoFS=false;document.body.classList.remove('fs');requestAnimationFrame(()=>{frame();render()})}toast(en?'Your turn':'À toi de composer')}
 let stT=0;const stOpen=e=>{e.stopPropagation();if(e.type==='touchend'){e.preventDefault();stT=Date.now()}else if(Date.now()-stT<600)return;openStudio()};$('#stb').addEventListener('click',stOpen);$('#stb').addEventListener('touchend',stOpen,{passive:false});
 {const lb=$('#stlab');let shown=false;const hint=()=>{if(shown)return;shown=true;lb.classList.add('on');setTimeout(()=>lb.classList.remove('on'),3200)};const iv=setInterval(()=>{if(!document.body.classList.contains('pre')){clearInterval(iv);setTimeout(hint,1600)}},400)}
 setTimeout(()=>{const wb=$('#wab');const upd=()=>{wb.href=waLink(HELPMSG('studio'));wb.querySelector('span').textContent=E()?'Help':'Aide'};upd();setInterval(upd,1500)},0);
@@ -1142,14 +1144,14 @@ $('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=c
 function setMode(m){if(m==='id'){openId();return}mode='mk';document.body.classList.add('mk');document.body.classList.remove('lk');buildZones();buildProds();ui()}
 function openId(){if(!P.length)return;buildId();const v=$('#idv');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 function closeId(){const v=$('#idv');v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=openId;$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
+$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
 $('#fsb').onclick=()=>{document.body.classList.toggle('fs');requestAnimationFrame(()=>{frame();render()})};
 setTimeout(()=>{const pl=$('#pill');if(pl){pl.classList.add('dock');$('#metals').before(pl)}
  const fb=$('#fsb');const lab=()=>{const fs=document.body.classList.contains('fs');fb.dataset.t=E()?(fs?'Reduce':'Enlarge'):(fs?'Réduire':'Agrandir')};lab();fb.addEventListener('click',()=>setTimeout(lab,0));setInterval(lab,2000)},0);
 
 let tmo;function toast(s){if(window.__demo)return;const e=$('#toast');e.textContent=s;e.classList.add('on');clearTimeout(tmo);tmo=setTimeout(()=>e.classList.remove('on'),2400)}
 function i18n(){document.documentElement.lang=lang;$$('.lg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
-  $('#gbl').textContent=t('gbl');$('#ititle').textContent=t('ititle');$('#iorder').textContent=t('addCart');$('#icont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#ccont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#dquit').textContent=lang==='en'?'Leave the demo · Compose my ear  ×':'Quitter la démo · Je compose  ×';$('#ctitle').textContent=t('cartTitle');$('#cpay').textContent=t('iorder');$('#cmore').textContent=t('more');$('#side button[data-s=R]').textContent=t('sideR');$('#side button[data-s=L]').textContent=t('sideL');$('#mqt').innerHTML=(t('party')).repeat(4);$('#reveal').textContent=t('reveal');
+  $('#gbl').textContent=t('gbl');$('#ititle').textContent=t('ititle');$('#iorder').textContent=t('addCart');$('#icont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#ccont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#dquit').textContent=lang==='en'?'Skip the demo':'Passer la démo';$('#ctitle').textContent=t('cartTitle');$('#cpay').textContent=t('iorder');$('#cmore').textContent=t('more');$('#side button[data-s=R]').textContent=t('sideR');$('#side button[data-s=L]').textContent=t('sideL');$('#mqt').innerHTML=(t('party')).repeat(4);$('#reveal').textContent=t('reveal');
   $('#cshare').textContent=t('share');$('#cfriend').textContent=t('friend');$('#corder').textContent=t('addCart');$('#cgt').textContent=t('gift');$('#cgs').textContent=t('giftS');$('#csv').textContent=t('save');
   $('#enter').textContent=sharedL?t('open'):t('enter');
   {const h=new Date().getHours(),ev=h>=18||h<5;$('#ihello').innerHTML=lang==='en'?(ev?'Good evening, welcome':'Hello, welcome')+'<br>to the Ear Studio of Loubichka<sup>®</sup>':(ev?'Bonsoir, bienvenue':'Bonjour, bienvenue')+'<br>à l’Ear Studio de Loubichka<sup>®</sup>'}$('#imy').textContent=t('myIn');$('#imy').hidden=!!sharedL;$('#myrt').textContent=t('myOn');$('#myback').textContent=t('myBack');$('#ihint').textContent=t('hint');$('#ieid').textContent=sharedL?t('shared')+'« '+sharedName+' »':t('eid');
@@ -1213,11 +1215,12 @@ $('#crx').onclick=closeAll;$('#crb').onclick=closeAll;
 
 /* ---------------- offre de bienvenue (une fois, après la première pièce) ---------------- */
 let holesAsked=false;let offSeen=false;try{offSeen=!!sessionStorage.getItem('lbx_offseen')}catch(_){}
-function maybeOffer(force){if(window.__demo||OFF||offSeen||(!force&&P.length<1)||document.body.classList.contains('myear-tips'))return;offSeen=true;try{sessionStorage.setItem('lbx_offseen','1')}catch(_){}
+function maybeOffer(force,fast){if(window.__demo||OFF||offSeen||(!force&&P.length<1)||document.body.classList.contains('myear-tips'))return;offSeen=true;try{sessionStorage.setItem('lbx_offseen','1')}catch(_){}
   setTimeout(()=>{if(window.__demo||document.querySelector('.drw.on,#mnu.on,#idv.on,#cardv.on,#catv.on')){offSeen=false;return}const v=$('#offv');$('#ofw').innerHTML=`<div class="wel"><figure class="wph"><img src="a/popup-look.jpg" alt="Composition Loubichka"><button type="button" class="wx" id="ofl" aria-label="×">×</button></figure><p class="wlg">LOUBICHKA<sup class="r">®</sup></p><p class="wsig">The Art of Ear Styling</p><p class="wt">${t('wT')}</p><p class="wa">${t('wA')}</p><button type="button" class="wcode" id="ofc"><span>${t('wC')}</span><b>MAISON15</b><i id="ofci">${t('wCp')}</i></button><p class="wd">${t('wD')}</p><button type="button" class="wbtn" id="ofk">${t('wB')}</button></div>`;
     $('#ofc').onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText('MAISON15').catch(()=>{})}catch(_){}activate();$('#ofc').classList.add('ok');$('#ofci').textContent=t('wOk');setTimeout(()=>{const c=$('#ofc');if(c){c.classList.remove('ok');$('#ofci').textContent=t('wCp')}},2000)};
-    $('#ofk').onclick=()=>{activate();closeAll()};
-    $('#ofl').onclick=closeAll;$('#offv .ibk').onclick=closeAll;v.classList.add('on');v.setAttribute('aria-hidden','false')},3800)}
+    const then=()=>{const f=window.__offThen;window.__offThen=null;if(f)setTimeout(f,450)};if(window.__offThen)$('#ofk').textContent=E()?'See my look':'Voir mon look';
+    $('#ofk').onclick=()=>{activate();closeAll();then()};
+    $('#ofl').onclick=()=>{closeAll();then()};$('#offv .ibk').onclick=()=>{closeAll();then()};v.classList.add('on');v.setAttribute('aria-hidden','false')},fast?150:3800)}
 
 /* ---------------- menu : toute la maison ---------------- */
 const E=()=>lang==='en';
@@ -1305,7 +1308,7 @@ $('#enter').onclick=async()=>{if(entered)return;entered=true;
   const I=$('#intro');I.classList.add('go');II.style.transform='none';document.body.classList.remove('pre');
   setTimeout(()=>{I.classList.add('fade');setTimeout(()=>I.remove(),650)},1750);
   setTimeout(async()=>{if(sharedL){await ready(needs(sharedL),1200);setSide(sharedSide);P=sharedL.map(o=>({u:++uid,id:o[0],x:o[1],y:o[2],s:o[3],r:o[4],c:o[5]}));custom=true;markLook();const f=new Map();P.forEach((p,k)=>f.set(p.u,k*220));render(f);document.body.classList.add('sp');setMode('id')}
-    else revealSpots();if(!sharedL){setTimeout(()=>maybeOffer(true),900);setTimeout(()=>{if(!HSET&&!holesAsked&&!document.querySelector('.drw.on')){holesAsked=true;openHoles()}},offSeen||OFF?1400:6500)}},1500);
+    else revealSpots();if(!sharedL){setTimeout(()=>{try{if(!sessionStorage.getItem('lbx_demo')){sessionStorage.setItem('lbx_demo','1');window.__demoFS=true;document.body.classList.add('fs');frame();render();demo()}}catch(_){}},400);setTimeout(()=>{if(!HSET&&!holesAsked&&!document.querySelector('.drw.on')){holesAsked=true;openHoles()}},offSeen||OFF?1400:6500)}},1500);
   setTimeout(()=>document.body.classList.add('nh'),7000);
   const idle=window.requestIdleCallback||(f=>setTimeout(f,1500));idle(()=>LOOKS.slice(1,5).forEach(L=>needs(L.it).forEach(dec)))};
 /* ---------------- retour arrière : on revient d'un cran, jamais à zéro ---------------- */
