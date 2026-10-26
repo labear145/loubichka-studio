@@ -640,6 +640,20 @@ button.logo{background:none;border:0;padding:0;cursor:pointer;font:500 20px/1 va
 body.demo #dquit{display:flex}
 #dskip{pointer-events:auto;margin-top:10px;font:400 9px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--champ);border-bottom:1px solid rgba(217,195,155,.5);padding:2px 0}
 .kcont{display:block;width:100%;padding:12px 8px 4px;font:400 9.5px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--iv2);text-align:center}
+
+/* barre de réglage verticale, sur le côté : le bijou reste visible */
+.pill{left:auto!important;right:max(10px,env(safe-area-inset-right,0px))!important;top:50%!important;bottom:auto!important;flex-direction:column!important;padding:6px 4px!important;transform:translate(8px,-50%)!important}
+.pill.on{transform:translate(0,-50%)!important}
+.pill .sw{margin:6px 0!important}
+.pill hr{width:18px!important;height:1px!important;margin:3px 0!important}
+
+.pill button{width:28px!important;height:26px!important}
+.pill .sw{width:18px!important;height:18px!important;margin:5px auto!important}
+.pill{max-height:calc(100% - 16px);gap:0!important}
+/* pendant le réglage, seuls les réglages restent à l'écran */
+body:has(.pill.on) .side,body:has(.pill.on) .fsb,body:has(.pill.on) .stb,body:has(.pill.on) .stlab,body:has(.pill.on) .sndb,body:has(.pill.on) .wab,body:has(.pill.on) .myb{opacity:0!important;pointer-events:none!important}
+.side,.fsb,.stb,.sndb,.wab{transition:opacity .3s}
+body:has(.pill.on) .toast{max-width:calc(100% - 120px)!important;white-space:normal!important;text-align:center}
 </style>
 
 <div id="app">
