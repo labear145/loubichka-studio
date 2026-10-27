@@ -674,6 +674,19 @@ body.demo #dskip{display:none!important}
 .lderr{min-height:16px;margin:2px 0 0;font:300 11.5px var(--sans);color:#f0b49a;text-align:left}
 .ldform .wbtn{width:100%;margin:2px 0 0}
 #offv .wph{height:min(30dvh,250px)!important}
+
+/* Pop-up −15 % : petit carré centré, sans photo */
+#offv{align-items:center!important;padding:16px}
+#offv .isp{width:min(88vw,340px)!important;max-width:340px!important;max-height:86dvh;border:1px solid rgba(205,185,149,.45)!important;border-radius:14px;background:#24120a!important;transform:translateY(16px) scale(.97);opacity:0;transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .35s;padding-bottom:0}
+#offv.on .isp{transform:none;opacity:1}
+#offv .wel.sq{position:relative;padding:34px 22px 22px;text-align:center}
+#offv .wel.sq .wx{position:absolute;top:8px;right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:300 22px/1 var(--sans);color:var(--iv);background:none;border:0}
+#offv .wel.sq .wa{margin:0;font:italic 400 27px/1.15 var(--serif);color:var(--iv)}
+#offv .wel.sq .wt{margin:10px 0 18px;font:400 10px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--champ)}
+#offv .wel.sq .ldform input:not([type=checkbox]){padding:11px 12px;font-size:14px}
+#offv .wel.sq .ldc span{font-size:11px}
+#offv .wel.sq .wbtn{margin-top:4px}
+#offv .wel.sq .lderr{min-height:0;margin:6px 0}
 </style>
 
 <div id="app">
@@ -1226,11 +1239,11 @@ $('#crx').onclick=closeAll;$('#crb').onclick=closeAll;
 let holesAsked=false;let offSeen=false;try{offSeen=!!sessionStorage.getItem('lbx_offseen')}catch(_){}
 function maybeOffer(force,fast){if(!LEADS_URL||window.__demo||OFF||offSeen||(!force&&P.length<1)||document.body.classList.contains('myear-tips'))return;offSeen=true;try{sessionStorage.setItem('lbx_offseen','1')}catch(_){}
   setTimeout(()=>{if(window.__demo||document.querySelector('.drw.on,#mnu.on,#idv.on,#cardv.on,#catv.on')){offSeen=false;return}const v=$('#offv');const en=E();
-    $('#ofw').innerHTML=`<div class="wel"><figure class="wph"><img src="a/popup-look.jpg" alt="Composition Loubichka"><button type="button" class="wx" id="ofl" aria-label="×">×</button></figure><p class="wlg">LOUBICHKA<sup class="r">®</sup></p><p class="wsig">The Art of Ear Styling</p>
-    <div id="ldf"><p class="wt">${en?'Welcome to Loubichka':'Bienvenue chez Loubichka'}<sup class="r">®</sup>.<br>${en?'Join the house and receive':'Inscris-toi et reçois'}</p><p class="wa">${en?'15% off your first order':'−15 % sur ta première commande'}</p>
+    $('#ofw').innerHTML=`<div class="wel sq"><button type="button" class="wx" id="ofl" aria-label="×">×</button>
+    <div id="ldf"><p class="wa">${en?'15% off your first order':'−15 % sur ta première commande'}</p><p class="wt">${en?'Sign up.':'Inscris-toi.'}</p>
     <form class="ldform" id="ldform" novalidate><input id="ldp" autocomplete="given-name" placeholder="${en?'First name':'Prénom'}"><input id="ldt" type="tel" inputmode="tel" autocomplete="tel" placeholder="${en?'Phone (WhatsApp)':'Téléphone (WhatsApp)'}"><input id="lde" type="email" inputmode="email" autocomplete="email" placeholder="E-mail">
-    <label class="ldc"><input type="checkbox" id="ldk"><span>${en?'I agree to receive Loubichka® news and offers.':'J’accepte de recevoir les nouveautés et offres Loubichka®.'}</span></label><p class="lderr" id="lderr"></p>
-    <button type="submit" class="wbtn" id="ldgo">${en?'Receive my 15%':'Recevoir mes −15 %'}</button></form><p class="wd">${t('wD')}</p></div></div>`;
+    <label class="ldc"><input type="checkbox" id="ldk"><span>${en?'I agree to receive LOUBICHKA® offers.':'J’accepte de recevoir les offres LOUBICHKA®.'}</span></label><p class="lderr" id="lderr"></p>
+    <button type="submit" class="wbtn" id="ldgo">${en?'Sign up':'Je m’inscris'}</button></form></div></div>`;
     const then=()=>{const f=window.__offThen;window.__offThen=null;if(f)setTimeout(f,450)};
     $('#ldform').onsubmit=ev=>{ev.preventDefault();const pr=$('#ldp').value.trim(),tel=$('#ldt').value.replace(/[^\d+]/g,''),em=$('#lde').value.trim();
       const err=!pr?(en?'Enter your first name.':'Indique ton prénom.'):tel.replace(/\D/g,'').length<9?(en?'Enter a valid phone number.':'Indique un numéro de téléphone valide.'):!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)?(en?'Enter a valid e-mail.':'Indique un e-mail valide.'):!$('#ldk').checked?(en?'Please tick the box to receive the offer.':'Coche la case pour recevoir l’offre.'):'';
