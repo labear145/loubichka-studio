@@ -725,13 +725,28 @@ body.fs .sdone{display:flex;align-items:center;position:absolute;left:max(12px,e
 body.fs .sheet{padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
 
 /* Démo : titre d'accueil */
-#dch .dw1{display:block;font:italic 400 23px/1.2 var(--serif);color:var(--iv2);letter-spacing:.01em}
-#dch .dw2{display:block;margin-top:14px;font:500 27px/1 var(--serif);letter-spacing:.42em;padding-left:.42em;color:var(--iv);white-space:nowrap;--ls:.42}
+#dch .dw1{display:block;font:italic 400 54px/1.05 var(--serif);color:var(--iv);letter-spacing:.005em}
+#dch .dw2{display:block;margin-top:18px;font:500 22px/1 var(--serif);letter-spacing:.42em;padding-left:.42em;color:var(--iv);white-space:nowrap;--ls:.42}
 #dch.on .dw1{animation:dchw .7s cubic-bezier(.2,.7,.2,1) both}
 #dch.on .dw2{animation:dchw .9s .35s cubic-bezier(.2,.7,.2,1) both}
 #dch.big .bx{max-width:none;padding-left:0;padding-right:0}
 #dch.big p{margin:16px 30px 0;font-size:16px}
 #dch b,#dch p{text-wrap:balance}
+
+#dch p:empty{display:none}
+/* Grand écran : barre fine */
+body.fs .sheet{height:auto!important;padding-bottom:calc(4px + env(safe-area-inset-bottom,0px) * .4)!important}
+body.fs .sgrip{height:30px!important;margin-bottom:-2px!important}
+body.fs .sdone{top:3px!important;height:24px}
+body.fs .sheet .mt{padding-top:2px!important}
+body.fs #ctabs button{padding-top:7px!important;padding-bottom:7px!important}
+body.fs #prods.rail{gap:8px!important;padding-top:7px!important;padding-bottom:5px!important}
+body.fs #prods.rail .prod{flex:0 0 72px!important;width:72px!important;min-width:0;overflow:hidden}
+body.fs #prods.rail .prod b,body.fs #prods.rail .prod span{max-width:72px}
+body.fs #prods.rail .prod .im{width:72px!important;height:72px!important}
+body.fs #prods.rail .prod b{font-size:10.5px!important;line-height:1.15!important;height:2.3em!important;white-space:normal!important;overflow:hidden;margin-top:5px!important}
+body.fs #prods.rail .prod span{font-size:9.5px!important;margin-top:1px!important}
+body.fs #prods.rail .prod em{top:4px!important;left:4px!important;font-size:6px!important;padding:3px 4px!important}
 </style>
 
 <div id="app">
@@ -1183,7 +1198,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
     const p={u:++uid,id,c,s:sc,r,x,y};P.push(p);edited();render(new Map([[p.u,0]]));await wait(450);return p};
   const turn=async(p,to)=>{if(!p||demoStop)return;sel=p.u;render();await wait(400);const r=Z.getBoundingClientRect();await goXY(r.left+p.x/100*r.width,r.top+p.y/100*r.height);const n=14;const from=p.r;for(let k=1;k<=n&&!demoStop;k++){p.r=from+(to-from)*k/n;place(p);await wait(60)}await wait(600);sel=null;render()};
   const T=en?{
-    w:['Welcome to LOUBICHKA®','I’ll show you how to style your combo of the day.'],wh:'<span class="dw1">Welcome to</span><span class="dw2">LOUBICHKA<sup class="r">®</sup></span>',
+    w:['Welcome to LOUBICHKA®',''],wh:'<span class="dw1">Welcome</span><span class="dw2">LOUBICHKA<sup class="r">®</sup></span>',
     s1:['01','Open your jewelry','Touch “Jewelry”: the whole collection appears.'],
     s2:['02','Choose your jewel’s colour','Rose, white or yellow. Here: yellow.'],
     s3:['03','Pick your piece','Earrings or piercings. Touch it: it sets itself on your ear.'],
@@ -1194,7 +1209,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
     s8:['08','Bring it back','Touch “Jewelry” and keep composing.'],
     s9:['09','Done?','Touch “Done”: your Ear ID appears, with your order on WhatsApp. Paid on delivery.'],
     e:['Your turn.','Compose your combo of the day.']}:{
-    w:['Bienvenue chez LOUBICHKA®','Je vais te montrer comment composer ton combo du jour.'],wh:'<span class="dw1">Bienvenue chez</span><span class="dw2">LOUBICHKA<sup class="r">®</sup></span>',
+    w:['Bienvenue chez LOUBICHKA®',''],wh:'<span class="dw1">Bienvenue</span><span class="dw2">LOUBICHKA<sup class="r">®</sup></span>',
     s1:['01','Ouvre tes bijoux','Touche « Bijoux » : toute la collection apparaît.'],
     s2:['02','Choisis la couleur de ton bijou','Rose, blanc ou jaune. Ici : le jaune.'],
     s3:['03','Choisis ton article','Boucle d’oreille ou piercing. Tu touches : il se place tout seul.'],
