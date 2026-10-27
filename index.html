@@ -714,6 +714,15 @@ body.demo .sheet{transition:transform .95s cubic-bezier(.45,0,.2,1),opacity .4s!
 body.demo #zw{transition:transform 4s ease-out}
 body.demo #dfg{transition:left .7s cubic-bezier(.45,0,.2,1),top .7s cubic-bezier(.45,0,.2,1),opacity .4s,transform .2s}
 body.dzoom #zw{transform:scale(1.06)}
+
+/* Grand écran : barre réduite aux produits, bouton Terminé, glisser partout */
+body.fs #gbar{display:none!important}
+body.fs .sheet,body.fs .sheet *{touch-action:pan-x}
+body.fs .sgrip{touch-action:none;height:38px!important;margin-bottom:-4px!important}
+body.fs .sdone{top:6px}
+.sdone{display:none}
+body.fs .sdone{display:flex;align-items:center;position:absolute;left:max(12px,env(safe-area-inset-left,0px));top:4px;height:26px;padding:0 13px;border:1px solid var(--champ);border-radius:13px;background:none;color:var(--champ);font:500 9px var(--sans);letter-spacing:.22em;text-transform:uppercase;z-index:2}
+body.fs .sheet{padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
 </style>
 
 <div id="app">
@@ -1174,7 +1183,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
     s6:['06','Add your piercings','Above the lobe, then on the conch.'],
     s7:['07','Hide the bar','Touch the arrow: admire your full look.'],
     s8:['08','Bring it back','Touch “Jewelry” and keep composing.'],
-    s9:['09','Your Ear ID','Your look, your total, your order on WhatsApp. Paid on delivery.'],
+    s9:['09','Done?','Touch “Done”: your Ear ID appears, with your order on WhatsApp. Paid on delivery.'],
     e:['Your turn.','Compose your combo of the day.']}:{
     w:['Bienvenue chez LOUBICHKA®','Je vais te montrer comment composer ton combo du jour.'],
     s1:['01','Ouvre tes bijoux','Touche « Bijoux » : toute la collection apparaît.'],
@@ -1185,7 +1194,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
     s6:['06','Ajoute tes piercings','Au-dessus du lobe, puis sur la conque.'],
     s7:['07','Masque la barre','Touche la flèche : admire ton look en entier.'],
     s8:['08','Fais-la revenir','Touche « Bijoux » et continue à composer.'],
-    s9:['09','Ton Ear ID','Ton look, ton total, ta commande sur WhatsApp. Payée à la livraison.'],
+    s9:['09','Terminé ?','Touche « Terminé » : ton Ear ID apparaît, avec ta commande sur WhatsApp. Payée à la livraison.'],
     e:['À toi de jouer.','Compose ton combo du jour.']};
   const steps=[
    async()=>{await wait(300);await show('',T.w[0],T.w[1],{big:true,hold:3200})},
@@ -1197,7 +1206,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
    async()=>{await show(...T.s6,{bot:true});await lay('s1');const p=await lay('t3');await turn(p,45)},
    async()=>{await show(...T.s7,{bot:true});const x=$('.sgrip button');await goEl(x);await tap(x);B.classList.add('dzoom');await wait(3600);B.classList.remove('dzoom');await wait(300)},
    async()=>{await show(...T.s8);await goEl($('.sshow'));await tap($('.sshow'));await wait(500);await drag('bottom')},
-   async()=>{await show(...T.s9);await goEl($('#gbar'));await tap($('#gbar'),false);await wait(1200)},
+   async()=>{await show(...T.s9);const dn=$('.sdone');await goEl(dn);await tap(dn,false);fg.classList.remove('on');openId();await wait(4200);const v=$('#idv');v.classList.remove('on');v.setAttribute('aria-hidden','true');await wait(500)},
    async()=>{fg.classList.remove('on');await show('',T.e[0],T.e[1],{big:true,hold:2600})}];
   for(const st of steps){if(demoStop)break;await st()}
   fg.classList.remove('on');ch.classList.remove('on');await new Promise(r=>setTimeout(r,500));ch.classList.remove('big','bot');B.classList.remove('demo','dzoom','shid');try{window.__bar.set(0)}catch(_){}await new Promise(r=>setTimeout(r,450));
@@ -1223,7 +1232,7 @@ $('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=c
 function setMode(m){if(m==='id'){openId();return}mode='mk';document.body.classList.add('mk');document.body.classList.remove('lk');buildZones();buildProds();ui()}
 function openId(){if(!P.length)return;buildId();const v=$('#idv');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 function closeId(){const v=$('#idv');v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
+$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(typeof LEADS_URL!=='undefined'&&LEADS_URL&&P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
 $('#fsb').onclick=()=>{document.body.classList.toggle('fs');requestAnimationFrame(()=>{frame();render()})};
 setTimeout(()=>{const pl=$('#pill');if(pl){pl.classList.add('dock');$('#metals').before(pl)}
  const fb=$('#fsb');const lab=()=>{const fs=document.body.classList.contains('fs');fb.dataset.t=E()?(fs?'Reduce':'Enlarge'):(fs?'Réduire':'Agrandir')};lab();fb.addEventListener('click',()=>setTimeout(lab,0));setInterval(lab,2000)},0);
@@ -1455,6 +1464,15 @@ g.addEventListener('pointermove',function(e){if(p0==null)return;set(sy0+e.client
 var up=function(e){if(p0==null)return;var moved=Math.abs(e.clientY-p0);p0=null;B.classList.remove('sdrag');};
 g.addEventListener('pointerup',up);g.addEventListener('pointercancel',up);
 new MutationObserver(function(){if(!B.classList.contains('fs')){if(B.classList.contains('shid'))B.classList.remove('shid');if(y){y=0;app.style.setProperty('--sy','0px')}}else set(y)}).observe(B,{attributes:true,attributeFilter:['class']});
-addEventListener('resize',function(){set(y)});window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(-1e5);return y}};
+addEventListener('resize',function(){set(y)});var d=document.createElement('button');d.type='button';d.className='sdone';sh.insertBefore(d,g.nextSibling);
+var dl=function(){d.textContent=en()?'Done':'Terminé'};dl();setInterval(dl,2000);
+d.addEventListener('click',function(e){e.stopPropagation();if(window.__demo)return;document.getElementById('gbar').click()});
+var dp=null,dx0=0,dy0=0,dragging=false,ys=0,eat=false;
+sh.addEventListener('pointerdown',function(e){if(!B.classList.contains('fs')||window.__demo)return;if(e.target.closest('.sgrip,.sdone,input'))return;dp=e.pointerId;dx0=e.clientX;dy0=e.clientY;ys=y;dragging=false},true);
+sh.addEventListener('pointermove',function(e){if(dp!==e.pointerId)return;var dx=e.clientX-dx0,dy=e.clientY-dy0;if(!dragging){if(Math.abs(dy)>10&&Math.abs(dy)>Math.abs(dx)*1.2){dragging=true;B.classList.add('sdrag');try{sh.setPointerCapture(e.pointerId)}catch(_){}}else return}set(ys+dy);e.preventDefault()},true);
+var dend=function(e){if(dp!==e.pointerId)return;dp=null;if(dragging){dragging=false;B.classList.remove('sdrag');eat=true;setTimeout(function(){eat=false},350)}};
+sh.addEventListener('pointerup',dend,true);sh.addEventListener('pointercancel',dend,true);
+sh.addEventListener('click',function(e){if(eat){e.stopPropagation();e.preventDefault();eat=false}},true);
+window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(-1e5);return y}};
 }catch(e){}},0)</script>
 </body></html>
