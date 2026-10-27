@@ -675,18 +675,45 @@ body.demo .swh{opacity:0!important}
 body.demo #dskip{display:none!important}
 
 /* Grand écran : oreille agrandie, barre des bijoux mobile et masquable */
-body.fs:not(.demo) #stage{position:absolute;inset:0;padding-top:env(safe-area-inset-top,0px)}
-body.fs:not(.demo) .sheet{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(28,14,7,.84)!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(245,226,200,.16)!important;border-radius:16px 16px 0 0;transform:translateY(var(--sy,0px));transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s}
-body.fs.sdrag:not(.demo) .sheet{transition:none}
-body.fs.shid:not(.demo) .sheet{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
+body.fs #stage{position:absolute;inset:0;padding-top:env(safe-area-inset-top,0px)}
+body.fs .sheet{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(28,14,7,.84)!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(245,226,200,.16)!important;border-radius:16px 16px 0 0;transform:translateY(var(--sy,0px));transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s}
+body.fs.sdrag .sheet{transition:none}
+body.fs.shid .sheet{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
 .sgrip{display:none}
-body.fs:not(.demo) .sgrip{display:flex;align-items:center;justify-content:center;position:relative;height:30px;margin-bottom:-6px;touch-action:none;cursor:grab}
+body.fs .sgrip{display:flex;align-items:center;justify-content:center;position:relative;height:30px;margin-bottom:-6px;touch-action:none;cursor:grab}
 .sgrip i{width:44px;height:4px;border-radius:2px;background:rgba(245,241,234,.45)}
 .sgrip button{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:1px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--iv);background:none;border:0;padding:0}
 .sgrip button svg{width:15px;height:15px}
 .sshow{display:none}
-body.fs.shid:not(.demo) .sshow{display:flex;position:absolute;z-index:31;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);align-items:center;gap:9px;height:40px;padding:0 18px;color:var(--iv);background:rgba(28,14,7,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(245,226,200,.22);border-radius:20px;font:400 9px var(--sans);letter-spacing:.24em;text-transform:uppercase}
+body.fs.shid .sshow{display:flex;position:absolute;z-index:31;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);align-items:center;gap:9px;height:40px;padding:0 18px;color:var(--iv);background:rgba(28,14,7,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(245,226,200,.22);border-radius:20px;font:400 9px var(--sans);letter-spacing:.24em;text-transform:uppercase}
 .sshow svg{width:14px;height:14px}
+
+/* Démo documentaire */
+#dcap{display:none!important}
+#dch{position:fixed;z-index:96;left:12px;right:12px;top:calc(58px + env(safe-area-inset-top,0px));text-align:center;pointer-events:none;opacity:0;transform:translateY(-10px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.2,1)}
+#dch.on{opacity:1;transform:none}
+#dch.bot{top:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateY(10px)}
+#dch.bot.on{transform:none}
+#dch .bx{display:inline-block;max-width:420px;padding:16px 20px 15px;background:rgba(22,11,5,.82);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(217,195,155,.5);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+#dch i{display:block;font:500 12px var(--sans);font-style:normal;letter-spacing:.34em;color:var(--champ)}
+#dch i:empty{display:none}
+#dch b{display:block;margin-top:6px;font:italic 400 30px/1.12 var(--serif);color:var(--iv)}
+#dch p{margin:9px 0 0;font:300 16px/1.45 var(--sans);color:var(--iv2)}
+#dch b span{display:inline-block}
+#dch.on b span{animation:dchw .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes dchw{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#dch.big{inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(20,10,5,.35) 0%,rgba(20,10,5,.78) 75%);transform:none}
+#dch.big .bx{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;max-width:360px}
+#dch.big b{font-size:42px;line-height:1.08}
+#dch.big b::after{content:'';display:block;width:0;height:1px;margin:18px auto 0;background:var(--champ);transition:width 1.2s .5s}
+#dch.big.on b::after{width:90px}
+#dch.big p{font-size:17px;margin-top:16px}
+body.demo #dquit{top:calc(12px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:12px;transform:none;padding:9px 14px;border-radius:18px}
+body.demo .sgrip,body.demo .sshow{pointer-events:none}
+body.demo .sheet{transition:transform .95s cubic-bezier(.45,0,.2,1),opacity .4s!important}
+body.demo #zw{transition:transform 4s ease-out}
+body.demo #dfg{transition:left .7s cubic-bezier(.45,0,.2,1),top .7s cubic-bezier(.45,0,.2,1),opacity .4s,transform .2s}
+body.dzoom #zw{transform:scale(1.06)}
 </style>
 
 <div id="app">
@@ -870,7 +897,7 @@ const EL=new Map();
 
 /* ---------------- cadrage ---------------- */
 let zwW=0,zwH=0;
-function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS&&!document.body.classList.contains('demo')){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
+function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
   zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.top=(H/2-zh*(RY0+RY1)/2)+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
 try{new ResizeObserver(()=>{frame()}).observe(stage)}catch(_){}
 addEventListener('resize',frame);frame();
@@ -1114,39 +1141,69 @@ $('#bthx').onclick=()=>{const v=$('#both');v.classList.remove('on');v.setAttribu
 let demoOn=false,demoStop=false;
 function demoVideo(){try{window.SND&&SND.duck(true)}catch(_){}const v=$('#dmv'),vd=$('#dmvid');v.classList.add('on');v.setAttribute('aria-hidden','false');try{vd.currentTime=0;const pr=vd.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}
 function closeDemo(){const v=$('#dmv'),vd=$('#dmvid');try{vd.pause()}catch(_){}try{window.SND&&SND.duck(false)}catch(_){}v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=true;const en=E();const mu=$('#dmus');const fade=(to,ms)=>{const from=mu.volume,t0=performance.now();const st=()=>{const k=Math.min(1,(performance.now()-t0)/ms);mu.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k<1)requestAnimationFrame(st);else if(to===0){try{mu.pause()}catch(_){}}};st()};try{window.SND&&SND.demo()}catch(_){}
-  const keep=P.map(p=>[p.id,p.x,p.y,p.s,p.r,p.c]),keepSide=side,keepMetal=metal;const cap=$('#dcap');document.body.classList.add('demo');
-  let fg=$('#dfg');if(!fg){fg=document.createElement('div');fg.id='dfg';document.body.appendChild(fg)}
+async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=true;const en=E();try{window.SND&&SND.demo()}catch(_){}
+  const B=document.body,keep=P.map(p=>[p.id,p.x,p.y,p.s,p.r,p.c]),keepSide=side,keepMetal=metal;
+  B.classList.add('fs','demo','shid');requestAnimationFrame(()=>{frame();render()});
+  let fg=$('#dfg');if(!fg){fg=document.createElement('div');fg.id='dfg';B.appendChild(fg)}
+  let ch=$('#dch');if(!ch){ch=document.createElement('div');ch.id='dch';ch.innerHTML='<div class="bx"><i></i><b></b><p></p></div>';B.appendChild(ch)}
   const wait=ms=>new Promise(r=>{const t0=Date.now();const tk=()=>{if(demoStop||Date.now()-t0>=ms)r();else setTimeout(tk,100)};tk()});
-  const say=(n,title,txt)=>{cap.classList.remove('on');setTimeout(()=>{cap.classList.toggle('low',n===6);cap.classList.toggle('over',n===7);cap.querySelector('small').textContent=(en?'Demo · step ':'Démo · étape ')+n+' / 7';cap.querySelector('b').textContent=title;cap.querySelector('p').textContent=txt;cap.classList.add('on')},400)};
-  const goXY=async(x,y)=>{fg.classList.add('on');fg.style.left=x+'px';fg.style.top=y+'px';await wait(1100)};
+  const words=s=>s.split(' ').map((w,k)=>`<span style="animation-delay:${k*70}ms">${w}</span>`).join(' ');
+  const show=async(num,title,txt,o)=>{o=o||{};ch.classList.remove('on');await wait(350);ch.classList.toggle('big',!!o.big);ch.classList.toggle('bot',!!o.bot);ch.querySelector('i').textContent=num||'';ch.querySelector('b').innerHTML=words(title);ch.querySelector('p').textContent=txt||'';void ch.offsetWidth;ch.classList.add('on');await wait(o.hold||2000);if(!o.stay){ch.classList.remove('on');await wait(350)}};
+  const hide=async()=>{ch.classList.remove('on');await wait(350)};
+  const goXY=async(x,y)=>{fg.classList.add('on');fg.style.left=x+'px';fg.style.top=y+'px';await wait(760)};
   const goEl=async el=>{if(!el)return;const r=el.getBoundingClientRect();await goXY(r.left+r.width/2,r.top+r.height/2)};
-  const tap=async el=>{fg.classList.add('tap');await wait(260);fg.classList.remove('tap');if(el&&!demoStop)el.click();await wait(300)};
-  const prod=async id=>{const el=$(`#prods .prod[data-id="${id}"]`);if(!el)return;const rl=$('#prods');rl.scrollTo({left:Math.max(0,el.offsetLeft-60),behavior:'smooth'});await wait(900);await goEl(el);await wait(300);await tap(el);await wait(700);sel=null;render()};
-  P=[];sel=null;target=null;render();setSide('R');metal='rose';buildMetals();buildProds();
-  const r0=$('#stage').getBoundingClientRect();fg.style.left=(r0.left+r0.width/2)+'px';fg.style.top=(r0.top+r0.height*.8)+'px';
+  const tap=async(el,click)=>{fg.classList.add('tap');await wait(220);fg.classList.remove('tap');if(el&&click!==false&&!demoStop)el.click();await wait(250)};
+  const drag=async to=>{const g=$('.sgrip');if(!g)return;const r=g.getBoundingClientRect(),x=r.left+r.width/2,y0=r.top+r.height/2;await goXY(x,y0);fg.classList.add('tap');await wait(250);const before=window.__bar.y();if(to==='top')window.__bar.top();else window.__bar.set(0);const dy=window.__bar.y()-before;fg.style.top=(y0+dy)+'px';await wait(1000);fg.classList.remove('tap');await wait(200)};
+  P=[];sel=null;target=null;render();setSide('R');metal='rose';buildMetals();buildProds();ctab='b';try{setTab('b')}catch(_){}
+  const r0=$('#stage').getBoundingClientRect();fg.style.left=(r0.left+r0.width/2)+'px';fg.style.top=(r0.top+r0.height*.82)+'px';
   const POS={c1:['chain',36.1,64.6,.8,0],c2:['chain',48.2,64.6,.8,0],s1:['sc',50.9,57.4,.75,0],s2:['sc',53.8,62,.75,0],t3:['tri3',63,53.5,.95,0],fl:['fl',30.2,44.4,.55,0],cr:['cr',64.85,22.72,.78,20],s3:['sc',62.2,28.6,.7,0]};
-  const tabTo=async g=>{if(ctab===g)return;const b=$(`#ctabs button[data-g="${g}"]`);await goEl(b);await wait(300);fg.classList.add('tap');await wait(260);fg.classList.remove('tap');setTab(g);await wait(700)};
+  const tabTo=async g=>{if(ctab===g)return;const b=$(`#ctabs button[data-g="${g}"]`);await goEl(b);await wait(100);fg.classList.add('tap');await wait(220);fg.classList.remove('tap');setTab(g);await wait(400)};
   const lay=async k=>{const [id,x,y,sc,r]=POS[k];const c=J[id].on[metal]?metal:Object.keys(J[id].on)[0];
     await tabTo(J[id].cat==='piercing'?'p':'b');
-    const el=$(`#prods .prod[data-id="${id}"]`);if(el){const g=$('#prods');g.scrollTo({left:Math.max(0,el.offsetLeft-g.offsetLeft-60),behavior:'smooth'});await wait(900);await goEl(el);await wait(300);fg.classList.add('tap');await wait(260);fg.classList.remove('tap')}
-    if(demoStop)return null;await ready([srcOf(id,c,'on'),srcOf(id,c,'bk')].filter(Boolean),900);
-    const p={u:++uid,id,c,s:sc,r,x,y};P.push(p);edited();render(new Map([[p.u,0]]));await wait(500);return p};
-  const turn=async(p,to)=>{if(!p||demoStop)return;sel=p.u;render();await wait(900);const r=Z.getBoundingClientRect();await goXY(r.left+p.x/100*r.width,r.top+p.y/100*r.height);const n=14;const from=p.r;for(let k=1;k<=n&&!demoStop;k++){p.r=from+(to-from)*k/n;place(p);await wait(90)}await wait(1300);sel=null;render()};
+    const el=$(`#prods .prod[data-id="${id}"]`);if(el){const g=$('#prods');g.scrollTo({left:Math.max(0,el.offsetLeft-g.offsetLeft-60),behavior:'smooth'});await wait(450);await goEl(el);await wait(80);fg.classList.add('tap');await wait(220);fg.classList.remove('tap')}
+    if(demoStop)return null;await ready([srcOf(id,c,'on'),srcOf(id,c,'bk')].filter(Boolean),600);
+    const p={u:++uid,id,c,s:sc,r,x,y};P.push(p);edited();render(new Map([[p.u,0]]));await wait(450);return p};
+  const turn=async(p,to)=>{if(!p||demoStop)return;sel=p.u;render();await wait(400);const r=Z.getBoundingClientRect();await goXY(r.left+p.x/100*r.width,r.top+p.y/100*r.height);const n=14;const from=p.r;for(let k=1;k<=n&&!demoStop;k++){p.r=from+(to-from)*k/n;place(p);await wait(60)}await wait(600);sel=null;render()};
+  const T=en?{
+    w:['Welcome to LOUBICHKA®','I’ll show you how to style your combo of the day.'],
+    s1:['01','Open your jewelry','Touch “Jewelry”: the whole collection appears.'],
+    s2:['02','Choose your gold','Rose, yellow or white. Here: yellow.'],
+    s3:['03','Pick your piece','Earrings or piercings. Touch it: it sets itself on your ear.'],
+    s4:['04','Move the bar','Grab the little line and slide it wherever you like.'],
+    s5:['05','Down to the lobe','Your pieces land exactly where they belong.'],
+    s6:['06','Add your piercings','Above the lobe, then on the conch.'],
+    s7:['07','Hide the bar','Touch the arrow: admire your full look.'],
+    s8:['08','Bring it back','Touch “Jewelry” and keep composing.'],
+    s9:['09','Your Ear ID','Your look, your total, your order on WhatsApp. Paid on delivery.'],
+    e:['Your turn.','Compose your combo of the day.']}:{
+    w:['Bienvenue chez LOUBICHKA®','Je vais te montrer comment composer ton combo du jour.'],
+    s1:['01','Ouvre tes bijoux','Touche « Bijoux » : toute la collection apparaît.'],
+    s2:['02','Choisis ton or','Rose, jaune ou blanc. Ici : le jaune.'],
+    s3:['03','Choisis ton article','Boucle d’oreille ou piercing. Tu touches : il se place tout seul.'],
+    s4:['04','Déplace la barre','Attrape le petit trait et fais-la glisser où tu veux.'],
+    s5:['05','Direction le lobe','Chaque bijou se pose exactement à sa place.'],
+    s6:['06','Ajoute tes piercings','Au-dessus du lobe, puis sur la conque.'],
+    s7:['07','Masque la barre','Touche la flèche : admire ton look en entier.'],
+    s8:['08','Fais-la revenir','Touche « Bijoux » et continue à composer.'],
+    s9:['09','Ton Ear ID','Ton look, ton total, ta commande sur WhatsApp. Payée à la livraison.'],
+    e:['À toi de jouer.','Compose ton combo du jour.']};
   const steps=[
-   async()=>{say(1,en?'Welcome to the Loubichka® Studio':'Bienvenue au Studio Loubichka®',en?'Compose your ear as you would in our showroom. Follow the guide, step by step.':'Compose ton oreille comme au showroom. Suis le guide, étape par étape.');await wait(5500)},
-   async()=>{say(2,en?'Choose your piece in rose, yellow or white gold':'Choisis ton article en or rose, jaune ou blanc',en?'Tick the gold of your choice: the whole collection appears in that gold. Here, yellow gold.':'Coche l’or de ton choix : toute la collection s’affiche dans cet or. Ici, l’or jaune.');await wait(2200);await goEl($('#metals [data-c="jaune"]'));await wait(500);await tap($('#metals [data-c="jaune"]'));await wait(2600)},
-   async()=>{say(3,en?'Choose your model':'Choisis ton modèle',en?'Touch a piece in the collection: it sets itself on your lobe. Here, the Chic Chic.':'Touche un bijou de la collection : il se pose tout seul sur ton lobe. Ici, le Chic Chic.');await wait(2400);await lay('c1');await wait(2200);
-     cap.querySelector('p').textContent=en?'A second Chic Chic on the next lobe. Your total updates in the golden bar.':'Un deuxième Chic Chic sur le lobe suivant. Ton total se met à jour dans la barre dorée.';await wait(1200);await lay('c2');await wait(2800)},
-   async()=>{say(4,en?'Add your piercings':'Ajoute tes piercings',en?'Open the Piercings tab. Two Piercing Solitaire, just above the lobe.':'Ouvre l’onglet Piercings. Deux Piercing Solitaire, juste au-dessus du lobe.');await wait(2400);await lay('s1');await wait(1800);await lay('s2');await wait(2400)},
-   async()=>{say(5,en?'Adjust as you like':'Ajuste à ton goût',en?'The Piercing Étoile on the conch: touch it, then turn it to follow the curve of your ear.':'Le Piercing Étoile sur la conque : touche-le, puis tourne-le pour suivre la courbe de ton oreille.');await wait(2400);const p=await lay('t3');await turn(p,45);await wait(1500)},
-   async()=>{say(6,en?'Finish your look':'Termine ton look',en?'A Piercing Fleur on the tragus, a Couronne in the centre of the flat, and a small Solitaire just below.':'Un Piercing Fleur sur le tragus, une Couronne au centre du flat, et un petit Solitaire juste en dessous.');await wait(2400);await lay('fl');await wait(1800);await lay('cr');await wait(1400);await lay('s3');await wait(3200)},
-   async()=>{say(7,en?'Reveal your Ear ID':'Révèle ton Ear ID',en?'Your ear is complete. The golden bar opens your look: your card to share and your order on WhatsApp, paid on delivery.':'Ton oreille est terminée. La barre dorée ouvre ton look : ta carte à partager et ta commande sur WhatsApp, payée à la livraison.');await wait(2200);await goEl($('#gbar'));fg.classList.add('tap');await wait(300);fg.classList.remove('tap');await wait(5000)}];
+   async()=>{await wait(300);await show('',T.w[0],T.w[1],{big:true,hold:3200})},
+   async()=>{await show(...T.s1);await goEl($('.sshow'));await tap($('.sshow'));await wait(600)},
+   async()=>{await show(...T.s2);await goEl($('#metals [data-c="jaune"]'));await tap($('#metals [data-c="jaune"]'));await wait(600)},
+   async()=>{await show(...T.s3);await lay('cr');await lay('fl');await wait(600)},
+   async()=>{await show(...T.s4);await drag('top');await wait(300)},
+   async()=>{await show(...T.s5,{bot:true});await tabTo('b');await lay('c1');await lay('c2');await wait(600)},
+   async()=>{await show(...T.s6,{bot:true});await lay('s1');const p=await lay('t3');await turn(p,45)},
+   async()=>{await show(...T.s7,{bot:true});const x=$('.sgrip button');await goEl(x);await tap(x);B.classList.add('dzoom');await wait(3600);B.classList.remove('dzoom');await wait(300)},
+   async()=>{await show(...T.s8);await goEl($('.sshow'));await tap($('.sshow'));await wait(500);await drag('bottom')},
+   async()=>{await show(...T.s9);await goEl($('#gbar'));await tap($('#gbar'),false);await wait(1200)},
+   async()=>{fg.classList.remove('on');await show('',T.e[0],T.e[1],{big:true,hold:2600})}];
   for(const st of steps){if(demoStop)break;await st()}
-  void 0;fg.classList.remove('on');cap.classList.remove('on','low','over');document.body.classList.remove('demo');await new Promise(r=>setTimeout(r,500));
-  metal=keepMetal;ctab='b';buildMetals();buildProds();
+  fg.classList.remove('on');ch.classList.remove('on');await new Promise(r=>setTimeout(r,500));ch.classList.remove('big','bot');B.classList.remove('demo','dzoom','shid');try{window.__bar.set(0)}catch(_){}await new Promise(r=>setTimeout(r,450));
+  metal=keepMetal;ctab='b';buildMetals();buildProds();try{setTab('b')}catch(_){}
   if(keep.length)putItems(keep,keepSide);else{P=[];sel=null;render()}
-  window.__demo=false;demoOn=false;if(window.__demoFS){window.__demoFS=false;document.body.classList.remove('fs');requestAnimationFrame(()=>{frame();render()})}toast(en?'Your turn':'À toi de composer')}
+  window.__demo=false;demoOn=false;window.__demoFS=false;requestAnimationFrame(()=>{frame();render()});toast(en?'Your turn':'À toi de composer')}
 let stT=0;const stOpen=e=>{e.stopPropagation();if(e.type==='touchend'){e.preventDefault();stT=Date.now()}else if(Date.now()-stT<600)return;openStudio()};$('#stb').addEventListener('click',stOpen);$('#stb').addEventListener('touchend',stOpen,{passive:false});
 {const lb=$('#stlab');let shown=false;const hint=()=>{if(shown)return;shown=true;lb.classList.add('on');setTimeout(()=>lb.classList.remove('on'),3200)};const iv=setInterval(()=>{if(!document.body.classList.contains('pre')){clearInterval(iv);setTimeout(hint,1600)}},400)}
 setTimeout(()=>{const wb=$('#wab');const upd=()=>{wb.href=waLink(HELPMSG('studio'));wb.querySelector('span').textContent=E()?'Help':'Aide'};upd();setInterval(upd,1500)},0);
@@ -1398,6 +1455,6 @@ g.addEventListener('pointermove',function(e){if(p0==null)return;set(sy0+e.client
 var up=function(e){if(p0==null)return;var moved=Math.abs(e.clientY-p0);p0=null;B.classList.remove('sdrag');};
 g.addEventListener('pointerup',up);g.addEventListener('pointercancel',up);
 new MutationObserver(function(){if(!B.classList.contains('fs')){if(B.classList.contains('shid'))B.classList.remove('shid');if(y){y=0;app.style.setProperty('--sy','0px')}}else set(y)}).observe(B,{attributes:true,attributeFilter:['class']});
-addEventListener('resize',function(){set(y)});
+addEventListener('resize',function(){set(y)});window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(-1e5);return y}};
 }catch(e){}},0)</script>
 </body></html>
