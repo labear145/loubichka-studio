@@ -696,17 +696,17 @@ body.demo #dskip{display:none!important}
 #offv .wel.sq .wbtn{margin-top:4px}
 #offv .wel.sq .lderr{min-height:0;margin:6px 0}
 /* Grand écran : oreille agrandie, barre des bijoux mobile et masquable */
-body.fs #stage{position:absolute;inset:0;padding-top:env(safe-area-inset-top,0px)}
-body.fs .sheet{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(28,14,7,.84)!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(245,226,200,.16)!important;border-radius:16px 16px 0 0;transform:translateY(var(--sy,0px));transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s}
-body.fs.sdrag .sheet{transition:none}
-body.fs.shid .sheet{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
+body.fs:not(.demo) #stage{position:absolute;inset:0;padding-top:env(safe-area-inset-top,0px)}
+body.fs:not(.demo) .sheet{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(28,14,7,.84)!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(245,226,200,.16)!important;border-radius:16px 16px 0 0;transform:translateY(var(--sy,0px));transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s}
+body.fs.sdrag:not(.demo) .sheet{transition:none}
+body.fs.shid:not(.demo) .sheet{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
 .sgrip{display:none}
-body.fs .sgrip{display:flex;align-items:center;justify-content:center;position:relative;height:30px;margin-bottom:-6px;touch-action:none;cursor:grab}
+body.fs:not(.demo) .sgrip{display:flex;align-items:center;justify-content:center;position:relative;height:30px;margin-bottom:-6px;touch-action:none;cursor:grab}
 .sgrip i{width:44px;height:4px;border-radius:2px;background:rgba(245,241,234,.45)}
 .sgrip button{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:1px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--iv);background:none;border:0;padding:0}
 .sgrip button svg{width:15px;height:15px}
 .sshow{display:none}
-body.fs.shid .sshow{display:flex;position:absolute;z-index:31;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);align-items:center;gap:9px;height:40px;padding:0 18px;color:var(--iv);background:rgba(28,14,7,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(245,226,200,.22);border-radius:20px;font:400 9px var(--sans);letter-spacing:.24em;text-transform:uppercase}
+body.fs.shid:not(.demo) .sshow{display:flex;position:absolute;z-index:31;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);align-items:center;gap:9px;height:40px;padding:0 18px;color:var(--iv);background:rgba(28,14,7,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(245,226,200,.22);border-radius:20px;font:400 9px var(--sans);letter-spacing:.24em;text-transform:uppercase}
 .sshow svg{width:14px;height:14px}
 </style>
 
@@ -891,7 +891,7 @@ const EL=new Map();
 
 /* ---------------- cadrage ---------------- */
 let zwW=0,zwH=0;
-function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
+function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS&&!document.body.classList.contains('demo')){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
   zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.top=(H/2-zh*(RY0+RY1)/2)+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
 try{new ResizeObserver(()=>{frame()}).observe(stage)}catch(_){}
 addEventListener('resize',frame);frame();
