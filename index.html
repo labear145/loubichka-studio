@@ -1,7 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><script>(function(){try{if(/[?&]cle=rideau-loubna/.test(location.search))localStorage.setItem('lbx_vip','1');if(localStorage.getItem('lbx_vip')==='1')return}catch(e){}location.replace('/piercing-party/')})()</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
 <meta name="theme-color" content="#371f12">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Loubichka">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="canonical" href="https://loubichka.com/">
 <title>LOUBICHKA® · Ear Studio</title>
 <meta name="description" content="LOUBICHKA® Ear Studio · Compose ton oreille, découvre ton Ear ID et commande en deux touches.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://loubichka.com/">
@@ -687,6 +695,19 @@ body.demo #dskip{display:none!important}
 #offv .wel.sq .ldc span{font-size:11px}
 #offv .wel.sq .wbtn{margin-top:4px}
 #offv .wel.sq .lderr{min-height:0;margin:6px 0}
+/* Grand écran : oreille agrandie, barre des bijoux mobile et masquable */
+body.fs #stage{position:absolute;inset:0;padding-top:env(safe-area-inset-top,0px)}
+body.fs .sheet{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(28,14,7,.84)!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(245,226,200,.16)!important;border-radius:16px 16px 0 0;transform:translateY(var(--sy,0px));transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s}
+body.fs.sdrag .sheet{transition:none}
+body.fs.shid .sheet{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
+.sgrip{display:none}
+body.fs .sgrip{display:flex;align-items:center;justify-content:center;position:relative;height:30px;margin-bottom:-6px;touch-action:none;cursor:grab}
+.sgrip i{width:44px;height:4px;border-radius:2px;background:rgba(245,241,234,.45)}
+.sgrip button{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:1px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--iv);background:none;border:0;padding:0}
+.sgrip button svg{width:15px;height:15px}
+.sshow{display:none}
+body.fs.shid .sshow{display:flex;position:absolute;z-index:31;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);align-items:center;gap:9px;height:40px;padding:0 18px;color:var(--iv);background:rgba(28,14,7,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(245,226,200,.22);border-radius:20px;font:400 9px var(--sans);letter-spacing:.24em;text-transform:uppercase}
+.sshow svg{width:14px;height:14px}
 </style>
 
 <div id="app">
@@ -870,7 +891,7 @@ const EL=new Map();
 
 /* ---------------- cadrage ---------------- */
 let zwW=0,zwH=0;
-function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
+function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
   zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.top=(H/2-zh*(RY0+RY1)/2)+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
 try{new ResizeObserver(()=>{frame()}).observe(stage)}catch(_){}
 addEventListener('resize',frame);frame();
@@ -961,7 +982,7 @@ function buildMetals(){$('#metals').innerHTML=['rose','jaune','blanc'].map(m=>`<
 
 const PP_SLOTS=['13:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'];
 /* mêmes créneaux complets que loubichka.com et l'agenda */
-let PP_TAKEN=['13:00','14:00','14:30','17:00','18:30','19:00'];try{fetch('https://loubichka.com/creneaux.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(Array.isArray(d.complets))PP_TAKEN=d.complets}).catch(()=>{})}catch(_){}
+let PP_TAKEN=['13:00','14:00','14:30','16:00','16:30','17:00','18:30','19:00','19:30'];try{fetch('https://loubichka.com/creneaux.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(Array.isArray(d.complets))PP_TAKEN=d.complets}).catch(()=>{})}catch(_){}
 function bindSlots(){const en=E(),go=$('#ppgo');if(!go)return;
   $$('#ppsl button:not([disabled])').forEach(b=>b.onclick=()=>{$$('#ppsl button').forEach(x=>x.setAttribute('aria-pressed',x===b));const h=b.dataset.h.replace(':',' h ');
     go.removeAttribute('aria-disabled');go.textContent=en?`Book ${h} on WhatsApp`:`Réserver ${h} sur WhatsApp`;
@@ -1275,7 +1296,7 @@ const MENU=()=>{const en=E();return[
  [en?'My Ear ID':'Mon Ear ID',en?'Your card, to keep and to share':'Ta carte, à garder et à partager',()=>{closeAll();if(P.length)setTimeout(reveal,350);else setTimeout(()=>toast(en?'Place a first piece':'Pose d’abord un bijou'),350)}],
  ['g',en?'The house':'La maison'],
  ['Piercing Party',en?'Wednesday, October 28 · 2 – 8 PM':'Mercredi 28 octobre · 14 h – 20 h',()=>page('Piercing Party',`<figure class="ppaf"><img src="a/pp/affiche-pp.jpg" alt="Piercing Party Loubichka — mercredi 28 octobre"></figure><p class="tx lg" style="margin-top:22px">${en?'Wednesday, October 28, from 2 to 8 PM, at the showroom in Casablanca.':'Mercredi 28 octobre, de 14 h à 20 h, au showroom de Casablanca.'}</p><p class="tx">${en?'Come with your friends: we pierce, we compose your ear together, piece by piece, and we celebrate the new collection. Limited spots, by appointment only.':'Viens avec tes amies : on perce, on compose ton oreille ensemble, pièce par pièce, et on célèbre la nouvelle collection. Places limitées, uniquement sur rendez-vous.'}</p><p class="stl" style="margin:4px 0 10px">${en?'Choose your time · 30 min per person':'Choisis ton créneau · 30 min par personne'}</p><div class="slots" id="ppsl">${PP_SLOTS.map(h=>`<button type="button" data-h="${h}" ${PP_TAKEN.includes(h)?'disabled':''}>${h.replace(':',' h ')}${PP_TAKEN.includes(h)?`<small>${en?'Booked':'Complet'}</small>`:''}</button>`).join('')}</div><a class="prim" id="ppgo" target="_blank" rel="noopener" aria-disabled="true">${en?'Choose a time':'Choisis un créneau'}</a><a class="sec" style="margin-top:8px" href="https://loubichka.com/piercing-party/" target="_blank" rel="noopener">${en?'The Piercing Party page · loubichka.com':'La page Piercing Party · loubichka.com'}</a><p class="tx sm" style="text-align:center">${en?'Every Wednesday in November too.':'Et tous les mercredis de novembre.'}</p>`)||bindSlots()],
- [en?'Restyle your ear with Loubichka':'Relooke ton oreille avec Loubichka',en?'A private appointment at the showroom':'Un rendez-vous privé au showroom',()=>page(en?'Restyle your ear with Loubichka':'Relooke ton oreille avec Loubichka',`<p class="tx">${en?'Come to the showroom: we try on, we compose your combo together, piece by piece.':'Viens au showroom : on essaie, on compose ton combo ensemble, pièce par pièce.'}</p><a class="prim" href="${waLink(en?'Hello Loubichka, I would like to book an appointment at the showroom to compose my combo.':'Bonjour Loubichka, je souhaite prendre rendez-vous au showroom pour composer mon combo.')}" target="_blank" rel="noopener">${en?'Book on WhatsApp':'Réserver sur WhatsApp'}</a><p class="tx sm">WhatsApp · <span class="sel">+212 661 43 57 42</span></p>`)],
+ [en?'Restyle your ear with Loubichka':'Relooke ton oreille avec Loubichka',en?'A private appointment at the showroom':'Un rendez-vous privé au showroom',()=>page(en?'Restyle your ear with Loubichka':'Relooke ton oreille avec Loubichka',`<p class="tx">${en?'Come to the showroom: we try on, we compose your combo together, piece by piece.':'Viens au showroom : on essaie, on compose ton combo ensemble, pièce par pièce.'}</p><a class="prim" href="${waLink(en?'Hello Loubichka, I would like to book an appointment at the showroom to compose my combo.':'Bonjour Loubichka, je souhaite prendre rendez-vous au showroom pour composer mon combo.')}" target="_blank" rel="noopener">${en?'Book on WhatsApp':'Réserver sur WhatsApp'}</a>`)],
  [en?'Gift card':'Carte cadeau',en?'Offer the Art of Ear Styling':'Offrir l’Art of Ear Styling',()=>{let amt=800;page(en?'Gift card':'Carte cadeau',`<div class="gcard"><small>LOUBICHKA<sup class="r">®</sup></small><b id="gca">800 DH</b><span>${en?'Gift card':'Carte cadeau'}</span></div><p class="tx">${en?'Valid on all jewellery and piercings, in the Ear ID studio or at the showroom.':'Valable sur tous les bijoux et piercings, dans le studio Ear ID ou au showroom.'}</p><div class="gwrap"><b>${en?'Gift-wrapped by the house':'Offerte dans son écrin cadeau'}</b>${en?'Presented in our gift box, with our special gift paper.':'Présentée dans notre emballage cadeau, avec notre papier spécial pour offrir.'}</div><div class="amts">${[800,1000,1500,2000].map(v=>`<button type="button" data-v="${v}" aria-pressed="${v===800}">${fmt(v)} DH</button>`).join('')}</div><a class="prim" id="gcgo" target="_blank" rel="noopener">${en?'Order on WhatsApp':'Commander sur WhatsApp'}</a>`);
    const upd=()=>{$('#gca').textContent=fmt(amt)+' DH';$('#gcgo').href=waLink(en?`Hello Loubichka, I would like to order a ${amt} DH gift card, gift-wrapped.`:`Bonjour Loubichka, je souhaite commander une carte cadeau de ${amt} DH, dans son emballage cadeau.`);$$('.amts button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===amt))};
    $$('.amts button').forEach(b=>b.onclick=()=>{amt=+b.dataset.v;upd()});upd()}],
@@ -1284,7 +1305,7 @@ const MENU=()=>{const en=E();return[
  [en?'Delivery & exchanges':'Livraison & échanges',en?'Same day in Casablanca · 24 h in Morocco':'Le jour même à Casablanca · 24 h au Maroc',()=>page(en?'Delivery & exchanges':'Livraison & échanges',`<div class="dl3">${(en?[['Casablanca','Same-day delivery'],['Morocco','Delivery in 24 h'],['From 2,000 DH','Free delivery']]:[['Casablanca','Livraison le jour même'],['Partout au Maroc','Livraison en 24 h'],['Dès 2 000 DH','Livraison offerte']]).map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div><p class="tx">${en?'A piece never worn can be exchanged within 7 days for another Loubichka piece. Worn pieces are neither taken back nor exchanged. No refunds.':'Un bijou jamais porté s’échange sous 7 jours maximum contre un autre article Loubichka. Les bijoux déjà portés ne sont ni repris ni échangés. Pas de remboursement.'}</p>`)],
  ['g',en?'Contact':'Contact'],
  ['Instagram','@loubichka',()=>window.open('https://instagram.com/loubichka','_blank','noopener')],
- ['WhatsApp','+212 661 43 57 42',()=>window.open(waLink(en?'Hello Loubichka':'Bonjour Loubichka'),'_blank','noopener')],
+ ['WhatsApp',en?'Write to the house':'Écrire à la maison',()=>window.open(waLink(en?'Hello Loubichka':'Bonjour Loubichka'),'_blank','noopener')],
  [en?'Replay the welcome':'Revoir l’accueil',en?'The opening from the start':'L’ouverture depuis le début',()=>{window.goHome()}]]};
 function openMenu(){const its=MENU();let n=0;$('#mnl').innerHTML=its.map((x,k)=>x[0]==='g'?`<p class="mg">${x[1]}</p>`:`<button type="button" class="mi" data-k="${k}"><span>${String(++n).padStart(2,'0')}</span><b>${x[0]}</b><small>${x[1]}</small></button>`).join('')+
   `<div class="mlang"><button type="button" data-l="fr" aria-pressed="${lang==='fr'}">Français</button><button type="button" data-l="en" aria-pressed="${lang==='en'}">English</button></div>`;
@@ -1398,4 +1419,21 @@ try{if(sessionStorage.getItem('lbx_in')&&!location.hash&&!window.__home){const I
 })();
 </script>
 
+<script>setTimeout(function(){try{
+var app=document.getElementById('app'),sh=document.querySelector('.sheet'),B=document.body;
+var g=document.createElement('div');g.className='sgrip';g.innerHTML='<i></i><button type="button" aria-label="Masquer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>';sh.insertBefore(g,sh.firstChild);
+var s=document.createElement('button');s.type='button';s.className='sshow';s.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span></span>';app.appendChild(s);
+var en=function(){return document.documentElement.lang==='en'||/EN/.test((document.querySelector('.lg [aria-pressed="true"]')||{}).textContent||'')};
+var lab=function(){s.lastChild.textContent=en()?'Jewelry':'Bijoux';g.lastChild.setAttribute('aria-label',en()?'Hide':'Masquer')};lab();setInterval(lab,2000);
+var y=0,set=function(v){var max=0,min=-(app.clientHeight-sh.offsetHeight-50);y=Math.max(min,Math.min(max,v));app.style.setProperty('--sy',y+'px')};
+g.lastChild.addEventListener('click',function(e){e.stopPropagation();B.classList.add('shid')});
+s.addEventListener('click',function(){B.classList.remove('shid')});
+var sy0=0,p0=null;
+g.addEventListener('pointerdown',function(e){if(e.target.closest('button'))return;p0=e.clientY;sy0=y;B.classList.add('sdrag');try{g.setPointerCapture(e.pointerId)}catch(_){}});
+g.addEventListener('pointermove',function(e){if(p0==null)return;set(sy0+e.clientY-p0)});
+var up=function(e){if(p0==null)return;var moved=Math.abs(e.clientY-p0);p0=null;B.classList.remove('sdrag');};
+g.addEventListener('pointerup',up);g.addEventListener('pointercancel',up);
+new MutationObserver(function(){if(!B.classList.contains('fs')){if(B.classList.contains('shid'))B.classList.remove('shid');if(y){y=0;app.style.setProperty('--sy','0px')}}else set(y)}).observe(B,{attributes:true,attributeFilter:['class']});
+addEventListener('resize',function(){set(y)});
+}catch(e){}},0)</script>
 </body></html>

@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Loubichka Piercing Party, Wednesday October 28, Casablanca. Book your spot.">
+<meta name="description" content="Piercing Party LOUBICHKA® · Mercredi 28 octobre à Casablanca. Places limitées, réserve ton créneau.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://loubichka.com/piercing-party/">
-<meta property="og:title" content="Loubichka · Piercing Party">
-<meta property="og:description" content="Wednesday, October 28 · 2 – 8 PM · Casablanca. Limited spots, book yours.">
+<meta property="og:title" content="LOUBICHKA® · Piercing Party">
+<meta property="og:description" content="Mercredi 28 octobre · Casablanca. Places limitées, réserve ton créneau.">
 <meta property="og:image" content="https://loubichka.com/og-loubichka.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<title>Loubichka Piercing Party</title>
+<title>LOUBICHKA® · Piercing Party</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap">
 <style>
@@ -81,11 +81,12 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
   </section>
 </div>
 <script>
+const WA_NUM='212661435742'; /* numéro WhatsApp de la maison : à changer ici uniquement */
 (()=>{
 const $=id=>document.getElementById(id);
 const SL=['13:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'];
 // Créneaux complets : ajouter l'heure ici quand un créneau est réservé
-let FULL=['13:00','14:00','14:30','17:00','18:30','19:00'];
+let FULL=['13:00','14:00','14:30','16:00','16:30','17:00','18:30','19:00','19:30'];
 let lang='en',slot=null;
 try{const l=localStorage.getItem('pp_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
@@ -97,8 +98,8 @@ const T={
    msg:(t,n)=>`Bonjour Loubichka ✨\nJe souhaite réserver ma place à la Piercing Party du mercredi 28 octobre à ${t}.${n?'\nPrénom : '+n:''}`}};
 const lbl=t=>{if(lang==='fr')return t.replace(':','h');let[h,m]=t.split(':').map(Number);return (h>12?h-12:h)+(m?':'+String(m).padStart(2,'0'):'')+' PM'};
 function link(){const g=$('go');const n=$('name').value.trim();
-  if(!slot){g.href='https://wa.me/212661435742';g.setAttribute('aria-disabled','true');return}
-  g.removeAttribute('aria-disabled');g.href='https://wa.me/212661435742?text='+encodeURIComponent(T[lang].msg(lbl(slot),n))}
+  if(!slot){g.href='https://wa.me/'+WA_NUM;g.setAttribute('aria-disabled','true');return}
+  g.removeAttribute('aria-disabled');g.href='https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(T[lang].msg(lbl(slot),n))}
 function render(){const t=T[lang];document.documentElement.lang=lang;
   $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
   $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('poster').alt=t.alt;$('slots').setAttribute('aria-label',t.grp);
