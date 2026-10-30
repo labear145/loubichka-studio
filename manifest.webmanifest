@@ -1,6 +1,8 @@
 {
+ "id": "/",
  "name": "LOUBICHKA® · Ear Studio",
  "short_name": "Loubichka",
+ "description": "The Art of Ear Styling · Compose ton oreille, découvre ton Ear ID et commande en deux touches.",
  "start_url": "/?s=1",
  "scope": "/",
  "display": "standalone",
@@ -24,5 +26,6 @@
    "type": "image/png",
    "purpose": "maskable"
   }
- ]
+ ],
+ "orientation": "portrait"
 }
