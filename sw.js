@@ -1,7 +1,7 @@
 /* LOUBICHKA® · application web
    Réseau d'abord : la cliente voit toujours la dernière version du site.
    La copie gardée sur le téléphone ne sert que si elle est hors connexion. */
-const CACHE = 'loubichka-v1';
+const CACHE = 'loubichka-v2';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(
   caches.keys().then(k => Promise.all(k.filter(n => n !== CACHE).map(n => caches.delete(n))))

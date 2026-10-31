@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" translate="no">
+<html lang="fr" translate="no">
 <head>
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
@@ -105,17 +105,17 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 const WA_NUM='212661435742'; /* numéro WhatsApp de la maison : à changer ici uniquement */
 (()=>{
 const $=id=>document.getElementById(id);
-const SL=['13:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'];
+const SL=['14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30'];
 // Créneaux complets : ajouter l'heure ici quand un créneau est réservé
 let FULL=[];
-let lang='en',slot=null;
+let lang='fr',slot=null;
 try{const l=localStorage.getItem('pp_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
  en:{date:'Wednesday, November 11 · 2 – 8 PM',intro:'Come pierce and style your ear with Loubichka at the showroom. Limited spots, by appointment only.',pick:'Choose your time',name:'Your first name',go:'Book on WhatsApp',dm:'I’d rather book via Instagram DM',
-   info:'The Loubichka Showroom · Casablanca<br>Or call <b>06 61 43 57 42</b>',err:'Please choose a time first.',alt:'Piercing Party Loubichka, 11 November, 2 to 8 pm',grp:'Time slots',
+   info:'The Loubichka Showroom · Casablanca',err:'Please choose a time first.',alt:'Piercing Party Loubichka, 11 November, 2 to 8 pm',grp:'Time slots',
    msg:(t,n)=>`Hello Loubichka ✨\nI would like to book my spot at the Piercing Party on Wednesday, November 11 at ${t}.${n?'\nFirst name: '+n:''}`},
  fr:{date:'Mercredi 11 novembre · 14h – 20h',intro:'Viens percer et composer ton oreille avec Loubichka au showroom. Places limitées, uniquement sur rendez-vous.',pick:'Choisis ton créneau',name:'Ton prénom',go:'Réserver sur WhatsApp',dm:'Je préfère réserver en DM Instagram',
-   info:'Showroom Loubichka · Casablanca<br>Ou appelle le <b>06 61 43 57 42</b>',err:'Choisis d’abord ton créneau.',alt:'Piercing Party Loubichka, 11 novembre, de 14h à 20h',grp:'Créneaux',
+   info:'Showroom Loubichka · Casablanca',err:'Choisis d’abord ton créneau.',alt:'Piercing Party Loubichka, 11 novembre, de 14h à 20h',grp:'Créneaux',
    msg:(t,n)=>`Bonjour Loubichka ✨\nJe souhaite réserver ma place à la Piercing Party du mercredi 11 novembre à ${t}.${n?'\nPrénom : '+n:''}`}};
 const lbl=t=>{if(lang==='fr')return t.replace(':','h');let[h,m]=t.split(':').map(Number);return (h>12?h-12:h)+(m?':'+String(m).padStart(2,'0'):'')+' PM'};
 function link(){const g=$('go');const n=$('name').value.trim();
