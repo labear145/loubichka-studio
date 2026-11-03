@@ -137,7 +137,9 @@ const T={
 const lbl=t=>{if(lang==='fr')return t.replace(':','h');let[h,m]=t.split(':').map(Number);return (h>12?h-12:h)+(m?':'+String(m).padStart(2,'0'):'')+' PM'};
 function link(){const g=$('go');const n=$('name').value.trim();
   if(!slot){g.href='https://wa.me/'+WA_NUM;g.setAttribute('aria-disabled','true');return}
-  g.removeAttribute('aria-disabled');g.href='https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(T[lang].msg(lbl(slot),n))}
+  g.removeAttribute('aria-disabled');g.href='https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(T[lang].msg(lbl(slot),n)+REF)}
+/* Source de la visite : loubichka.com/piercing-party/?src=pub ajoute « Réf. PP11-PUB » au message, pour compter les réservations venues de la publicité */
+const REF=(()=>{try{const v=new URLSearchParams(location.search).get('src');if(!v)return '';const c=v.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,8);if(c)sessionStorage.setItem('pp_src',c);return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})()||(()=>{try{const c=sessionStorage.getItem('pp_src');return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})();
 function render(){const t=T[lang];document.documentElement.lang=lang;
   $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
   $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('poster').alt=t.alt;$('slots').setAttribute('aria-label',t.grp);
