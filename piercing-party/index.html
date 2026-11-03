@@ -80,6 +80,22 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*{box-sizing:border-box}img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<style>
+/* Édition du 11 novembre : la page prend le tabac de l'affiche et l'or des bijoux */
+:root{--tabac-1:#6a4428;--tabac-2:#553420;--tabac-3:#3c2415;--gold:#e2c07f;--gold-btn-1:#f6e1ad;--gold-btn-2:#d3a24f;--gold-btn-3:#b07f33;--line:rgba(226,192,127,.42)}
+html,body{background:var(--tabac-3)}
+body{background:linear-gradient(180deg,var(--tabac-1) 0%,var(--tabac-2) 38%,var(--tabac-3) 100%) fixed}
+.poster{box-shadow:0 22px 60px rgba(30,14,4,.55)}
+.lang button{border-color:var(--line)}
+.lang button[aria-pressed="true"]{background:linear-gradient(180deg,var(--gold-btn-1),var(--gold-btn-2));border-color:transparent;color:#3a2010}
+.slots button{border-color:var(--line);background:rgba(255,236,200,.05)}
+.slots button:hover{border-color:var(--gold)}
+.slots button[aria-pressed="true"]{background:linear-gradient(180deg,var(--gold-btn-1),var(--gold-btn-2));border-color:transparent;color:#3a2010;box-shadow:0 6px 16px rgba(176,127,51,.35)}
+input{border-color:var(--line);background:rgba(255,236,200,.07)}
+input:focus{border-color:var(--gold);outline:none}
+.go,.go[aria-disabled="true"]{opacity:1;background:linear-gradient(180deg,var(--gold-btn-1) 0%,var(--gold-btn-2) 55%,var(--gold-btn-3) 100%);color:#3a2010;box-shadow:0 10px 26px rgba(176,127,51,.4),inset 0 1px 0 rgba(255,255,255,.55)}
+.info{border-top-color:var(--line)}
+</style>
 </head>
 <body>
 
