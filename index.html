@@ -1455,7 +1455,7 @@ let entered=false;
 $('#enter').onclick=async()=>{if(entered)return;entered=true;
   try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted')sensors()}).catch(()=>{})}else sensors()}catch(_){}
   const I=$('#intro');I.classList.add('go');II.style.transform='none';document.body.classList.remove('pre');
-  setTimeout(()=>{I.classList.add('fade');setTimeout(()=>I.remove(),650)},1750);
+  setTimeout(()=>{I.classList.add('fade');setTimeout(()=>I.remove(),1500)},1750);
   setTimeout(async()=>{if(sharedL){await ready(needs(sharedL),1200);setSide(sharedSide);P=sharedL.map(o=>({u:++uid,id:o[0],x:o[1],y:o[2],s:o[3],r:o[4],c:o[5]}));custom=true;markLook();const f=new Map();P.forEach((p,k)=>f.set(p.u,k*220));render(f);document.body.classList.add('sp');setMode('id')}
     else revealSpots();if(!sharedL){setTimeout(()=>{try{if(!sessionStorage.getItem('lbx_demo')){sessionStorage.setItem('lbx_demo','1');window.__demoFS=true;document.body.classList.add('fs');frame();render();demo()}}catch(_){}},400);setTimeout(()=>{if(!HSET&&!holesAsked&&!document.querySelector('.drw.on')){holesAsked=true;openHoles()}},offSeen||OFF?1400:6500)}},1500);
   setTimeout(()=>document.body.classList.add('nh'),7000);
@@ -1548,4 +1548,16 @@ window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(
 #intro #itx{top:auto!important;bottom:calc(122px + env(safe-area-inset-bottom,0px))!important;transform:none!important}
 #intro #ibot{top:auto!important;bottom:calc(34px + env(safe-area-inset-bottom,0px))!important}
 #intro #ihello{display:none!important}
-</style></body></html>
+</style><style id="entree-fondu">
+/* Entrée : la photo s'efface dans le noir, puis l'oreille sort du flou (pas de coupure) */
+#intro.go{background:#000!important}
+#intro.go::after{content:'';position:absolute;inset:0;z-index:50;background:#000;opacity:0;animation:noirIn 1.1s ease forwards}
+@keyframes noirIn{to{opacity:1}}
+#intro.fade{opacity:0!important;transition:opacity 1.4s ease!important}
+#stage{transition:filter 3s cubic-bezier(.25,.6,.2,1)}
+body.ent #stage{filter:blur(22px) brightness(.5)}
+/* barre du haut : LOUBICHKA® ne touche jamais FR / EN sur les petits écrans */
+.top #home{font-size:clamp(15px,4.7vw,20px)!important}
+</style>
+<script>(function(){var e=document.getElementById('enter');if(!e)return;e.addEventListener('click',function(){if(document.body.classList.contains('ent-done'))return;document.body.classList.add('ent','ent-done');setTimeout(function(){document.body.classList.remove('ent')},1900)})})();</script>
+</body></html>
