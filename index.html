@@ -1192,7 +1192,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
   let fg=$('#dfg');if(!fg){fg=document.createElement('div');fg.id='dfg';B.appendChild(fg)}
   let ch=$('#dch');if(!ch){ch=document.createElement('div');ch.id='dch';ch.innerHTML='<div class="bx"><i></i><b></b><p></p></div>';B.appendChild(ch)}
   const wait=ms=>new Promise(r=>{const t0=Date.now();const tk=()=>{if(demoStop||Date.now()-t0>=ms)r();else setTimeout(tk,100)};tk()});
-  const words=s=>s.split(' ').map((w,k)=>`<span style="animation-delay:${k*70}ms">${w}</span>`).join(' ');
+  const words=s=>s.split(/ (?![^<]*>)/).map((w,k)=>`<span style="animation-delay:${k*70}ms">${w}</span>`).join(' ');
   const show=async(num,title,txt,o)=>{o=o||{};ch.classList.remove('on');await wait(350);ch.classList.toggle('big',!!o.big);ch.classList.toggle('bot',!!o.bot);ch.querySelector('i').textContent=num||'';ch.querySelector('b').innerHTML=words(title);ch.querySelector('p').textContent=txt||'';void ch.offsetWidth;ch.classList.add('on');await wait(o.hold||2000);if(!o.stay){ch.classList.remove('on');await wait(350)}};
   const hide=async()=>{ch.classList.remove('on');await wait(350)};
   const goXY=async(x,y)=>{fg.classList.add('on');fg.style.left=x+'px';fg.style.top=y+'px';await wait(760)};
@@ -1537,4 +1537,5 @@ sh.addEventListener('click',function(e){if(eat){e.stopPropagation();e.preventDef
 window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(-1e5);return y}};
 }catch(e){}},0)
 </script>
+<style>/* ® du titre de la démo : sans espacement de lettres, il ne doit pas chevaucher le A */#dch sup.r{margin-left:.12em!important}</style>
 </body></html>
