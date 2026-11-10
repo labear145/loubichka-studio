@@ -1060,7 +1060,7 @@ function buildProds(){const list=CAT.filter(j=>!j.hide&&fits(j,target)&&((j.cat=
   $('#prods').innerHTML=list.map((j,k)=>{const c=j.on[metal]?metal:Object.keys(j.on)[0];return `<button type="button" class="prod" data-id="${j.id}"><div class="im"><img src="${srcOf(j.id,c,'th')}" alt="" loading="lazy"></div>${j.lim?`<em>${t('lim')}</em>`:j.best?`<em>${t('best')}</em>`:''}<b>${pname(j.id)}</b><span>${fmt(j.p)} DH</span></button>`}).join('');
   $('#prods').scrollLeft=0;$('#prods').scrollTop=0;$$('#prods .prod').forEach(b=>b.onclick=()=>addPiece(b.dataset.id))}
 /* boucles pendantes : taille de départ réduite (la cliente peut toujours agrandir avec +) */
-const S0={izza:.7,mizza:.7,triple:.7,chain:.7,hc:.7};
+const S0={izza:.84,mizza:.84,triple:.84,chain:.84,hc:.84};
 async function addPiece(id){const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[0],lobe=LOBE.has(j.cat);let s=null;
   if(target&&fits(j,target))s=SPOTS.find(x=>x.k===target);
   if(!s||!allowed(id).includes(s.k)){const ord=j.cat==='piercing'?['HX','FL','MH','TR','CQ','L4','LS','L3','L2','L1'].filter(k=>SPOTS.some(x=>x.k===k)):allowed(id);const k0=ord.find(k=>!occupied(SPOTS.find(x=>x.k===k)))||ord[0];s=SPOTS.find(x=>x.k===k0)}
