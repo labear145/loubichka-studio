@@ -942,10 +942,25 @@ const EL=new Map();
 
 /* ---------------- cadrage ---------------- */
 let zwW=0,zwH=0;
-function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));/* tiroir ouvert : toute l'oreille reste visible au-dessus des bijoux */const B_=document.body,SH=document.querySelector('.sheet');if(SH&&!B_.classList.contains('shid')&&!B_.classList.contains('demo')&&!B_.classList.contains('pre')){const top0=Math.max(54,H*.07),bot=H-SH.offsetHeight-10,av=bot-top0;if(av>80&&zw*ASP*(ey1-ey0)>av){zw=Math.max(Math.min(zw,av/((ey1-ey0)*ASP)),Math.min(zw,W*1.02));const zh2=zw*ASP;zwW=zw;zwH=zh2;Z.style.width=zw+'px';Z.style.height=zh2+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(bot-zh2*ey1)+'px';return}}let zh=zw*ASP;zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.left=(W/2-zw*(ex0+ex1)/2)+'px';Z.style.top=(Math.max(54,H*.07)-zh*ey0)+'px';return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
+const spanP=ps=>{let a=1,b=0;ps.forEach(p=>{const j=J[p.id];if(!j)return;const hf=wp(j,p.s)/100*(j.h/j.w)/ASP;a=Math.min(a,p.y/100-j.ay*hf);b=Math.max(b,p.y/100+(1-j.ay)*hf)});return[a,b]};
+function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));
+  const put=(w,h,l,t)=>{Z.classList.toggle('zin',w<W-.5);zwW=w;zwH=h;Z.style.width=w+'px';Z.style.height=h+'px';Z.style.left=l+'px';Z.style.top=t+'px'};
+  const B_=document.body,SH=document.querySelector('.sheet'),top0=Math.max(54,H*.07);
+  /* récapitulatif Mon Ear ID : tout le look reste visible au-dessus de la fiche */
+  const IDV=document.getElementById('idv'),ISP=IDV&&IDV.classList.contains('on')&&P.length?IDV.querySelector('.isp'):null;
+  if(ISP){const bot=H-ISP.offsetHeight-18,av=bot-top0;if(av>60){const[a,b]=spanP(P);const r0=Math.max(0,Math.min(a,.5)-.04),r1=Math.min(1,Math.max(b,ey1)+.02);zw=Math.max(W,Math.min(zw,av/((r1-r0)*ASP)));const zh=zw*ASP;put(zw,zh,Math.max(W-zw,Math.min(0,W/2-zw*(ex0+ex1)/2)),bot-zh*r1);return}}
+  /* tiroir ouvert : toute l'oreille reste visible au-dessus des bijoux */
+  const open=SH&&!B_.classList.contains('shid')&&!B_.classList.contains('demo')&&!B_.classList.contains('pre');let bot=null,base=null;
+  if(open){bot=H-SH.offsetHeight-10;const av=bot-top0;if(av>80){if(zw*ASP*(ey1-ey0)>av){zw=Math.max(Math.min(zw,av/((ey1-ey0)*ASP)),Math.min(zw,W*1.02));base=bot-zw*ASP*ey1}}else bot=null}
+  /* look plus haut que la place disponible (hélix + pendants) : l'oreille recule un peu pour tout montrer */
+  let cx=null;if(bot!=null&&P.length){const[a,b]=spanP(P),av=bot-top0,fit=av/((b-a+.03)*ASP);if(fit<zw){const z2=Math.max(W*.955,fit);if(z2<zw){zw=z2;base=bot-zw*ASP*ey1;cx=zw>=W?Math.max(W-zw,Math.min(0,W/2-zw*(ex0+ex1)/2)):(W-zw)/2}}}
+  const zh=zw*ASP;if(base==null)base=top0-zh*ey0;let top=base;
+  /* un bijou qui descend sous le lobe ne passe jamais derrière le tiroir : l'oreille remonte d'elle-même */
+  if(bot!=null&&P.length){let[a,b]=spanP(P);const need=(a,b)=>[bot-zh*Math.min(.99,b+.014),top0-zh*(a-.014)];let[L,T]=need(a,b);if(L<T){const s=P.find(p=>p.u===sel);if(s){[a,b]=spanP([s]);[L,T]=need(a,b)}}top=Math.min(base,Math.max(L,Math.min(base,T)))}
+  put(zw,zh,cx!=null?cx:W/2-zw*(ex0+ex1)/2,top);return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
   zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.top=(H/2-zh*(RY0+RY1)/2)+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
 try{const ro=new ResizeObserver(()=>{frame()});ro.observe(stage);const sh_=document.querySelector('.sheet');sh_&&ro.observe(sh_)}catch(_){} try{let lc='';new MutationObserver(()=>{const c=['fs','shid','demo','pre'].map(k=>document.body.classList.contains(k)?k:'').join();if(c!==lc){lc=c;frame()}}).observe(document.body,{attributes:true,attributeFilter:['class']})}catch(_){}
-addEventListener('resize',frame);frame();
+addEventListener('resize',frame);frame();try{new MutationObserver(()=>frame()).observe(document.getElementById('idv'),{attributes:true,attributeFilter:['class']})}catch(_){}
 
 /* ---------------- rendu ---------------- */
 const css=(p,i)=>{const j=J[p.id];return `left:${p.x}%;top:${p.y}%;width:${wp(j,p.s)}%;transform-origin:${j.ax*100}% ${j.ay*100}%;transform:translate(${-j.ax*100}%,${-j.ay*100}%) rotate(${p.r}deg);z-index:${i+1}`};
@@ -963,7 +978,8 @@ function render(fresh){const alive=new Set(P.map(p=>p.u));
     e.f.classList.toggle('sel',p.u===sel);
     if(fresh&&fresh.has(p.u)){const d=fresh.get(p.u)||0;[e.fin,e.bin].forEach(x=>{if(!x)return;x.classList.remove('land');void x.offsetWidth;x.style.animationDelay=d+'ms';x.classList.add('land');x.addEventListener('animationend',()=>x.classList.remove('land'),{once:true})});
       setTimeout(()=>glint(p),d+700)}});
-  drawChains();ui()}
+  drawChains();ui();reframe()}
+let rfT=0;const reframe=()=>{clearTimeout(rfT);rfT=setTimeout(()=>{try{if(!drag)frame()}catch(_){}},40)};
 const place=p=>{const e=EL.get(p.u);if(!e)return;const c=css(p,P.indexOf(p));e.f.style.cssText=c;if(e.b){e.b.style.cssText=c;e.b.style.zIndex=1}if(p.id==='cherry'||p.id==='cherry2')drawChains()};
 
 /* ---------------- lumière : discrète ---------------- */
@@ -1538,6 +1554,13 @@ window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(
 }catch(e){}},0)
 </script>
 <style>/* ® du titre de la démo : sans espacement de lettres, il ne doit pas chevaucher le A */#dch sup.r{margin-left:.12em!important}</style>
+<style id="cadrage-doux">
+/* L'oreille glisse en douceur quand elle se recadre (jamais pendant la démo ni l'entrée) */
+body.fs.sp:not(.demo):not(.pre):not(.ent) #zw{transition:top .6s cubic-bezier(.2,.7,.2,1),left .6s cubic-bezier(.2,.7,.2,1),width .6s cubic-bezier(.2,.7,.2,1),height .6s cubic-bezier(.2,.7,.2,1)}
+#zw.zin{-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+/* Mon Ear ID : le look reste lumineux au-dessus de la fiche */
+body.fs #idv .ibk{background:linear-gradient(180deg,rgba(38,20,9,.08) 0%,rgba(38,20,9,.12) 45%,rgba(38,20,9,.6) 100%)}
+</style>
 <style id="accueil-photo">/* Accueil officiel validé (4 nov 2026) : photo de l'oreille composée sur fond chocolat */
 #intro{background:#2b170c!important}
 #intro #pp{left:0!important;top:0!important;width:100vw!important;height:100dvh!important;aspect-ratio:auto!important;transform:none!important;
