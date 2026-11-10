@@ -827,6 +827,7 @@ body.fs .sheet{padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
   <p class="sv" id="csv"></p>
   <div class="acts">
     <button type="button" class="prim" id="cshare"></button>
+    <a class="prim" id="cwa" target="_blank" rel="noopener"></a>
     <a class="sec" id="cfriend" target="_blank" rel="noopener"></a>
     <button type="button" class="sec" id="corder"></button>
     <a class="gift" id="cgift" target="_blank" rel="noopener"><b id="cgt"></b><small id="cgs"></small></a>
@@ -958,7 +959,7 @@ function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=documen
   /* un bijou qui descend sous le lobe ne passe jamais derrière le tiroir : l'oreille remonte d'elle-même */
   if(bot!=null&&P.length){let[a,b]=spanP(P);const need=(a,b)=>[bot-zh*Math.min(.99,b+.014),top0-zh*(a-.014)];let[L,T]=need(a,b);if(L<T){const s=P.find(p=>p.u===sel);if(s){[a,b]=spanP([s]);[L,T]=need(a,b)}}top=Math.min(base,Math.max(L,Math.min(base,T)))}
   put(zw,zh,cx!=null?cx:W/2-zw*(ex0+ex1)/2,top);return}const RX0=FS?.06:.16,RX1=FS?.97:.92,RY0=FS?.06:.12,RY1=FS?.94:.88;let zh=Math.min(H/(RY1-RY0),W/((RX1-RX0)/ASP));let zw=zh/ASP;
-  zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';Z.style.top=(H/2-zh*(RY0+RY1)/2)+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
+  zwW=zw;zwH=zh;Z.style.width=zw+'px';Z.style.height=zh+'px';let top=H/2-zh*(RY0+RY1)/2;if(P.length&&!document.body.classList.contains('demo')&&!document.body.classList.contains('pre')){const base=top,bot=H-8,top0=8;let[a,b]=spanP(P);const need=(a,b)=>[bot-zh*Math.min(.99,b+.014),top0-zh*(a-.014)];let[L,T]=need(a,b);if(L<T){const q=P.find(p=>p.u===sel);if(q){[a,b]=spanP([q]);[L,T]=need(a,b)}}top=Math.min(base,Math.max(L,Math.min(base,T)))}Z.classList.remove('zin');Z.style.top=top+'px';Z.style.left=(W/2-zw*(RX0+RX1)/2)+'px'}
 try{const ro=new ResizeObserver(()=>{frame()});ro.observe(stage);const sh_=document.querySelector('.sheet');sh_&&ro.observe(sh_)}catch(_){} try{let lc='';new MutationObserver(()=>{const c=['fs','shid','demo','pre'].map(k=>document.body.classList.contains(k)?k:'').join();if(c!==lc){lc=c;frame()}}).observe(document.body,{attributes:true,attributeFilter:['class']})}catch(_){}
 addEventListener('resize',frame);frame();try{new MutationObserver(()=>frame()).observe(document.getElementById('idv'),{attributes:true,attributeFilter:['class']})}catch(_){}
 
@@ -1058,10 +1059,12 @@ let ctab='b';
 function buildProds(){const list=CAT.filter(j=>!j.hide&&fits(j,target)&&((j.cat==='piercing')===(ctab==='p')));const en=E();$$('#ctabs button').forEach(b=>{b.textContent=b.dataset.g==='p'?(en?'Piercings':'Piercings'):(en?'Earrings':'Boucles d’oreilles');b.setAttribute('aria-pressed',b.dataset.g===ctab)});
   $('#prods').innerHTML=list.map((j,k)=>{const c=j.on[metal]?metal:Object.keys(j.on)[0];return `<button type="button" class="prod" data-id="${j.id}"><div class="im"><img src="${srcOf(j.id,c,'th')}" alt="" loading="lazy"></div>${j.lim?`<em>${t('lim')}</em>`:j.best?`<em>${t('best')}</em>`:''}<b>${pname(j.id)}</b><span>${fmt(j.p)} DH</span></button>`}).join('');
   $('#prods').scrollLeft=0;$('#prods').scrollTop=0;$$('#prods .prod').forEach(b=>b.onclick=()=>addPiece(b.dataset.id))}
+/* boucles pendantes : taille de départ réduite (la cliente peut toujours agrandir avec +) */
+const S0={izza:.7,mizza:.7,triple:.7,chain:.7,hc:.7};
 async function addPiece(id){const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[0],lobe=LOBE.has(j.cat);let s=null;
   if(target&&fits(j,target))s=SPOTS.find(x=>x.k===target);
   if(!s||!allowed(id).includes(s.k)){const ord=j.cat==='piercing'?['HX','FL','MH','TR','CQ','L4','LS','L3','L2','L1'].filter(k=>SPOTS.some(x=>x.k===k)):allowed(id);const k0=ord.find(k=>!occupied(SPOTS.find(x=>x.k===k)))||ord[0];s=SPOTS.find(x=>x.k===k0)}
-  const p={u:++uid,id,c,s:1,r:0,x:s.x,y:s.y};p._k=s.k;if(id==='sun')snap(p);
+  const p={u:++uid,id,c,s:(window.__S0||S0)[id]||1,r:0,x:s.x,y:s.y};p._k=s.k;if(id==='sun')snap(p);
   await ready([srcOf(id,c,'on'),srcOf(id,c,'bk')].filter(Boolean),600);
   P.push(p);const fr=new Map([[p.u,0]]);if(id==='cherry'){await ready([srcOf('cherry2',c,'on'),CHU[c]],500);const k2=SPOTS.find(x=>x.k===freeSpot('cherry2',p._k));const q={u:++uid,id:'cherry2',c,s:1,r:0,x:k2.x,y:k2.y};P.push(q);fr.set(q.u,120)}
   sel=p.u;target=null;edited();render(fr);buzz();{const nk=newAt(p);toast(nk?t('hNew')+t('spots')[nk]:t('placed'))}buildZones();buildProds()}
@@ -1284,7 +1287,7 @@ $('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=c
 function setMode(m){if(m==='id'){openId();return}mode='mk';document.body.classList.add('mk');document.body.classList.remove('lk');buildZones();buildProds();ui()}
 function openId(){if(!P.length)return;buildId();const v=$('#idv');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 function closeId(){const v=$('#idv');v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(typeof LEADS_URL!=='undefined'&&LEADS_URL&&P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};
+$('#ix').onclick=closeId;$('#ibk').onclick=closeId;$('#gbar').onclick=()=>{if(typeof LEADS_URL!=='undefined'&&LEADS_URL&&P.length&&!OFF&&!offSeen){window.__offThen=openId;maybeOffer(true,true)}else openId()};$('#bag').onclick=()=>openCart();$('#iorder').onclick=()=>{addToCart();closeAll();openCart()};$('#corder').onclick=()=>{addToCart();closeAll();openCart()};$('#cwa').onclick=()=>{try{addToCart();$('#cwa').href=cartMsg()}catch(_){}};
 $('#fsb').onclick=()=>{document.body.classList.toggle('fs');requestAnimationFrame(()=>{frame();render()})};
 setTimeout(()=>{const pl=$('#pill');if(pl){pl.classList.add('dock');$('#metals').before(pl)}
  const fb=$('#fsb');const lab=()=>{const fs=document.body.classList.contains('fs');fb.dataset.t=E()?(fs?'Reduce':'Enlarge'):(fs?'Réduire':'Agrandir')};lab();fb.addEventListener('click',()=>setTimeout(lab,0));setInterval(lab,2000)},0);
@@ -1292,7 +1295,7 @@ setTimeout(()=>{const pl=$('#pill');if(pl){pl.classList.add('dock');$('#metals')
 let tmo;function toast(s){if(window.__demo)return;const e=$('#toast');e.textContent=s;e.classList.add('on');clearTimeout(tmo);tmo=setTimeout(()=>e.classList.remove('on'),2400)}
 function i18n(){document.documentElement.lang=lang;$$('.lg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
   $('#gbl').textContent=t('gbl');$('#ititle').textContent=t('ititle');$('#iorder').textContent=t('addCart');$('#icont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#ccont').textContent=lang==='en'?'← Keep composing':'← Continuer à composer';$('#dquit').textContent=lang==='en'?'Skip the demo':'Passer la démo';$('#ctitle').textContent=t('cartTitle');$('#cpay').textContent=t('iorder');$('#cmore').textContent=t('more');$('#side button[data-s=R]').textContent=t('sideR');$('#side button[data-s=L]').textContent=t('sideL');$('#mqt').innerHTML=(t('party')).repeat(4);$('#reveal').textContent=t('reveal');
-  $('#cshare').textContent=t('share');$('#cfriend').textContent=t('friend');$('#corder').textContent=t('addCart');$('#cgt').textContent=t('gift');$('#cgs').textContent=t('giftS');$('#csv').textContent=t('save');
+  $('#cshare').textContent=t('share');$('#cfriend').textContent=t('friend');$('#corder').textContent=t('addCart');$('#cwa').textContent=t('iorder');$('#cgt').textContent=t('gift');$('#cgs').textContent=t('giftS');$('#csv').textContent=t('save');
   $('#enter').textContent=sharedL?t('open'):t('enter');
   {const h=new Date().getHours(),ev=h>=18||h<5;$('#ihello').innerHTML=lang==='en'?(ev?'Good evening, welcome':'Hello, welcome')+'<br>to the Loubichka<sup>®</sup> Ear Studio':(ev?'Bonsoir, bienvenue':'Bonjour, bienvenue')+'<br>à l’Ear Studio de Loubichka<sup>®</sup>'}$('#imy').textContent=t('myIn');$('#imy').hidden=!!sharedL;$('#myrt').textContent=t('myOn');$('#myback').textContent=t('myBack');$('#ihint').textContent=t('hint');$('#ieid').textContent=sharedL?t('shared')+'« '+sharedName+' »':t('eid');
   buildCards();buildMetals();buildZones();buildProds();buildSpots();ui()}
@@ -1556,8 +1559,11 @@ window.__bar={set:function(v){set(v)},y:function(){return y},top:function(){set(
 <style>/* ® du titre de la démo : sans espacement de lettres, il ne doit pas chevaucher le A */#dch sup.r{margin-left:.12em!important}</style>
 <style id="cadrage-doux">
 /* L'oreille glisse en douceur quand elle se recadre (jamais pendant la démo ni l'entrée) */
-body.fs.sp:not(.demo):not(.pre):not(.ent) #zw{transition:top .6s cubic-bezier(.2,.7,.2,1),left .6s cubic-bezier(.2,.7,.2,1),width .6s cubic-bezier(.2,.7,.2,1),height .6s cubic-bezier(.2,.7,.2,1)}
+body.sp:not(.demo):not(.pre):not(.ent) #zw{transition:top .6s cubic-bezier(.2,.7,.2,1),left .6s cubic-bezier(.2,.7,.2,1),width .6s cubic-bezier(.2,.7,.2,1),height .6s cubic-bezier(.2,.7,.2,1)}
 #zw.zin{-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+/* Carte Ear ID : commander directement, en or */
+#cwa{background:linear-gradient(180deg,#f6e1ad 0%,#d3a24f 55%,#b07f33 100%)!important;color:#3a2010!important;border-color:transparent!important;box-shadow:0 10px 26px rgba(176,127,51,.35),inset 0 1px 0 rgba(255,255,255,.55)!important}
+@media (max-height:720px){#cardv{gap:10px}#cardv img{height:min(46dvh,calc((100vw - 32px) * 16 / 9))}}
 /* Mon Ear ID : le look reste lumineux au-dessus de la fiche */
 body.fs #idv .ibk{background:linear-gradient(180deg,rgba(38,20,9,.08) 0%,rgba(38,20,9,.12) 45%,rgba(38,20,9,.6) 100%)}
 </style>
