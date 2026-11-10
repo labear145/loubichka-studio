@@ -917,6 +917,8 @@ const HUG={sol:{sp:.43,tx:.386},rond:{sp:.4,tx:.38},trinity:{sp:.4,tx:.49},bague
 function hugK(p){const g=HUG[p.id],j=J[p.id];if(!g||!EM||Math.abs(p.r||0)>25)return 1;const w=wp(j,p.s),hp=w*(j.h/j.w)/ASP,E=edgeAt(p.x+(g.tx-j.ax)*w);if(E==null)return 1;const k=((E-p.y)/hp+j.ay-j.ay)/(.86-j.ay);return k>2.1?1:Math.max(1,Math.min(1.8,k))}
 function hugApply(p,e){const g=HUG[p.id];if(!g)return;const j=J[p.id],k=hugK(p),o=`50% ${j.ay*100}%`,t=k===1?'':`scaleY(${k.toFixed(3)})`;
   if(!e.ft){const t2=document.createElement('img');t2.alt='';t2.draggable=false;t2.style.cssText='position:absolute;left:0;top:0';e.fin.insertBefore(t2,e.sh);e.ft=t2;e.fi.style.clipPath=e.fi.style.webkitClipPath=e.sh.style.clipPath=e.sh.style.webkitClipPath=`inset(0 0 ${(100-g.sp*100).toFixed(1)}% 0)`;t2.style.clipPath=t2.style.webkitClipPath=`inset(${(g.sp*100).toFixed(1)}% 0 0 0)`}
+  /* la pierre : un halo de lumière très fin, comme un vrai brillant */
+  if(p.id==='sol'&&!e.fi.dataset.gl){e.fi.dataset.gl='1';e.fi.style.filter='drop-shadow(0 0 1.1px rgba(255,255,255,.55)) drop-shadow(.5px 1.2px .9px rgba(51,26,10,.42)) drop-shadow(1.2px 2.6px 2.4px rgba(51,26,10,.16))'}
   if(e.ft.dataset.s!==e.fi.dataset.s){e.ft.src=e.fi.dataset.s;e.ft.dataset.s=e.fi.dataset.s}
   e.ft.style.transformOrigin=o;e.ft.style.transform=t;if(e.bi){e.bi.style.transformOrigin=o;e.bi.style.transform=t}}
 function snap(p){const j=J[p.id],s=p.s||1;
