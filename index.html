@@ -945,7 +945,7 @@ const EL=new Map();
 let zwW=0,zwH=0;
 const spanP=ps=>{let a=1,b=0;ps.forEach(p=>{const j=J[p.id];if(!j)return;const hf=wp(j,p.s)/100*(j.h/j.w)/ASP;a=Math.min(a,p.y/100-j.ay*hf);b=Math.max(b,p.y/100+(1-j.ay)*hf)});return[a,b]};
 function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=document.body.classList.contains('fs');if(FS){const ex0=.28,ex1=.85,ey0=.135,ey1=.70;let zw=Math.min(W/.74,(H*.72)/((ey1-ey0)*ASP));
-  const put=(w,h,l,t)=>{Z.classList.toggle('zin',w<W-.5);zwW=w;zwH=h;Z.style.width=w+'px';Z.style.height=h+'px';Z.style.left=l+'px';Z.style.top=t+'px'};
+  const put=(w,h,l,t)=>{/* la photo couvre toujours tout l'écran : jamais de bord visible */if(w>=W)l=Math.min(0,Math.max(W-w,l));Z.classList.toggle('zin',w<W-.5);zwW=w;zwH=h;Z.style.width=w+'px';Z.style.height=h+'px';Z.style.left=l+'px';Z.style.top=t+'px'};
   const B_=document.body,SH=document.querySelector('.sheet'),top0=Math.max(54,H*.07);
   /* récapitulatif Mon Ear ID : tout le look reste visible au-dessus de la fiche */
   const IDV=document.getElementById('idv'),ISP=IDV&&IDV.classList.contains('on')&&P.length?IDV.querySelector('.isp'):null;
@@ -954,7 +954,7 @@ function frame(){const W=stage.clientWidth,H=stage.clientHeight;const FS=documen
   const open=SH&&!B_.classList.contains('shid')&&!B_.classList.contains('demo')&&!B_.classList.contains('pre');let bot=null,base=null;
   if(open){bot=H-SH.offsetHeight-10;const av=bot-top0;if(av>80){if(zw*ASP*(ey1-ey0)>av){zw=Math.max(Math.min(zw,av/((ey1-ey0)*ASP)),Math.min(zw,W*1.02));base=bot-zw*ASP*ey1}}else bot=null}
   /* look plus haut que la place disponible (hélix + pendants) : l'oreille recule un peu pour tout montrer */
-  let cx=null;if(bot!=null&&P.length){const[a,b]=spanP(P),av=bot-top0,fit=av/((b-a+.03)*ASP);if(fit<zw){const z2=Math.max(W*.955,fit);if(z2<zw){zw=z2;base=bot-zw*ASP*ey1;cx=zw>=W?Math.max(W-zw,Math.min(0,W/2-zw*(ex0+ex1)/2)):(W-zw)/2}}}
+  let cx=null;if(bot!=null&&P.length){const[a,b]=spanP(P),av=bot-top0,fit=av/((b-a+.03)*ASP);if(fit<zw){const z2=Math.max(W,fit);if(z2<zw){zw=z2;base=bot-zw*ASP*ey1;cx=zw>=W?Math.max(W-zw,Math.min(0,W/2-zw*(ex0+ex1)/2)):(W-zw)/2}}}
   const zh=zw*ASP;if(base==null)base=top0-zh*ey0;let top=base;
   /* un bijou qui descend sous le lobe ne passe jamais derrière le tiroir : l'oreille remonte d'elle-même */
   if(bot!=null&&P.length){let[a,b]=spanP(P);const need=(a,b)=>[bot-zh*Math.min(.99,b+.014),top0-zh*(a-.014)];let[L,T]=need(a,b);if(L<T){const s=P.find(p=>p.u===sel);if(s){[a,b]=spanP([s]);[L,T]=need(a,b)}}top=Math.min(base,Math.max(L,Math.min(base,T)))}
@@ -1060,7 +1060,7 @@ function buildProds(){const list=CAT.filter(j=>!j.hide&&fits(j,target)&&((j.cat=
   $('#prods').innerHTML=list.map((j,k)=>{const c=j.on[metal]?metal:Object.keys(j.on)[0];return `<button type="button" class="prod" data-id="${j.id}"><div class="im"><img src="${srcOf(j.id,c,'th')}" alt="" loading="lazy"></div>${j.lim?`<em>${t('lim')}</em>`:j.best?`<em>${t('best')}</em>`:''}<b>${pname(j.id)}</b><span>${fmt(j.p)} DH</span></button>`}).join('');
   $('#prods').scrollLeft=0;$('#prods').scrollTop=0;$$('#prods .prod').forEach(b=>b.onclick=()=>addPiece(b.dataset.id))}
 /* boucles pendantes : taille de départ réduite (la cliente peut toujours agrandir avec +) */
-const S0={izza:.84,mizza:.84,triple:.84,chain:.84,hc:.84};
+const S0={izza:.84,mizza:.84,triple:.84,chain:.84,hc:.84,stars:1.16};
 async function addPiece(id){const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[0],lobe=LOBE.has(j.cat);let s=null;
   if(target&&fits(j,target))s=SPOTS.find(x=>x.k===target);
   if(!s||!allowed(id).includes(s.k)){const ord=j.cat==='piercing'?['HX','FL','MH','TR','CQ','L4','LS','L3','L2','L1'].filter(k=>SPOTS.some(x=>x.k===k)):allowed(id);const k0=ord.find(k=>!occupied(SPOTS.find(x=>x.k===k)))||ord[0];s=SPOTS.find(x=>x.k===k0)}
