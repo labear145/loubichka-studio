@@ -1,4 +1,5 @@
-<!doctype html><html><head><script>(function(){try{if(/[?&]cle=rideau-loubna/.test(location.search))localStorage.setItem('lbx_vip','1');if(localStorage.getItem('lbx_vip')==='1')return}catch(e){}location.replace('/piercing-party/')})()</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><script>(function(){try{if(/[?&]cle=rideau-loubna/.test(location.search))localStorage.setItem('lbx_vip','1');if(localStorage.getItem('lbx_vip')==='1')return}catch(e){}location.replace('/piercing-party/')})()</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="/lb-pixel.js"></script>
+</head><body>
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
 <meta name="theme-color" content="#462813">
@@ -1068,7 +1069,7 @@ function buildProds(){const list=CAT.filter(j=>!j.hide&&fits(j,target)&&((j.cat=
   $('#prods').scrollLeft=0;$('#prods').scrollTop=0;$$('#prods .prod').forEach(b=>b.onclick=()=>addPiece(b.dataset.id))}
 /* boucles pendantes : taille de départ réduite (la cliente peut toujours agrandir avec +) */
 const S0={izza:.84,mizza:.84,triple:.84,chain:.84,hc:.84,stars:1.16};
-async function addPiece(id){const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[0],lobe=LOBE.has(j.cat);let s=null;
+async function addPiece(id){try{window.lbTrack&&!window.__demo&&lbTrack('CustomizeProduct',{content_ids:[id],content_type:'product'})}catch(_){}const j=J[id],c=j.on[metal]?metal:Object.keys(j.on)[0],lobe=LOBE.has(j.cat);let s=null;
   if(target&&fits(j,target))s=SPOTS.find(x=>x.k===target);
   if(!s||!allowed(id).includes(s.k)){const ord=j.cat==='piercing'?['HX','FL','MH','TR','CQ','L4','LS','L3','L2','L1'].filter(k=>SPOTS.some(x=>x.k===k)):allowed(id);const k0=ord.find(k=>!occupied(SPOTS.find(x=>x.k===k)))||ord[0];s=SPOTS.find(x=>x.k===k0)}
   const p={u:++uid,id,c,s:(window.__S0||S0)[id]||1,r:0,x:s.x,y:s.y};p._k=s.k;if(id==='sun')snap(p);
@@ -1340,7 +1341,7 @@ const groupItems=it=>{const g=new Map();it.forEach(o=>{if(o[0]==='cherry2')retur
 const itTotal=it=>groupItems(it).reduce((a,g)=>a+g.pr,0);
 const cartTotal=()=>cart.reduce((a,l)=>a+itTotal(l.it),0);
 const cartDue=()=>cart.reduce((a,l)=>a+groupItems(l.it).reduce((b,g)=>b+lineDue(g.id,g.n),0),0);
-function addToCart(){if(!P.length)return;const code=lookCode();if(!cart.some(l=>l.code===code)){cart.push({code,n:lookName(),id:earId(),side,it:itemsOf()});saveCart()}ui();toast(t('added'))}
+function addToCart(){if(!P.length)return;try{window.lbTrack&&lbTrack('AddToCart',{content_ids:P.map(p=>p.id),content_type:'product',currency:'MAD'})}catch(_){}const code=lookCode();if(!cart.some(l=>l.code===code)){cart.push({code,n:lookName(),id:earId(),side,it:itemsOf()});saveCart()}ui();toast(t('added'))}
 function offerForm(id){return OFF?`<div class="off ok"><p>${t('offOk')()}</p></div>`:`<button type="button" class="offl" id="${id}">${t('offB')}</button>`}
 function grant(){if(!OFF){OFF={code:'MAISON15'};try{localStorage.setItem('lbx_offer',JSON.stringify(OFF))}catch(_){}buzz()}ui()}
 /* Attention MAISON15 : la cliente laisse son prénom et son téléphone (e-mail facultatif) avant de recevoir le code.
