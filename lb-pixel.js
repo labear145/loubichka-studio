@@ -1,5 +1,5 @@
 /* Pixel Meta LOUBICHKA® — relie loubichka.com au Gestionnaire de publicités.
-   Pixel principal : 1649812453841707 « LOUBICHKA site », compte pub Loubna El Amri (23829772).
+   Pixel principal : 1649812453841707 « LOUBICHKA site », compte pub Loubna El Amri (23829772), actif seulement sur /piercing-party/.
    Ancien pixel conservé : 2216300182651479 (compte Loubna El Amei, 1836690311076229).
    Événements suivis :
    - PageView : chaque page vue
@@ -14,7 +14,8 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1649812453841707');
+/* Le pixel LOUBICHKA site ne s'active que sur la page de réservation de la Piercing Party (choix du 12 nov 2026) */
+if(/^\/(piercing-party|party)(\/|$)/.test(location.pathname))fbq('init','1649812453841707');
 fbq('init','2216300182651479');
 fbq('track','PageView');
 window.lbTrack=function(ev,p){try{fbq('track',ev,p||{})}catch(_){}};
