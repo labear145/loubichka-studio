@@ -1,4 +1,6 @@
-/* Pixel Meta LOUBICHKA® — relie loubichka.com au Gestionnaire de publicités (pixel 2216300182651479).
+/* Pixel Meta LOUBICHKA® — relie loubichka.com au Gestionnaire de publicités.
+   Pixel principal : 1649812453841707 « LOUBICHKA site », compte pub Loubna El Amri (23829772).
+   Ancien pixel conservé : 2216300182651479 (compte Loubna El Amei, 1836690311076229).
    Événements suivis :
    - PageView : chaque page vue
    - Contact : « Réserver sur WhatsApp » ou « DM Instagram » (Piercing Party, aide, questions)
@@ -12,6 +14,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1649812453841707');
 fbq('init','2216300182651479');
 fbq('track','PageView');
 window.lbTrack=function(ev,p){try{fbq('track',ev,p||{})}catch(_){}};
