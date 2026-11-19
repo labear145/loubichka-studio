@@ -903,7 +903,7 @@ body.demo #cpk,body.demo #cpp,body.demo #cpq{display:none}
 <div id="stv" class="drw" aria-hidden="true"><div class="ibk" id="stbk"></div><div class="isp"><div class="sth"><b>LOUBICHKA<sup class="r">®</sup><em>Studio</em></b><button type="button" class="x2" id="stx" aria-label="Fermer">×</button></div><div class="stw" id="stw"></div></div></div>
 <div id="both" aria-hidden="true"><button type="button" class="bx" id="bthx" aria-label="Fermer">×</button><div class="bt">LOUBICHKA<sup class="r">®</sup></div><div class="bw" id="bthw"></div></div>
 <div id="dmv" aria-hidden="true"><button type="button" class="dmx" id="dmx" aria-label="Fermer">×</button><video id="dmvid" playsinline controls preload="metadata" poster="a/demo-poster.jpg"><source src="a/demo.mp4" type="video/mp4"><source src="a/demo.webm" type="video/webm"></video></div>
-<audio id="dmus" src="a/music-house-doux.mp3" preload="none" loop></audio>
+<audio id="dmus" src="a/music-house-demo.mp3" preload="none" loop></audio>
 <div id="catv" aria-hidden="true"><div class="ch"><h2 id="cvt"></h2><button type="button" class="x2" id="cvx" aria-label="Fermer">×</button></div><div class="ctabs2" id="cvtabs"><button type="button" data-g="b"></button><button type="button" data-g="p"></button></div><div class="cg" id="cvg"></div></div>
 <div id="mnu" aria-hidden="true"><div class="mp"><div class="mh"><span class="logo">LOUBICHKA<sup class="r">®</sup></span><button type="button" class="x2" id="mnx" aria-label="Fermer">×</button></div><div id="mnl"></div></div></div>
 
@@ -1370,7 +1370,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
   fg.classList.remove('on');ch.classList.remove('on');await new Promise(r=>setTimeout(r,500));ch.classList.remove('big','bot','wel');B.classList.remove('demo','dzoom','shid');try{window.__bar.set(0)}catch(_){}await new Promise(r=>setTimeout(r,450));
   metal=keepMetal;ctab='b';buildMetals();buildProds();try{setTab('b')}catch(_){}
   if(keep.length)putItems(keep,keepSide);else{P=[];sel=null;render()}
-  window.__demo=false;demoOn=false;window.__demoFS=false;requestAnimationFrame(()=>{frame();render()});toast(en?'Your turn':'À toi de composer')}
+  window.__demo=false;demoOn=false;window.__demoFS=false;try{const m=$('#dmus');if(m&&!/fond/.test(m.src)){const t0=m.currentTime||0,was=!m.paused;m.src='a/music-house-fond.mp3';m.load();const go=()=>{try{m.currentTime=t0}catch(_){}if(was){const pr=m.play();if(pr&&pr.catch)pr.catch(()=>{})}};if(m.readyState>=1)go();else m.addEventListener('loadedmetadata',go,{once:true})}}catch(_){}requestAnimationFrame(()=>{frame();render()});toast(en?'Your turn':'À toi de composer')}
 let stT=0;const stOpen=e=>{e.stopPropagation();if(e.type==='touchend'){e.preventDefault();stT=Date.now()}else if(Date.now()-stT<600)return;openStudio()};$('#stb').addEventListener('click',stOpen);$('#stb').addEventListener('touchend',stOpen,{passive:false});
 {const lb=$('#stlab');let shown=false;const hint=()=>{if(shown)return;shown=true;lb.classList.add('on');setTimeout(()=>lb.classList.remove('on'),3200)};const iv=setInterval(()=>{if(!document.body.classList.contains('pre')){clearInterval(iv);setTimeout(hint,1600)}},400)}
 setTimeout(()=>{const wb=$('#wab');const upd=()=>{wb.href=waLink(HELPMSG('studio'));wb.querySelector('span').textContent=E()?'Help':'Aide'};upd();setInterval(upd,1500)},0);
@@ -1620,7 +1620,7 @@ window.SND=(()=>{const mu=$('#dmus');const G={on:.8,low:.3,off:0};let lvl='off',
     if(!quiet)try{toast(E()?(l==='on'?'Music on':l==='low'?'Music softly':'Music off'):(l==='on'?'Musique':l==='low'?'Musique douce':'Musique coupée'))}catch(_){}}
   function ui(){const b=$('#sndb');if(!b)return;b.dataset.l=lvl;b.setAttribute('aria-label',E()?'Music':'Musique')}
   function duck(on){ducked=on;if(on){gain(0,350);setTimeout(()=>{if(ducked)try{mu.pause()}catch(_){}},400)}else if(lvl!=='off')play()}
-  function demo(){if(lvl==='off')set('on',true);else if(mu.paused)play()}
+  function demo(){try{if(/fond/.test(mu.src)){mu.src='a/music-house-demo.mp3';mu.load()}}catch(_){}if(lvl==='off')set('on',true);else if(mu.paused)play();else{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}}
   $('#sndb').addEventListener('click',e=>{e.stopPropagation();set(lvl==='on'?'low':lvl==='low'?'off':'on')});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){try{mu.pause()}catch(_){}}else if(started&&lvl!=='off'&&!ducked){try{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}});
   $('#enter').addEventListener('click',play);ui();
