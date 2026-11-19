@@ -25,12 +25,12 @@
 <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splash/splash-750x1334.png">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splash/splash-640x1136.png">
 <script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})})</script>
-<meta name="description" content="Piercing Party LOUBICHKA® · Mercredi 11 et jeudi 12 novembre à Casablanca. Places limitées, réserve ton créneau.">
+<meta name="description" content="Piercing Party LOUBICHKA® · tous les mercredis de 14h à 20h à Casablanca. Places limitées, réserve ton créneau.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://loubichka.com/piercing-party/">
 <meta property="og:title" content="LOUBICHKA® · Piercing Party">
-<meta property="og:description" content="Mercredi 11 et jeudi 12 novembre · Casablanca. Places limitées, réserve ton créneau.">
-<meta property="og:image" content="https://loubichka.com/og-loubichka.jpg?v=11nov">
+<meta property="og:description" content="Tous les mercredis · 14h – 20h · Casablanca. Places limitées, réserve ton créneau.">
+<meta property="og:image" content="https://loubichka.com/og-studio.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -108,8 +108,7 @@ input:focus{border-color:var(--gold);outline:none}
 
 <div class="wrap">
   <div class="lang" role="group" aria-label="Language"><button type="button" id="lgEn" aria-pressed="true">EN</button><button type="button" id="lgFr" aria-pressed="false">FR</button></div>
-  <img class="poster" id="poster" alt="Piercing Party Loubichka, 11 &amp; 12 November, 2 to 8 pm" src="/a/pp/affiche-11-12.jpg?v=4">
-  <section class="book" aria-labelledby="ttl">
+    <section class="book" aria-labelledby="ttl">
     <span class="eyebrow">Loubichka<sup class="r">®</sup> · The Art of Ear Styling</span>
     <h1 id="ttl">Piercing Party</h1>
     <p class="date" id="date"></p>
@@ -131,20 +130,23 @@ const WA_NUM='212661435742'; /* numéro WhatsApp de la maison : à changer ici u
 (()=>{
 const $=id=>document.getElementById(id);
 const SL=['14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30'];
-/* Deux journées : mercredi 11 et jeudi 12 novembre. Créneaux complets par jour dans /creneaux.json */
-const DAYS=[{d:'2026-11-11',fr:'Mercredi 11 novembre',frs:'Mercredi 11',en:'Wednesday, November 11',ens:'Wed. 11'},{d:'2026-11-12',fr:'Jeudi 12 novembre',frs:'Jeudi 12',en:'Thursday, November 12',ens:'Thu. 12'}];
-let FULLD={'2026-11-11':[],'2026-11-12':[]};
+/* Tous les mercredis, 14h – 20h : les trois prochains mercredis. Créneaux complets par date dans /creneaux.json */
+const iso=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');
+const DAYS=(()=>{const out=[],d=new Date();d.setHours(12,0,0,0);let k=(3-d.getDay()+7)%7;const n=new Date();if(k===0&&(n.getHours()*60+n.getMinutes())>=19*60+30)k=7;d.setDate(d.getDate()+k);
+  for(let i=0;i<3;i++){const x=new Date(d);x.setDate(d.getDate()+7*i);const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+    out.push({d:iso(x),fr:F.charAt(0).toUpperCase()+F.slice(1),frs:'Mer. '+x.getDate(),en:En,ens:'Wed. '+x.getDate()})}return out})();
+let FULLD={};DAYS.forEach(x=>FULLD[x.d]=[]);
 const past=(d,t)=>{try{return new Date(d+'T'+t+':00')<=new Date()}catch(_){return false}};
 const free=d=>SL.filter(s=>!FULLD[d.d].includes(s)&&!past(d.d,s));
 let day=(DAYS.find(d=>free(d).length)||DAYS[DAYS.length-1]);
 let lang='fr',slot=null;
 try{const l=localStorage.getItem('pp_lang');if(l==='fr'||l==='en')lang=l}catch(_){}
 const T={
- en:{date:'Wednesday 11 & Thursday 12 November · 2 – 8 PM',intro:'Come pierce and style your ear with Loubichka at the showroom. Limited spots, by appointment only.',pick:'Choose your day and time',name:'Your first name',go:'Book on WhatsApp',dm:'I’d rather book via Instagram DM',
-   info:'The Loubichka Showroom · Casablanca',err:'Please choose a time first.',alt:'Piercing Party Loubichka, 11 & 12 November, 2 to 8 pm',grp:'Time slots',
+ en:{date:'Every Wednesday · 2 – 8 PM',intro:'Come pierce and style your ear with Loubichka at the showroom. Limited spots, by appointment only.',pick:'Choose your day and time',name:'Your first name',go:'Book on WhatsApp',dm:'I’d rather book via Instagram DM',
+   info:'The Loubichka Showroom · Casablanca',err:'Please choose a time first.',alt:'Piercing Party Loubichka, every Wednesday, 2 to 8 pm',grp:'Time slots',
    msg:(t,n)=>`Hello Loubichka,\nI would like to book my spot at the Piercing Party on ${day.en} at ${t}.${n?'\nFirst name: '+n:''}`},
- fr:{date:'Mercredi 11 & jeudi 12 novembre · 14h – 20h',intro:'Viens percer et composer ton oreille avec Loubichka au showroom. Places limitées, uniquement sur rendez-vous.',pick:'Choisis ton jour et ton créneau',name:'Ton prénom',go:'Réserver sur WhatsApp',dm:'Je préfère réserver en DM Instagram',
-   info:'Showroom Loubichka · Casablanca',err:'Choisis d’abord ton créneau.',alt:'Piercing Party Loubichka, 11 et 12 novembre, de 14h à 20h',grp:'Créneaux',
+ fr:{date:'Tous les mercredis · 14h – 20h',intro:'Viens percer et composer ton oreille avec Loubichka au showroom. Places limitées, uniquement sur rendez-vous.',pick:'Choisis ton jour et ton créneau',name:'Ton prénom',go:'Réserver sur WhatsApp',dm:'Je préfère réserver en DM Instagram',
+   info:'Showroom Loubichka · Casablanca',err:'Choisis d’abord ton créneau.',alt:'Piercing Party Loubichka, tous les mercredis de 14h à 20h',grp:'Créneaux',
    msg:(t,n)=>`Bonjour Loubichka,\nJe souhaite réserver ma place à la Piercing Party du ${day.fr.toLowerCase()} à ${t}.${n?'\nPrénom : '+n:''}`}};
 const lbl=t=>{if(lang==='fr')return t.replace(':','h');let[h,m]=t.split(':').map(Number);return (h>12?h-12:h)+(m?':'+String(m).padStart(2,'0'):'')+' PM'};
 function link(){const g=$('go');const n=$('name').value.trim();
@@ -154,7 +156,7 @@ function link(){const g=$('go');const n=$('name').value.trim();
 const REF=(()=>{try{const v=new URLSearchParams(location.search).get('src');if(!v)return '';const c=v.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,8);if(c)sessionStorage.setItem('pp_src',c);return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})()||(()=>{try{const c=sessionStorage.getItem('pp_src');return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})();
 function render(){const t=T[lang];document.documentElement.lang=lang;
   $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
-  $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('poster').alt=t.alt;$('slots').setAttribute('aria-label',t.grp);
+  $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('slots').setAttribute('aria-label',t.grp);
   $('lgEn').setAttribute('aria-pressed',lang==='en');$('lgFr').setAttribute('aria-pressed',lang==='fr');
   $('days').innerHTML=DAYS.map((d,i)=>`<button type="button" data-i="${i}" aria-pressed="${d===day}" ${free(d).length?'':'disabled'}>${lang==='fr'?d.frs:d.ens}<small>${free(d).length?(lang==='fr'?'14h – 20h':'2 – 8 PM'):(SL.every(t=>past(d.d,t))?(lang==='fr'?'Terminé':'Over'):(lang==='fr'?'Complet':'Full'))}</small></button>`).join('');
   $('days').setAttribute('aria-label',lang==='fr'?'Jour':'Day');
@@ -168,7 +170,7 @@ $('lgEn').onclick=()=>setLang('en');$('lgFr').onclick=()=>setLang('fr');
 $('name').addEventListener('input',link);
 $('go').addEventListener('click',e=>{if(!slot){e.preventDefault();$('err').textContent=T[lang].err;const f=$('slots').querySelector('button:not(:disabled)');if(f)f.focus()}});
 render();
-fetch('https://loubichka.com/creneaux.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(d.jours&&typeof d.jours==='object'){DAYS.forEach(x=>{if(Array.isArray(d.jours[x.d]))FULLD[x.d]=d.jours[x.d]})}else if(Array.isArray(d.complets))FULLD['2026-11-11']=d.complets;if(slot&&FULLD[day.d].includes(slot))slot=null;if(!free(day).length){const n=DAYS.find(x=>free(x).length);if(n){day=n;slot=null}}render()}).catch(()=>{});
+fetch('https://loubichka.com/creneaux.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(d.jours&&typeof d.jours==='object'){DAYS.forEach(x=>{if(Array.isArray(d.jours[x.d]))FULLD[x.d]=d.jours[x.d]})}if(slot&&FULLD[day.d].includes(slot))slot=null;if(!free(day).length){const n=DAYS.find(x=>free(x).length);if(n){day=n;slot=null}}render()}).catch(()=>{});
 })();
 </script>
 
