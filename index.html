@@ -1316,7 +1316,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
   let ch=$('#dch');if(!ch){ch=document.createElement('div');ch.id='dch';ch.innerHTML='<div class="bx"><i></i><b></b><p></p></div>';B.appendChild(ch)}
   const wait=ms0=>new Promise(r=>{const ms=ms0*.45,t0=Date.now();const tk=()=>{if(demoStop||Date.now()-t0>=ms)r();else setTimeout(tk,40)};tk()});
   const words=s=>s.split(/ (?![^<]*>)/).map((w,k)=>`<span style="animation-delay:${k*70}ms">${w}</span>`).join(' ');
-  const show=async(num,title,txt,o)=>{o=o||{};ch.classList.remove('on');await wait(350);ch.classList.toggle('big',!!o.big);ch.classList.toggle('wel',!!o.wel);ch.classList.toggle('bot',!!o.bot);ch.querySelector('i').textContent=num||'';ch.querySelector('b').innerHTML=o.wel?`<small>${title}</small><em>${'LOUBICHKA'.split('').map((c,k)=>`<span style="animation-delay:${350+k*65}ms">${c}</span>`).join('')}<sup class="r">®</sup></em><u><s></s></u>`:words(title);ch.querySelector('p').textContent=txt||'';void ch.offsetWidth;ch.classList.add('on');await wait((o.hold||2000)*1.75);if(!o.stay){ch.classList.remove('on');await wait(350)}};
+  const show=async(num,title,txt,o)=>{o=o||{};ch.classList.remove('on');await wait(350);ch.classList.toggle('big',!!o.big);ch.classList.toggle('wel',!!o.wel);ch.classList.toggle('bot',!!o.bot);ch.querySelector('i').textContent=num||'';ch.querySelector('b').innerHTML=o.wel?`<small>${title}</small><em>${'LOUBICHKA'.split('').map((c,k)=>`<span style="animation-delay:${350+k*65}ms">${c}</span>`).join('')}<sup class="r">®</sup></em><u><s></s></u>`:words(title);ch.querySelector('p').textContent=txt||'';void ch.offsetWidth;ch.classList.add('on');const _vo=o.wel?null:(window.VO&&VO.say([title,txt].filter(Boolean).join('. ')));await wait((o.hold||2000)*1.75);if(_vo)await _vo;if(!o.stay){ch.classList.remove('on');await wait(350)}};
   const hide=async()=>{ch.classList.remove('on');await wait(350)};
   const goXY=async(x,y)=>{fg.classList.add('on');fg.style.left=x+'px';fg.style.top=y+'px';await wait(760)};
   const goEl=async el=>{if(!el)return;const r=el.getBoundingClientRect();await goXY(r.left+r.width/2,r.top+r.height/2)};
@@ -1389,7 +1389,7 @@ function openCatalog(g){cvTab=g||'b';const en=E();$('#cvt').textContent=en?'The 
   $$('#cvg button').forEach(b=>b.onclick=()=>{closeCatalog();ctab=cvTab;buildProds();setTimeout(()=>addPiece(b.dataset.id),350)});
   const v=$('#catv');v.classList.add('on');v.setAttribute('aria-hidden','false')}
 function closeCatalog(){const v=$('#catv');v.classList.remove('on');v.setAttribute('aria-hidden','true')}
-$('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=closeDemo;$('#dmvid').addEventListener('ended',closeDemo);$('#dskip').onclick=e=>{e.stopPropagation();demoStop=true};$('#dquit').onclick=e=>{e.stopPropagation();demoStop=true};setTimeout(()=>{$('#dskip').textContent=E()?'Skip the demo':'Passer la démo'},0);$('#stbk').onclick=closeStudio;
+$('#cvx').onclick=closeCatalog;$('#stx').onclick=closeStudio;$('#dmx').onclick=closeDemo;$('#dmvid').addEventListener('ended',closeDemo);$('#dskip').onclick=e=>{e.stopPropagation();demoStop=true;try{VO.stop()}catch(_){}};$('#dquit').onclick=e=>{e.stopPropagation();demoStop=true;try{VO.stop()}catch(_){}};setTimeout(()=>{$('#dskip').textContent=E()?'Skip the demo':'Passer la démo'},0);$('#stbk').onclick=closeStudio;
 
 
 /* ---------------- modes & langue ---------------- */
@@ -1614,7 +1614,7 @@ $('#home').addEventListener('click',()=>window.goHome());
 $('#icont').addEventListener('click',()=>closeAll());$('#ccont').addEventListener('click',()=>closeAll());
 try{if(sessionStorage.getItem('lbx_home')){sessionStorage.removeItem('lbx_home');const cur=JSON.parse(sessionStorage.getItem('lbx_cur')||'null');$('#enter').addEventListener('click',()=>{if(cur){const a=fromCode(cur.c);if(a){metal=cur.m||metal;buildMetals();buildProds();setTimeout(()=>putItems(a,cur.s),1900)}}},{once:true});window.__home=true}}catch(_){}
 /* musique : démarre à l'entrée, accompagne la démo ; la cliente la baisse ou l'éteint (choix mémorisé) */
-window.SND=(()=>{const mu=$('#dmus');const G={on:.8,low:.3,off:0};let lvl='off',ctx=null,g=null,started=false,ducked=false;
+window.SND=(()=>{const mu=$('#dmus');const G={on:.3,low:.12,off:0};let lvl='off',ctx=null,g=null,started=false,ducked=false;
   try{const v=localStorage.getItem('lbx_snd');if(v in G)lvl=v}catch(_){}
   const graph=()=>{if(ctx)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();const src=ctx.createMediaElementSource(mu);g=ctx.createGain();g.gain.value=0;src.connect(g);g.connect(ctx.destination)}catch(_){ctx=null;g=null}};
   const gain=(v,ms)=>{if(g&&ctx){const t=ctx.currentTime;try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(v,t+ms/1000)}catch(_){g.gain.value=v}}else{try{mu.volume=v}catch(_){}}};
@@ -1631,6 +1631,19 @@ window.SND=(()=>{const mu=$('#dmus');const G={on:.8,low:.3,off:0};let lvl='off',
   document.addEventListener('visibilitychange',()=>{if(document.hidden){try{mu.pause()}catch(_){}}else if(started&&lvl!=='off'&&!ducked){try{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}});
   $('#enter').addEventListener('click',play);ui();
   return{play,set,duck,demo,get level(){return lvl}}})();
+window.VO=(()=>{const S=window.speechSynthesis;if(!S||!window.SpeechSynthesisUtterance)return{say:()=>null,stop(){}};let V=null;
+  const FEM=/audrey|am[ée]lie|aur[ée]lie|marie|virginie|julie|denise|hortense|c[ée]line|eloise|[ée]lo[iï]se|vivienne|samantha|karen|serena|moira|tessa|ava|allison|susan|zira|jenny|aria|google fran|google us|google uk english female/i,MAL=/thomas|daniel|nicolas|paul|henri|jacques|claude|antoine|alex|fred|male|homme|rocko|eddy|grandpa|reed|jean/i;
+  const pick=()=>{const L=E()?'en':'fr';const vs=(S.getVoices()||[]).filter(v=>(v.lang||'').toLowerCase().startsWith(L));if(!vs.length)return null;
+    const sc=v=>{let n=0;const nm=v.name||'';if(FEM.test(nm))n+=10;if(MAL.test(nm))n-=20;if(/premium|enhanced|am[ée]lior|natural|neural/i.test(nm))n+=6;if(/fr-fr|en-gb|en-us/i.test(v.lang))n+=2;if(v.localService)n+=1;return n};
+    return vs.sort((a,b)=>sc(b)-sc(a))[0]};
+  try{S.addEventListener&&S.addEventListener('voiceschanged',()=>{V=pick()})}catch(_){}
+  const unlock=()=>{removeEventListener('pointerdown',unlock,true);try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;S.speak(u)}catch(_){}};addEventListener('pointerdown',unlock,true);
+  function stop(){try{S.cancel()}catch(_){}}
+  function say(t){try{if(!t||!window.__demo||(window.SND&&SND.level==='off'))return null;t=t.replace(/[«»“”]/g,'');if(!E())t=t.replace(/Ear ID/g,'Ir aïe di').replace(/WhatsApp/g,'Whatsape').replace(/\s*:\s*/g,', ').replace(/\.\s*\./g,'.').replace(/\?\./g,'?').replace(/\s+/g,' ');
+    stop();V=V&&V.lang&&V.lang.toLowerCase().startsWith(E()?'en':'fr')?V:pick();const u=new SpeechSynthesisUtterance(t);if(V){u.voice=V;u.lang=V.lang}else u.lang=E()?'en-GB':'fr-FR';
+    u.rate=.9;u.pitch=1.04;u.volume=.95;
+    return new Promise(r=>{let done=false;const f=()=>{if(!done){done=true;r()}};u.onend=f;u.onerror=f;setTimeout(f,Math.min(9000,1200+t.length*85));S.speak(u)})}catch(_){return null}}
+  return{say,stop}})();
 ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 try{if(sessionStorage.getItem('lbx_in')&&!location.hash&&!window.__home){const I=$('#intro');if(I){I.style.transition='none';I.style.opacity='0';I.style.pointerEvents='none'}
   setTimeout(()=>{$('#enter').click();const cur=JSON.parse(sessionStorage.getItem('lbx_cur')||'null');if(cur){const a=fromCode(cur.c);if(a){metal=cur.m||metal;buildMetals();buildProds();setTimeout(()=>putItems(a,cur.s),1700)}}},30)}}catch(_){}
