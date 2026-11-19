@@ -798,6 +798,12 @@ body.demo .stb::after{content:none}
 #mlw .mle span{font:300 12.5px/1.6 var(--sans);color:var(--iv2)}
 
 /* ===== Version Expert ===== */
+#dch.big.wel .bx{border:0!important;padding:0 10px!important;width:100%!important;background:none!important}
+#dch.big.wel .bx::before{display:none!important}
+#dch.big.wel small,#dch.big.wel u,#dch.big.wel p{display:none!important}
+#dch.wel em{margin-top:0!important;font-size:clamp(34px,11.2vw,54px)!important;letter-spacing:.24em!important;padding-left:.24em!important}
+#dch.wel em sup.r{font-size:.3em}
+#dch.big.wel .bx::after{margin-top:22px!important;font-size:clamp(9.5px,2.7vw,12px)!important;letter-spacing:.46em!important;padding-left:.46em!important;color:rgba(245,236,224,.62)!important}
 .dhl{position:relative;z-index:3;box-shadow:0 0 0 1.5px var(--champ),0 0 0 7px rgba(226,192,127,.22)!important;transition:box-shadow .3s}
 #dfg{transition:left .34s cubic-bezier(.45,0,.2,1),top .34s cubic-bezier(.45,0,.2,1),opacity .3s,transform .15s!important}
 #eve{position:absolute;inset:0;z-index:12;pointer-events:none;opacity:0;transition:opacity 1.3s cubic-bezier(.25,.6,.2,1);background:radial-gradient(120% 80% at 82% 4%,rgba(255,198,124,.2) 0%,rgba(255,198,124,0) 40%),radial-gradient(95% 78% at 50% 44%,rgba(6,3,1,0) 38%,rgba(6,3,1,.66) 100%)}
@@ -1350,7 +1356,7 @@ async function demo(){if(demoOn)return;demoOn=true;demoStop=false;window.__demo=
     s9:['08','Terminé ?','Touche « Terminé » : ton Ear ID apparaît, avec ta commande sur WhatsApp. Payée à la livraison.'],
     e:['À toi de jouer.','Compose ton combo du jour.']};
   const steps=[
-   async()=>{await wait(400);await show('',T.w[0],T.w[1],{big:true,wel:true,hold:2700});await wait(300);try{await addPiece('sol')}catch(_){}sel=null;target=null;render();await wait(2200);P=[];sel=null;target=null;render();await wait(400)},
+   async()=>{await wait(400);await show('','','',{big:true,wel:true,hold:3800});await wait(300);try{await addPiece('sol')}catch(_){}sel=null;target=null;render();await wait(2200);P=[];sel=null;target=null;render();await wait(400)},
    async()=>{await show(...T.s1,{hold:2300});await goEl($('.sshow'));await tap($('.sshow'));await wait(800);
      const parts=[$('#ctabs [data-g="b"]'),$('#ctabs [data-g="p"]'),$('#metals'),$('#prods'),$('.sdone')];
      for(let i=0;i<parts.length&&!demoStop;i++){const el=parts[i];if(!el)continue;el.classList.add('dhl');await goEl(el);await show('',T.c1[i][0],T.c1[i][1],{hold:1050});el.classList.remove('dhl')}
