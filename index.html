@@ -909,7 +909,7 @@ body.demo #cpk,body.demo #cpp,body.demo #cpq{display:none}
 <div id="stv" class="drw" aria-hidden="true"><div class="ibk" id="stbk"></div><div class="isp"><div class="sth"><b>LOUBICHKA<sup class="r">®</sup><em>Studio</em></b><button type="button" class="x2" id="stx" aria-label="Fermer">×</button></div><div class="stw" id="stw"></div></div></div>
 <div id="both" aria-hidden="true"><button type="button" class="bx" id="bthx" aria-label="Fermer">×</button><div class="bt">LOUBICHKA<sup class="r">®</sup></div><div class="bw" id="bthw"></div></div>
 <div id="dmv" aria-hidden="true"><button type="button" class="dmx" id="dmx" aria-label="Fermer">×</button><video id="dmvid" playsinline controls preload="metadata" poster="a/demo-poster.jpg"><source src="a/demo.mp4" type="video/mp4"><source src="a/demo.webm" type="video/webm"></video></div>
-<audio id="dmus" src="a/music-house-demo.mp3" preload="none" loop></audio>
+<audio id="dmus" src="a/music-demo-doux.mp3" preload="none" loop></audio>
 <div id="catv" aria-hidden="true"><div class="ch"><h2 id="cvt"></h2><button type="button" class="x2" id="cvx" aria-label="Fermer">×</button></div><div class="ctabs2" id="cvtabs"><button type="button" data-g="b"></button><button type="button" data-g="p"></button></div><div class="cg" id="cvg"></div></div>
 <div id="mnu" aria-hidden="true"><div class="mp"><div class="mh"><span class="logo">LOUBICHKA<sup class="r">®</sup></span><button type="button" class="x2" id="mnx" aria-label="Fermer">×</button></div><div id="mnl"></div></div></div>
 
@@ -1614,7 +1614,7 @@ $('#home').addEventListener('click',()=>window.goHome());
 $('#icont').addEventListener('click',()=>closeAll());$('#ccont').addEventListener('click',()=>closeAll());
 try{if(sessionStorage.getItem('lbx_home')){sessionStorage.removeItem('lbx_home');const cur=JSON.parse(sessionStorage.getItem('lbx_cur')||'null');$('#enter').addEventListener('click',()=>{if(cur){const a=fromCode(cur.c);if(a){metal=cur.m||metal;buildMetals();buildProds();setTimeout(()=>putItems(a,cur.s),1900)}}},{once:true});window.__home=true}}catch(_){}
 /* musique : démarre à l'entrée, accompagne la démo ; la cliente la baisse ou l'éteint (choix mémorisé) */
-window.SND=(()=>{const mu=$('#dmus');const G={on:.3,low:.12,off:0};let lvl='off',ctx=null,g=null,started=false,ducked=false;
+window.SND=(()=>{const mu=$('#dmus');const G={on:.85,low:.35,off:0};let lvl='off',ctx=null,g=null,started=false,ducked=false;
   try{const v=localStorage.getItem('lbx_snd');if(v in G)lvl=v}catch(_){}
   const graph=()=>{if(ctx)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();const src=ctx.createMediaElementSource(mu);g=ctx.createGain();g.gain.value=0;src.connect(g);g.connect(ctx.destination)}catch(_){ctx=null;g=null}};
   const gain=(v,ms)=>{if(g&&ctx){const t=ctx.currentTime;try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(v,t+ms/1000)}catch(_){g.gain.value=v}}else{try{mu.volume=v}catch(_){}}};
@@ -1626,7 +1626,7 @@ window.SND=(()=>{const mu=$('#dmus');const G={on:.3,low:.12,off:0};let lvl='off'
     if(!quiet)try{toast(E()?(l==='on'?'Music on':l==='low'?'Music softly':'Music off'):(l==='on'?'Musique':l==='low'?'Musique douce':'Musique coupée'))}catch(_){}}
   function ui(){const b=$('#sndb');if(!b)return;b.dataset.l=lvl;b.setAttribute('aria-label',E()?'Music':'Musique')}
   function duck(on){ducked=on;if(on){gain(0,350);setTimeout(()=>{if(ducked)try{mu.pause()}catch(_){}},400)}else if(lvl!=='off')play()}
-  function demo(){try{if(/fond/.test(mu.src)){mu.src='a/music-house-demo.mp3';mu.load()}}catch(_){}if(lvl==='off')set('on',true);else if(mu.paused)play();else{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}}
+  function demo(){try{if(/fond/.test(mu.src)){mu.src='a/music-demo-doux.mp3';mu.load()}}catch(_){}if(lvl==='off')set('on',true);else if(mu.paused)play();else{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}}
   $('#sndb').addEventListener('click',e=>{e.stopPropagation();set(lvl==='on'?'low':lvl==='low'?'off':'on')});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){try{mu.pause()}catch(_){}}else if(started&&lvl!=='off'&&!ducked){try{const pr=mu.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(_){}}});
   $('#enter').addEventListener('click',play);ui();
@@ -1637,10 +1637,10 @@ window.VO=(()=>{const S=window.speechSynthesis;if(!S||!window.SpeechSynthesisUtt
     const sc=v=>{let n=0;const nm=v.name||'';if(FEM.test(nm))n+=10;if(MAL.test(nm))n-=20;if(/premium|enhanced|am[ée]lior|natural|neural/i.test(nm))n+=6;if(/fr-fr|en-gb|en-us/i.test(v.lang))n+=2;if(v.localService)n+=1;return n};
     return vs.sort((a,b)=>sc(b)-sc(a))[0]};
   try{S.addEventListener&&S.addEventListener('voiceschanged',()=>{V=pick()})}catch(_){}
-  const unlock=()=>{removeEventListener('pointerdown',unlock,true);try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;S.speak(u)}catch(_){}};addEventListener('pointerdown',unlock,true);
+  let ok=false;const unlock=()=>{if(ok)return;ok=true;['touchend','click','pointerup'].forEach(ev=>removeEventListener(ev,unlock,true));try{S.cancel();const u=new SpeechSynthesisUtterance('');S.speak(u);S.resume&&S.resume()}catch(_){}V=V||pick()};['touchend','click','pointerup'].forEach(ev=>addEventListener(ev,unlock,true));
   function stop(){try{S.cancel()}catch(_){}}
   function say(t){try{if(!t||!window.__demo||(window.SND&&SND.level==='off'))return null;t=t.replace(/[«»“”]/g,'');if(!E())t=t.replace(/Ear ID/g,'Ir aïe di').replace(/WhatsApp/g,'Whatsape').replace(/\s*:\s*/g,', ').replace(/\.\s*\./g,'.').replace(/\?\./g,'?').replace(/\s+/g,' ');
-    stop();V=V&&V.lang&&V.lang.toLowerCase().startsWith(E()?'en':'fr')?V:pick();const u=new SpeechSynthesisUtterance(t);if(V){u.voice=V;u.lang=V.lang}else u.lang=E()?'en-GB':'fr-FR';
+    if(S.speaking||S.pending)stop();V=V&&V.lang&&V.lang.toLowerCase().startsWith(E()?'en':'fr')?V:pick();const u=new SpeechSynthesisUtterance(t);if(V){u.voice=V;u.lang=V.lang}else u.lang=E()?'en-GB':'fr-FR';
     u.rate=.9;u.pitch=1.04;u.volume=.95;
     return new Promise(r=>{let done=false;const f=()=>{if(!done){done=true;r()}};u.onend=f;u.onerror=f;setTimeout(f,Math.min(9000,1200+t.length*85));S.speak(u)})}catch(_){return null}}
   return{say,stop}})();
