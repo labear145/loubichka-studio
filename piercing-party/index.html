@@ -136,7 +136,7 @@ const DAYS=(()=>{const out=[],d=new Date();d.setHours(12,0,0,0);let k=(3-d.getDa
   for(let i=0;i<3;i++){const x=new Date(d);x.setDate(d.getDate()+7*i);const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
     out.push({d:iso(x),fr:F.charAt(0).toUpperCase()+F.slice(1),frs:'Mer. '+x.getDate(),en:En,ens:'Wed. '+x.getDate()})}
   /* Dates déplacées exceptionnellement : mercredi -> autre jour */
-  const MOVE={'2026-11-25':'2026-11-24'};out.forEach((o,i)=>{const m=MOVE[o.d];if(!m)return;const x=new Date(m+'T12:00:00');if(x<new Date(new Date().toDateString()))return;const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});const fw=F.slice(0,3),ew=En.slice(0,3);out[i]={d:m,fr:F.charAt(0).toUpperCase()+F.slice(1),frs:fw.charAt(0).toUpperCase()+fw.slice(1)+'. '+x.getDate(),en:En,ens:ew+'. '+x.getDate()}});return out})();
+  const MOVE={'2026-11-25':'2026-11-24'};out.forEach((o,i)=>{const m=MOVE[o.d];if(!m)return;const x=new Date(m+'T12:00:00');if(x<new Date(new Date().toDateString()))return;const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});const fw=F.slice(0,3),ew=En.slice(0,3);out[i]={d:m,moved:1,fr:F.charAt(0).toUpperCase()+F.slice(1),frs:fw.charAt(0).toUpperCase()+fw.slice(1)+'. '+x.getDate(),en:En,ens:ew+'. '+x.getDate()}});return out})();
 let FULLD={};DAYS.forEach(x=>FULLD[x.d]=[]);
 const past=(d,t)=>{try{return new Date(d+'T'+t+':00')<=new Date()}catch(_){return false}};
 const free=d=>SL.filter(s=>!FULLD[d.d].includes(s)&&!past(d.d,s));
@@ -157,7 +157,7 @@ function link(){const g=$('go');const n=$('name').value.trim();
 /* Source de la visite : loubichka.com/piercing-party/?src=pub ajoute « Réf. PP11-PUB » au message, pour compter les réservations venues de la publicité */
 const REF=(()=>{try{const v=new URLSearchParams(location.search).get('src');if(!v)return '';const c=v.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,8);if(c)sessionStorage.setItem('pp_src',c);return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})()||(()=>{try{const c=sessionStorage.getItem('pp_src');return c?'\nRéf. PP11-'+c:''}catch(_){return ''}})();
 function render(){const t=T[lang];document.documentElement.lang=lang;
-  $('date').textContent=t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
+  $('date').textContent=(DAYS[0]&&DAYS[0].moved)?(lang==='en'?DAYS[0].en+' · 2 – 8 PM':DAYS[0].fr+' · 14h – 20h'):t.date;$('intro').textContent=t.intro;$('pick').textContent=t.pick;$('name').placeholder=t.name;$('nameLbl').textContent=t.name;
   $('goT').textContent=t.go;$('dm').textContent=t.dm;$('info').innerHTML=t.info;$('slots').setAttribute('aria-label',t.grp);
   $('lgEn').setAttribute('aria-pressed',lang==='en');$('lgFr').setAttribute('aria-pressed',lang==='fr');
   $('days').innerHTML=DAYS.map((d,i)=>`<button type="button" data-i="${i}" aria-pressed="${d===day}" ${free(d).length?'':'disabled'}>${lang==='fr'?d.frs:d.ens}<small>${free(d).length?(lang==='fr'?'14h – 20h':'2 – 8 PM'):(SL.every(t=>past(d.d,t))?(lang==='fr'?'Terminé':'Over'):(lang==='fr'?'Complet':'Full'))}</small></button>`).join('');
