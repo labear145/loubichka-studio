@@ -103,6 +103,7 @@ input:focus{border-color:var(--gold);outline:none}
 .info{border-top-color:var(--line)}
 </style>
 <script src="/lb-pixel.js"></script>
+<style>html.rouge{--tabac-1:#5c0e14;--tabac-2:#42080d;--tabac-3:#2b0205;--choco:#2b0205}html.rouge .days{grid-template-columns:1fr!important}</style>
 </head>
 <body>
 
@@ -137,6 +138,7 @@ const DAYS=(()=>{const out=[],d=new Date();d.setHours(12,0,0,0);let k=(3-d.getDa
     out.push({d:iso(x),fr:F.charAt(0).toUpperCase()+F.slice(1),frs:'Mer. '+x.getDate(),en:En,ens:'Wed. '+x.getDate()})}
   /* Dates déplacées exceptionnellement : mercredi -> autre jour */
   const MOVE={'2026-11-25':'2026-11-24'};out.forEach((o,i)=>{const m=MOVE[o.d];if(!m)return;const x=new Date(m+'T12:00:00');if(x<new Date(new Date().toDateString()))return;const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});const fw=F.slice(0,3),ew=En.slice(0,3);out[i]={d:m,moved:1,fr:F.charAt(0).toUpperCase()+F.slice(1),frs:fw.charAt(0).toUpperCase()+fw.slice(1)+'. '+x.getDate(),en:En,ens:ew+'. '+x.getDate()}});return out})();
+if(DAYS[0]&&DAYS[0].moved){DAYS.splice(1);document.documentElement.classList.add('rouge');try{document.querySelector('meta[name=theme-color]')?.setAttribute('content','#2b0205')}catch(_){}}
 let FULLD={};DAYS.forEach(x=>FULLD[x.d]=[]);
 const past=(d,t)=>{try{return new Date(d+'T'+t+':00')<=new Date()}catch(_){return false}};
 const free=d=>SL.filter(s=>!FULLD[d.d].includes(s)&&!past(d.d,s));
