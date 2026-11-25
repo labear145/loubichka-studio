@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#2b0205">
+<meta name="theme-color" content="#4a0d13">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="/icon-192.png">
@@ -103,7 +103,7 @@ input:focus{border-color:var(--gold);outline:none}
 .info{border-top-color:var(--line)}
 </style>
 <script src="/lb-pixel.js"></script>
-<style>html.rouge{--tabac-1:#5c0e14;--tabac-2:#42080d;--tabac-3:#2b0205;--choco:#2b0205}html.rouge .days{grid-template-columns:1fr!important}</style>
+<style>html.rouge{--tabac-1:#4a0d13;--tabac-2:#3c070c;--tabac-3:#2e0306;--choco:#2e0306}html.rouge .days{grid-template-columns:1fr!important}</style>
 </head>
 <body>
 
@@ -143,7 +143,7 @@ const DAYS=(()=>{const out=[],d=new Date();d.setHours(12,0,0,0);let k=(3-d.getDa
 const SEULE='2026-12-02';{const x=new Date(SEULE+'T12:00:00');if(x>=new Date(new Date().toDateString())){const F=x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),En=x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});DAYS.splice(0,DAYS.length,{d:SEULE,moved:1,fr:F.charAt(0).toUpperCase()+F.slice(1),frs:'Mer. '+x.getDate(),en:En,ens:'Wed. '+x.getDate()})}}
 if(DAYS[0]&&DAYS[0].moved)DAYS.splice(1);
 /* Bordeaux : la dernière créa, désormais la couleur de la page */
-document.documentElement.classList.add('rouge');try{document.querySelector('meta[name=theme-color]')?.setAttribute('content','#2b0205')}catch(_){}
+document.documentElement.classList.add('rouge');try{document.querySelector('meta[name=theme-color]')?.setAttribute('content','#4a0d13')}catch(_){}
 let FULLD={};DAYS.forEach(x=>FULLD[x.d]=[]);
 const past=(d,t)=>{try{return new Date(d+'T'+t+':00')<=new Date()}catch(_){return false}};
 const free=d=>SL.filter(s=>!FULLD[d.d].includes(s)&&!past(d.d,s));
